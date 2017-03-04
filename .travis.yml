@@ -2,4 +2,10 @@ language: node_js
 node_js: node
 services:
 - mongodb
-
+deploy:
+  provider: heroku
+  api_key:
+    secure: PkLkmzw623QDSUFOXkrrprqIGjvzwh1RI0pp8cWpxUaE2Q+GnJoPmovKFYT8G3eB1O8ltETZkhWsvsda0gAs2WyFTmO7NVNLV060uPxLKHKzihdrQvLGSkrNtJmo4CoFGZONVVzJlm+b7ATqEbVSgcDPaZVvNscGTGIT5V4EBFj3o446+hqpyxmCk5a4QwESZvucbAbOtCakY8/gbIjg8StyO06FEbbjcaqSTlCPoSC9EQOUfiMM0dzNcazH8qczNXSVWml9QKfNvlQTyuSaaxSoDLIAq+VSOUWgxi58F0/VFOdRSCVMYmZUhHqr1znzn6pp5DBiAtugbNN3ScPuH+VlGifOsXw9wtnOxrhGyrQI4W1Pp4rdfq7g2g2epNETFzdDVwjD014FHrTWVkG0eI6wsTF5weszsBMJMOn/37djE1MUVgWUObqCfp6Vh8wYBZV11RYxGT6Jhta5pBBwqyefwT81/RYWDncU3XI4IX0X+Julu9Lj3RXKUVXNK60sAHWwm/+fvXk/KBxbMJI2b//+BPr007GrXSrVCtemGR02eCjKlb/PoS6oNGQo0H5eEJCE5lGy+4Owx2K0LpIbdcvEKIKTp221Zt+M+9Yv+eiAYBA1zkjZrXXmY6kw/prURTwv3vERN+2fgFUWaETzuTo9uB1a1oeTbyjfBEEUyIs=
+  app: lit-retreat-41899
+  on:
+    repo: talta/travel-map-locations-afresh

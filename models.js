@@ -5,9 +5,9 @@ const mongoose = require('mongoose');
 
 
 ////use mongoose models:
-const LocationsSchema = mongoose.Schema({
+const LocationsSchema = new mongoose.Schema({
 	id: {type: String},
-	userId: {type: String, required: true},
+	userId: {type: String},
 	address: {type: String},
 	latitude: {type: String},
 	longitude: {type: String},
@@ -21,8 +21,8 @@ const LocationsSchema = mongoose.Schema({
 
 LocationsSchema.methods.apiRepr = function(){
 	return {
-		id: this.id,
-		userId: this.userId,
+		id: this._id,
+		userId: this._userId,
 		address: this.address,
 		latitude: this.latitude,
 		longitude: this.longitude,
@@ -32,6 +32,6 @@ LocationsSchema.methods.apiRepr = function(){
 
 const Location  = mongoose.model('Location', LocationsSchema);
 
-module.exports = {Location};
+module.exports = Location;
 
 

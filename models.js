@@ -1,12 +1,12 @@
 const uuid = require('uuid');
 const mongoose = require('mongoose');
-const express = require('express');
-var Schema = mongoose.Schema;
+
+// var Schema = mongoose.Schema;
 
 
 ////use mongoose models:
 const LocationsSchema = mongoose.Schema({
-	id: {type: Schema.ObjectId, required: true},
+	id: {type: String},
 	userId: {type: String, required: true},
 	address: {type: String},
 	latitude: {type: String},
@@ -15,9 +15,9 @@ const LocationsSchema = mongoose.Schema({
 });
 
 //Virtual for LatAndLng
-LocationsSchema.virtual('latAndLng').get(function(){
-	console.log(`latAndLng trying to be set to ${latAndLng}`);
-});
+// LocationsSchema.virtual('latAndLng').get(function(){
+// 	console.log(`latAndLng trying to be set to ${latAndLng}`);
+// });
 
 LocationsSchema.methods.apiRepr = function(){
 	return {
@@ -32,6 +32,6 @@ LocationsSchema.methods.apiRepr = function(){
 
 const Location  = mongoose.model('Location', LocationsSchema);
 
-module.exports = Location;
+module.exports = {Location};
 
 

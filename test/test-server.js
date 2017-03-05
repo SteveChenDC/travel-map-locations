@@ -133,7 +133,7 @@ describe('Locations', function(){
 	});
 
 
-	describe('Get Location for a specific UserId', function(){
+	describe('Get Locations for a specific UserId', function(){
 		it('should get a specific locations notes', function(){
 			chai.request(app)
 			.get('/mapLocations/userId')
@@ -152,7 +152,12 @@ describe('Locations', function(){
 
 	describe('POST a new location', function(){
 		it('should create a new location and store in the DB', function(){
-			const newItem = {address: "Seattle, WA", latitude: "47.6062", longitude: "122.3321", notes: "rock star city with great waterfronts and lots of rain.  Mentor Ric lives here."}
+			const newItem = {
+				address: faker.address(), 
+				latitude: faker.address.latitude(), 
+				longitude: faker.address.longitude(), 
+				notes: faker.lorem.notes()
+			}
 			chai.request(app)
 			.post('/mapLocation')
 			.send(newItem)
@@ -163,6 +168,15 @@ describe('Locations', function(){
 				res.body.id.should.not.be.null;
 				res.body.should.include.keys('id', 'address', 'longitude', 'latitude', 'notes', 'userId');
 				res.body.should.deep.equal(Object.assign(newItem, {id: res.body.id}));
+				res.body.address.should.equal(newItem.address);
+				res.body.notes.should.equal(newItem.notes);
+				return Location.find(req.params.userId).exec()
+			})
+			.then(function(location){
+				location.address.should.equal(newItem.address);
+				location.latitude.should.eqaul(newItem.latitude);
+				locaiton.longitude.should.equal(newItem.longitude);
+				location.notes.should.equal(newItem.notes);
 			});
 		});
 	});

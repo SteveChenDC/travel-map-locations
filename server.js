@@ -36,8 +36,9 @@ app.get('/mapLocation', (req, res) => {
 
 app.get('/mapLocations/:userId', (req, res) => {
 	console.log(req.params.userId);
+	console.log(typeof(req.params.userId));
 	Location
-	.find(req.params.userId)
+	.find({'userId': 'req.params.userId'})
 	.exec()
 	.then(mapLocations => {
 		res.json(mapLocations.map(mapLocations => mapLocations.apiRepr()));

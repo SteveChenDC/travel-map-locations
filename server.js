@@ -19,7 +19,7 @@ app.use(express.static('public'));
 
 mongoose.Promise = global.Promise;
 
-
+//working
 app.get('/mapLocation', (req, res) => {
 	Location
 	.find()
@@ -33,6 +33,8 @@ app.get('/mapLocation', (req, res) => {
 	});
 });
 
+
+///// working
 
 app.get('/mapLocations/:userId', (req, res) => {
 	console.log(req.params.userId);
@@ -49,9 +51,9 @@ app.get('/mapLocations/:userId', (req, res) => {
 	});
 });
 
-
+//working
 app.post('/mapLocation', (req, res) => {
-	const requiredFields = ['address', 'latitude', 'longitude', 'notes', 'userId', 'id'];
+	const requiredFields = ['address', 'latitude', 'longitude', 'notes', 'userId'];
 	for(let i=0; i< requiredFields.length; i++){
 		const field  = requiredFields[i];
 		if(!(field in req.body)){
@@ -63,8 +65,7 @@ app.post('/mapLocation', (req, res) => {
 
 	Location
 	.create({
-		userId: req.body.Id,
-		id: req.body.Id,
+		userId: req.body.userId,
 		address: req.body.address,
 		longitude: req.body.longitude,
 		latitude: req.body.latitude,
@@ -77,8 +78,43 @@ app.post('/mapLocation', (req, res) => {
 	});
 });
 
+////working:
+app.put('/mapLocation/:id', (req, res) => {
+	const requiredFields = ['notes'];
+	for(let i=0; i< requiredFields.length; i++){
+		const field  = requiredFields[i];
+		if(!(field in req.body)){
+			const message = `Missing \`${field}\` in the request body.`;
+			console.log(message);
+			return res.status(400).send(message);
+		};
+	};
+	if(req.params.id !== req.body.id){
+		const message = (`The requesting ID of \`${req.params.id}\` and the request body ID of \`${req.body.id}\` do not match.`);
+		console.error(message);
+		return res.status(400).send(message);
+	};
+	const updated = {};
+	const updatableFields = ['notes'];
+	updatableFields.forEach(field => {
+   	 	if (field in req.body) {
+      		updated[field] = req.body[field];
+    	}
+  	});
+	console.log(`updating the location with the ID of ${req.params.id}`);
+	
+	Location
+	.findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
+	.exec()
+	.then(updatedNotes => res.status(201).json(updatedNotes.apiRepr()))
+	.catch(err => res.status(500).json({message: 'oops, something went wrong'}));
+});
 
 
+
+
+
+////dice
 app.delete('/mapLocation/:id', (req, res) => {
 	Location
 	.findOneAndRemove(req.params.id)

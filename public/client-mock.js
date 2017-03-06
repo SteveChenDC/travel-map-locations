@@ -22,7 +22,7 @@ const Mock_Locations_Data = {
 			"address": "Akron, Ohio",
 			"latitude":"41.0814",
 			"longitude": "81.5190",
-			"notes":""
+			"notes":"born here"
 		},
 				{
 			"id": "5ff54712-eb17-430b-8410-793e4dd202d6",

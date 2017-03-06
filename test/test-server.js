@@ -7,8 +7,8 @@ const mongoose = require('mongoose');
 
 const should = require('chai').should();
 //const exists = require('../server.js');
-const {Locations}  = require('../models.js');
-const {app, runServer, closeServer} = require('../server.js');
+const {Location}  = require('../models');
+const {app, runServer, closeServer} = require('../server');
 ///maybe a test db now:
 
 
@@ -105,12 +105,18 @@ describe('Locations', function(){
 				res.should.have.status(200);
 				res.should.be.json;
 				res.body.should.be.a('array');
+				res.body.should.have.length.of.at.least(1);
 				res.body.forEach(function(pin){
 					item.should.be.a('object');
 					item.should.have.all.keys(
 						'id', 'address', 'latitude', 'longitude', 'notes', 'userId'
-						)
+					)
 				});
+			})
+			Location
+			.count()
+			.then(function(count){
+				res.body.mapLocation.should.have.length.of(count);
 			});
 		});
 	});
@@ -121,34 +127,22 @@ describe('Locations', function(){
 			.get('/mapLocations/userId')
 			.then(function(err, res){
 				res.should.have.status(200);
-				// res.body.length.should.be.at.least(1);
+				res.should.be.json;
 				res.body.should.be.a('object');
-				const expectedKeys = ["address", "latitude", "longitude", "notes", "userId", "id"];
-				res.body.forEach(function(item){
-					item.should.be.a('number');
-					item.should.include.keys(expectedKeys);
-				});
-			});
-		});
-	});
-
-
-	describe('Get Locations for a specific UserId', function(){
-		it('should get a specific locations notes', function(){
-			chai.request(app)
-			.get('/mapLocations/userId')
-			.then(function(res){
-				res.should.have.status(201);
-				res.body.should.be.a('object');
-				res.body.should.be.json;
 				const expectedKeys = ["address", "latitude", "longitude", "notes", "userId", "id"];
 				res.body.forEach(function(item){
 					item.should.be.a('object');
 					item.should.include.keys(expectedKeys);
 				});
+			})
+			Location
+			.count()
+			.then(function(count){
+				res.body.mapLocations.should.have.length.of(count);
 			});
 		});
 	});
+
 
 	describe('POST a new location', function(){
 		it('should create a new location and store in the DB', function(){
@@ -157,6 +151,7 @@ describe('Locations', function(){
 				latitude: faker.address.latitude(), 
 				longitude: faker.address.longitude(), 
 				notes: faker.lorem.notes()
+				userId: faker.number.unique.number(4);
 			}
 			chai.request(app)
 			.post('/mapLocation')
@@ -170,13 +165,14 @@ describe('Locations', function(){
 				res.body.should.deep.equal(Object.assign(newItem, {id: res.body.id}));
 				res.body.address.should.equal(newItem.address);
 				res.body.notes.should.equal(newItem.notes);
-				return Location.find(req.params.userId).exec()
+				return Location.find(req.body.id).exec()
 			})
 			.then(function(location){
 				location.address.should.equal(newItem.address);
 				location.latitude.should.eqaul(newItem.latitude);
 				locaiton.longitude.should.equal(newItem.longitude);
 				location.notes.should.equal(newItem.notes);
+				location.notes.should.equal(newItem.userId);
 			});
 		});
 	});
@@ -195,13 +191,21 @@ describe('Locations', function(){
 				return chai.request(app)
 				.put(`/mapLocation/${updateData.id}`)
 				.send(updateData)
+
 			})
 			.then(function(res){
 				res.should.have.status(203);
 				res.body.should.be.a('object');
 				res.body.should.be.json;
 				res.body.should.deep.equal(updateData);
+				return Location.findById(updateData.id).exec();
 			});
+			.then(function(location){
+				location.notes.should.equal(updateData.notes);
+				location.latitude.should.equal(updateData.latitude);
+				location.longitude.should.equal(updateData.longitude);
+				location.userId.should.equal(updateData.address);
+			} )
 		});
 	});
 
@@ -216,6 +220,10 @@ describe('Locations', function(){
 			})
 			.then(function(res){
 				res.should.have.status(204);
+				return Location.findById(location.id).exec()
+			});
+			.then(function(_location){
+				should.not.exist(_location);
 			});
 		});
 	});

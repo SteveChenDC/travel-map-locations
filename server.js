@@ -121,7 +121,7 @@ app.delete('/mapLocation/:id', (req, res) => {
 	.exec()
 	.then(()=> {
 		console.log(`deleted location with an in of ${req.params.id}`);
-		res.status(400).end();
+		res.status(204).end();
 	})
 	.catch(() =>{
 		console.error(err);

@@ -171,6 +171,9 @@ function getAllUserLocations(userId){
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
 		$('#errorSpace').append(errorElem);
+	})
+	.then(function(result){
+		console.log('would the changePins(result) call be better/ work here');
 	});
 };
 
@@ -200,6 +203,9 @@ function createLocation(){
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
 		$('#errorSpace').append(errorElem);
+	})
+	.then(function(result){
+		console.log('would the changePins(result) call be better/ work here');
 	});
 };
 
@@ -223,7 +229,11 @@ function deleteLocation(id){
 		changePins(userId);
 	})
 	.fail(function(error, errorThrown){
-
+		errorElem = showError(error);
+		$('#errorSpace').append(errorElem);
+	})
+	.then(function(result){
+		console.log('would the changePins(result) call be better/ work here');
 	});
 };
 
@@ -245,6 +255,9 @@ function saveLocationNotes(id){
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
 		$('#errorSpace').append(errorElem);
+	})
+	.then(function(result){
+		console.log('would the changePins(result) call be better/ work here');
 	});
 };
 

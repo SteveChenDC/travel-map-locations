@@ -19,10 +19,11 @@ function seedLocationsData(){
 	console.log('seeding the database');
 	const seedData = [];
 
+
 	for(let i; i<=10; i++){
 		seedData.push(generateLocationsData());
 	}
-	return Locations.insertMany(seedData);
+	return location.insertMany(seedData);
 };
 
 function generateIDsData(){
@@ -167,12 +168,12 @@ describe('Locations', function(){
 				res.body.notes.should.equal(newItem.notes);
 				return Location.find(req.body.id).exec()
 			})
-			.then(function(location){
-				location.address.should.equal(newItem.address);
-				location.latitude.should.eqaul(newItem.latitude);
-				locaiton.longitude.should.equal(newItem.longitude);
-				location.notes.should.equal(newItem.notes);
-				location.notes.should.equal(newItem.userId);
+			.then(function(Location){
+				Location.address.should.equal(newItem.address);
+				Location.latitude.should.eqaul(newItem.latitude);
+				Locaiton.longitude.should.equal(newItem.longitude);
+				Location.notes.should.equal(newItem.notes);
+				Location.notes.should.equal(newItem.userId);
 			});
 		});
 	});
@@ -200,29 +201,32 @@ describe('Locations', function(){
 				res.body.should.deep.equal(updateData);
 				return Location.findById(updateData.id).exec();
 			})
-			.then(function(location){
-				location.notes.should.equal(updateData.notes);
-				location.latitude.should.equal(updateData.latitude);
-				location.longitude.should.equal(updateData.longitude);
-				location.userId.should.equal(updateData.address);
-			} )
+			.then(function(Location){
+				Location.notes.should.equal(updateData.notes);
+				Location.latitude.should.equal(updateData.latitude);
+				Location.longitude.should.equal(updateData.longitude);
+				Location.userId.should.equal(updateData.address);
+			});
 		});
 	});
 
 
 	describe('DELETE should remove the ID and references from the DB', function(){
 		it('should delete the requested ID', function(){
-			return chai.request(app)
-			.get(`/mapLocation/${res.body[0].id}`)
-			.then(function(res){
-				return chai.request(app)
-				.delete(`/mapLocation/${res.body[0].id}`)
+			let location;
+			return Location
+			.findOne()
+			.exec()
+			.then(_location =>{
+				location = _location;
+				return chai.request(app).delete(`/mapLocation/${location.id}`);
 			})
 			.then(function(res){
 				res.should.have.status(204);
 				return Location.findById(location.id).exec()
+				///maybe not the exec above
 			})
-			.then(function(_location){
+			.then(_location =>{
 				should.not.exist(_location);
 			});
 		});

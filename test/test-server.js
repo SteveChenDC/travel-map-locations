@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const should = require('chai').should();
 //const exists = require('../server.js');
-const {Location}  = require('../models');
+const Location  = require('../models');
 const {app, runServer, closeServer} = require('../server');
 ///maybe a test db now:
 

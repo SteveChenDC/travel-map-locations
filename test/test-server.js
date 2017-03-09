@@ -151,7 +151,7 @@ describe('Locations', function(){
 				latitude: faker.address.latitude(), 
 				longitude: faker.address.longitude(), 
 				notes: faker.lorem.notes()
-				userId: faker.number.unique.number(4);
+				// userId: faker.number.unique.number(4);
 			}
 			chai.request(app)
 			.post('/mapLocation')

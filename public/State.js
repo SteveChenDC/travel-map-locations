@@ -50,7 +50,7 @@ var state = {
 
 
 
-
+var cname;
 var userId  = '12345';
 // var id = '58bcb2c020152c0bb722395b';
 
@@ -59,18 +59,30 @@ var userId  = '12345';
 
 ////Cookie handler:
 
+function setCookie(cname, cvalue, exdays){
+	d = new Date();
+	d.setTime(d.getTime()+ (exdays*24*60*60*1000));
+	var expires = "expires="+d.toUTCString();
+	document.cookie = cname+ "="+cvalue + ";"+expires+";path=/"
+	console.log('this is the cookie'+document.cookie);
+};
+
 function checkCookie(){
 	var user = getCookie("username");
 	if(user != ""){
 		var userName = user;
-		displayUserName(userName);
+
 	} else{
 		user = prompt("Please enter your name: ", "");
 		if(user != "" && user != null){
 			setCookie("username", user, 365);
-		}
-	}
-}
+		};
+	};
+	displayUserName(user);
+	setUserId(user);
+	///also call getLocations(user);
+	///handleClickEvent();
+};
 
 
 function getCookie(cname){
@@ -82,23 +94,21 @@ function getCookie(cname){
 		while (c.charAt(0) == ' '){
 			c = c.subString(1);
 		}
-		if(c.indexOf(name)==(0){
+		if(c.indexOf(name)==(0)){
 			return c.subString(name.length, c.length);
 		}
 	}
-	setcookie(cname, cvalue, exdays)
-}
-
-function setCookie(cname, cvalue, exdays){
-	d = new Date();
-	d.setTime(d.getTime()+ (exdays*24*60*60*1000));
-	var expires = "expires="+d.toUTCString();
-	document.cookie = cname+ "="+cvalue + ";"+expires+";path=/"
-}
+	return "";
+};
 
 
-displayUserName(userName){
+function displayUserName(userName){
 	///print the userName + 'map board' at the top of the page
+	console.log('username ' + userName);
+};
+
+function setUserId(user){
+	///hopefuly set the UserId to be a global variable
 }
 
 ////UI controls:
@@ -139,25 +149,10 @@ function displayInfoWindow(state){
 
 
 
-function addLocation(state, userId){
-	//get the reverse geocode address to a variable
-	//grab the city and state and county
-	//set to the address variable in the state object
-	//grab the latitude and longitude from the reverse geocode lookup
-	///get any notes from the user input
-	///add notes to the notes key in the locations array
-	///set to the address variable in the state object
-	//push a new location object into the locations array
-	////call the create function call here
-};
-
-
-
-
 
 
 ///on page load
-function getAllUsersLocations(userId){
+function getAllUserLocations(userId){
 	////if cookie exists, set the cookie value to be a variable
 	///if no cookie, create a userId
 	// var userId = 12345;
@@ -171,19 +166,7 @@ function getAllUsersLocations(userId){
 		type: "GET"
 	})
 	.done(function(result, status){
-		state.locations = [];
-		console.log('next is the response');
-		///console.log(response);
-
-		console.log('this is the result');
-		console.log(result);
-		///console.log(result.data);
-		state.locations =  result;
-		console.log('the next thing would be the state');
-		console.log(state.locations);
-		/////save results to state
-		///display the locations here or where this function ing called
-		displayLocations();
+		setStateToResult(result);
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
@@ -191,13 +174,14 @@ function getAllUsersLocations(userId){
 	});
 };
 
-function setStateToResults(results){
-
-	///////this needs to be adjusted.  
-		state.locations.forEach(function(item){
-			console.log('looping ' + item.address);
-			state.locations[item].address = results
-		});
+function setStateToResult(result){
+	state.locations = [];
+	state.locations = result;
+	//////just for testing purposes:
+	console.log('this is the result');
+	console.log(result);
+	console.log('the next thing would be the state');
+	console.log(state.locations);
 }
 
 
@@ -209,17 +193,9 @@ function createLocation(){
 		DataType: 'jsonp',
 		type: "POST"
 	})
-	.done(function(result){
-		console.log('the results are: '+result);
-		console.log(result);
-		console.log('next is the response');
-		console.log(response);
-		state.locations =  response.body;
-		console.log('the next thing would be the state');
-		console.log(state.locations);
-		/////add results to state
-		///display the locations from here or where this function is being called
-
+	.done(function(result, status){
+		console.log('create locations done');
+		changePins(userId);
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
@@ -241,10 +217,10 @@ function deleteLocation(id){
 		DataType: 'jsonp',
 		type: "DELETE"
 	})
-	.done(function(result){
+	.done(function(result, status){
+		console.log('delete locations done');
 		console.log(result);
-		/////save results to state
-		///probably display locations here
+		changePins(userId);
 	})
 	.fail(function(error, errorThrown){
 
@@ -262,9 +238,9 @@ function saveLocationNotes(id){
 		type: "PUT"
 	})
 	.done(function(result){
+		console.log('save location notes done');
 		console.log(result);
-		/////save results to state
-		///probably display locations here
+		changePins(userId);
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
@@ -277,27 +253,20 @@ function saveLocationNotes(id){
 ///render Functions:
 
 
+function changePins(userId){
+	getAllUserLocations(userId);
+	displayLocations();
+};
+
+
 function displayLocations(){
 ///called on page load 
 ///renders the state to the map
 	console.log('display locations called');
 
-	///for(index in state.locations){
-	// state.locations.forEach(function(item){
-	// 	console.log('looping ' + item.address);
-	// 		$('body').html('<p>' + item.address + '</p>');
-	// 	///this will be replaced by displaying markers on a map
-	// });
-
-	///or
-	// 	var state = {
-	// 	locations: [];
-	// }
-
 	var arrayOfParagraphs = state.locations.map(function(location){
 			return "<p>" + location.address + "</p>";  
 	});
-	// returns ["123 Fake St.", "456 Fake St. Apt. 2", ...]
 	var stringToRender = arrayOfParagraphs.join("\n");
 	$("#locationsSpace").html(stringToRender);
 
@@ -312,11 +281,8 @@ function displayLocations(){
 
 $(document).ready(function(){
 	console.log('the document is ready');
-	// state.locations.forEach(function(item){
-	// 	console.log(item.address);
-	// })
-	console.log('cookie'+cname);
+	checkCookie();
 	console.log(state.locations)
 	displayLocations();
-	getAllUsersLocations(userId);
+	getAllUserLocations(userId);
 });

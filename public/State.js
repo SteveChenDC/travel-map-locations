@@ -2,6 +2,7 @@
 
 
 var state = {
+	"userId":"",
 	"locations":[
 		{
 			"id": "5ff54712-eb17-430b-8410-793e4dd202d9",
@@ -51,8 +52,6 @@ var state = {
 
 
 var cname;
-var userId  = '12345';
-// var id = '58bcb2c020152c0bb722395b';
 
 ///on page load event listener:
 ///////check if cookie exists function, during the page load
@@ -108,8 +107,8 @@ function displayUserName(userName){
 };
 
 function setUserId(user){
-	///hopefuly set the UserId to be a global variable
-}
+	state.userId = user;
+};
 
 ////UI controls:
 
@@ -152,7 +151,7 @@ function displayInfoWindow(state){
 
 
 ///on page load
-function getAllUserLocations(userId){
+function getAllUserLocations(){
 	////if cookie exists, set the cookie value to be a variable
 	///if no cookie, create a userId
 	// var userId = 12345;
@@ -161,7 +160,7 @@ function getAllUserLocations(userId){
 	console.log('get all users lcoations called');
 
 	var result = $.ajax({
-		url: `/mapLocations/${userId}`,
+		url: `/mapLocations/${state.userId}`,
 		DataType: 'jsonp',
 		type: "GET"
 	})
@@ -192,7 +191,7 @@ function createLocation(){
 		console.log('create lcoation called');
 
 	var result = $.ajax({
-		url: `/mapLocations/`,
+		url: `/mapLocations`,
 		DataType: 'jsonp',
 		type: "POST"
 	})

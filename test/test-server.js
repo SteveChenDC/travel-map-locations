@@ -23,7 +23,7 @@ function seedLocationsData(){
 	for(let i; i<=10; i++){
 		seedData.push(generateLocationsData());
 	}
-	return location.insertMany(seedData);
+	return Location.insertMany(seedData);
 };
 
 function generateIDsData(){

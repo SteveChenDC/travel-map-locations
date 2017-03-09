@@ -199,7 +199,7 @@ describe('Locations', function(){
 				res.body.should.be.json;
 				res.body.should.deep.equal(updateData);
 				return Location.findById(updateData.id).exec();
-			});
+			})
 			.then(function(location){
 				location.notes.should.equal(updateData.notes);
 				location.latitude.should.equal(updateData.latitude);
@@ -221,7 +221,7 @@ describe('Locations', function(){
 			.then(function(res){
 				res.should.have.status(204);
 				return Location.findById(location.id).exec()
-			});
+			})
 			.then(function(_location){
 				should.not.exist(_location);
 			});

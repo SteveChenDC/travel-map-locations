@@ -169,10 +169,31 @@ function getAddress(event){
 			}
 			/////functions added here in order to act synchronicously
 			updateIconImage(bodyType);
-			createMarker(event);
+			createMarker();
+			///create marker CRUD call
 			UpdateWindowMessage(message);
 		});
 	}
+}
+
+
+function createMarker(){
+	///adds a marker onto the map where the click event occurred
+	////a variable should be set to the state.latitude, state.longitude = latLng or other
+	///the latlng may need to be inside of the for each function
+	latLng = {lat: state.locations.latitude, lng: state.locations.longitude}
+	marker = new google.maps.Marker({
+		position: latLng, 
+		map: map,
+		icon: icon
+	});
+}
+
+
+function displayLocationsOnMap(){
+	///for each state.locations.location
+	//create a marker
+	///maybe create the latLng for each location here
 }
 
 function editLocationNotes(state){
@@ -340,6 +361,7 @@ function displayLocations(){
 	$("#locationsSpace").html(stringToRender);
 
 };
+
 
 
 

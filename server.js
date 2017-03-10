@@ -16,7 +16,6 @@ app.use(bodyParser.json());
 
 app.use(express.static('public'));
 
-
 mongoose.Promise = global.Promise;
 
 //working
@@ -95,13 +94,9 @@ app.put('/mapLocation/:id', (req, res) => {
 		return res.status(400).send(message);
 	};
 	const updated = {};
-	const updatableFields = ['notes'];
-	updatableFields.forEach(field => {
-   	 	if (field in req.body) {
-      		updated[field] = req.body[field];
-    	}
-  	});
-	console.log(`updating the location with the ID of ${req.params.id}`);
+	updated.notes = req.body.notes;
+
+	console.log(`updating the notes with the ID of ${req.params.id}`);
 	
 	Location
 	.findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
@@ -135,19 +130,18 @@ let server;
 
  function runServer(databaseUrl = DATABASE_URL, port = PORT){
  	return new Promise((resolve, reject) => {
+ 		console.error(DATABASE_URL + PORT);
  		mongoose.connect(databaseUrl, err =>{
  			if(err){
  				return reject(err);
  			}
  			server = app.listen(port, () =>{
- 				console.log(`your app is listening on port ${port}`)
+ 				console.log(`your app is listening on port ${port}`);
  				resolve();
  			})
  			.on('error', err => {
  				mongoose.disconnect();
  				reject(err);
- 				console.error(DATABASE_URL + PORT);
-
  			});
  		});
  	});
@@ -161,8 +155,7 @@ function closeServer(){
 			console.log('closing server');
 			server.close(err =>{
 				if(err){
-					reject(err);
-					return;
+					return reject(err);
 				}
 				resolve();
 			});
@@ -177,4 +170,4 @@ function closeServer(){
  	runServer().catch(err => console.error(err));
  }
 
- module.exports= {app, runServer, closeServer};
+ module.exports= {runServer, app, closeServer};

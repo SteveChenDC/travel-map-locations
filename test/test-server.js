@@ -5,11 +5,12 @@ const chaiHttp = require('chai-http');
 const faker = require('faker');
 const mongoose = require('mongoose');
 
-const should = require('chai').should();
+const should = chai.should();
 //const exists = require('../server.js');
 const Location  = require('../models');
 const {app, runServer, closeServer} = require('../server');
-///maybe a test db now:
+const {DATABASE_URL} = require('../config');
+const {TEST_DATABASE_URL} = require('../config');
 
 
 chai.use(chaiHttp);
@@ -20,9 +21,9 @@ function seedLocationsData(){
 	const seedData = [];
 
 
-	for(let i; i<=10; i++){
+	for(let i = 0; i<=10; i++){
 		seedData.push(generateLocationsData());
-	}
+	};
 	return Location.insertMany(seedData);
 };
 
@@ -82,51 +83,68 @@ function tearDownDb(){
 describe('Locations', function(){
 	
 	before(function(){
-		return runServer();
-	});
-
-	beforeEach(function(){
+		runServer(TEST_DATABASE_URL);
 		return seedLocationsData();
 	});
 
-	afterEach(function(){
-		return tearDownDb();
-	});
+	// beforeEach(function(){
+		
+	// });
+
+	// afterEach(function(){
+		
+	// });
 
 
 	after(function(){
+		tearDownDb();
 		return closeServer();
 	});
 
-	describe('get all locations for a Id', function(){
+	describe('get all locations', function(){
 		it('should get list of locations on get', function(){
-			return chai.request(server)
-			.get('/mapLocation/id')
-			.then(function(res){
+			let res;
+			return chai.request(app)
+			.get('/mapLocation')
+
+			.then(_res=>{
+				res = _res;
 				res.should.have.status(200);
 				res.should.be.json;
 				res.body.should.be.a('array');
+				console.log('this will be the res.body');
+				console.log(res.body);
 				res.body.should.have.length.of.at.least(1);
-				res.body.forEach(function(pin){
+				res.body.forEach(function(item){
 					item.should.be.a('object');
 					item.should.have.all.keys(
 						'id', 'address', 'latitude', 'longitude', 'notes', 'userId'
 					)
 				});
+			return Location.count()
 			})
-			Location
-			.count()
 			.then(function(count){
-				res.body.mapLocation.should.have.length.of(count);
+				res.body.should.have.length.of(count);
 			});
 		});
 	});
 
 	describe('get information not regarding the locations', function(){
-		it('should get and display locations to the html', function(done){
-			chai.request(app)
-			.get('/mapLocations/userId')
-			.then(function(err, res){
+		it('should get and display locations to the html', function(){
+			let resLocation;
+
+			Location
+			.findOne()
+			.exec()
+			.then(location =>{
+				location.userId = resLocation.userId
+
+				return chai.request(app)
+				.get(`/mapLocations/${resLocation.userId}`)
+			})
+
+			.then(_res=>{
+				res=_res;
 				res.should.have.status(200);
 				res.should.be.json;
 				res.body.should.be.a('object');
@@ -142,22 +160,55 @@ describe('Locations', function(){
 				res.body.mapLocations.should.have.length.of(count);
 			});
 		});
+		it('should return locations with the right fields', function(){
+			let resLocation;
+			
+			Location
+			.findOne()
+			.exec()
+			.then(location=>{
+				console.log(resLocation, 'reslocation object');
+				location.userId = resLocation.userId
+
+				return chai.request(app)
+				.get(`/mapLocations/${resLocation.userId}`)
+			})
+			
+			.then(function(res){
+				res.should.have.status(200);
+				res.should.be.json;
+				res.body.should.be.a('array');
+				res.body.should.have.length.of.at.least(1);
+				res.body.forEach(function(location){
+					location.should.be.a('object');
+					location.should.include.keys('userId', 'address', 'latitude', 'longitude', 'id', 'notes');
+				});
+				resLocation = res.body[0];
+				return Location.findById(resLocation.id).exec();
+			})
+			.then(resLocation =>{
+				resLocation.address.should.equal(location.address);
+				resLocation.latitude.should.equal(location.latitide);
+				resLocation.longitude.should.equal(location.longitude);
+				resLocation.id.should.equal(location.id);
+				resLocation.notes.should.equal(location.notes);
+			});
+		});
 	});
 
 
 	describe('POST a new location', function(){
 		it('should create a new location and store in the DB', function(){
 			const newItem = {
-				address: faker.address(), 
+				address: faker.address.streetAddress(), 
 				latitude: faker.address.latitude(), 
 				longitude: faker.address.longitude(), 
-				notes: faker.lorem.notes()
-				// userId: faker.number.unique.number(4);
+				notes: faker.lorem.sentences()
 			}
 			chai.request(app)
 			.post('/mapLocation')
 			.send(newItem)
-			.then(function(res){
+			.then(function(err, res){
 				res.should.have.status(202);
 				res.body.should.be.json;
 				res.body.should.be.a('object');
@@ -168,12 +219,12 @@ describe('Locations', function(){
 				res.body.notes.should.equal(newItem.notes);
 				return Location.find(req.body.id).exec()
 			})
-			.then(function(Location){
-				Location.address.should.equal(newItem.address);
-				Location.latitude.should.eqaul(newItem.latitude);
-				Locaiton.longitude.should.equal(newItem.longitude);
-				Location.notes.should.equal(newItem.notes);
-				Location.notes.should.equal(newItem.userId);
+			.then(function(location){
+				location.address.should.equal(newItem.address);
+				location.latitude.should.eqaul(newItem.latitude);
+				locaiton.longitude.should.equal(newItem.longitude);
+				location.notes.should.equal(newItem.notes);
+				location.notes.should.equal(newItem.userId);
 			});
 		});
 	});
@@ -182,30 +233,29 @@ describe('Locations', function(){
 	describe('PUT should update the notes', function(){
 		it('should update the notes on a put call', function(){
 			const updateData = {
-				notes: 'these would be updated notes'
+				notes: 'these would be updated notes',
 			};
-			return chai.request(app)
-
-			.get(`/mapLocation/${res.body[0].id}`)
-			.then(function(res){
-				updateData.id = res.body[0].id
+			
+			return Location
+			.findOne()
+			.exec()
+			.then(location=>{
+				updateData.id = location._id
+					console.log(`/mapLocation/${updateData.id}`, updateData);
 				return chai.request(app)
 				.put(`/mapLocation/${updateData.id}`)
 				.send(updateData)
 
 			})
-			.then(function(res){
-				res.should.have.status(203);
+			.then(res=>{
+				res.should.have.status(201);
 				res.body.should.be.a('object');
-				res.body.should.be.json;
-				res.body.should.deep.equal(updateData);
+				//res.body.should.not.be.json;
+				//res.body.should.deep.equal(updateData);
 				return Location.findById(updateData.id).exec();
 			})
-			.then(function(Location){
-				Location.notes.should.equal(updateData.notes);
-				Location.latitude.should.equal(updateData.latitude);
-				Location.longitude.should.equal(updateData.longitude);
-				Location.userId.should.equal(updateData.address);
+			.then(location =>{
+				location.notes.should.equal(updateData.notes);
 			});
 		});
 	});

@@ -176,25 +176,30 @@ function getAddress(event){
 	}
 }
 
+function displayPins(){
+	console.log('display pins called');
+	for(var id in state.locations){
+		createMarker();
+		console.log('create marker done');
+
+	}
+}
+
 
 function createMarker(){
+	console.log('create marker');
 	///adds a marker onto the map where the click event occurred
 	////a variable should be set to the state.latitude, state.longitude = latLng or other
 	///the latlng may need to be inside of the for each function
-	latLng = {lat: state.locations.latitude, lng: state.locations.longitude}
-	marker = new google.maps.Marker({
+	var latLng = {lat: state.locations.latitude, lng: state.locations.longitude}
+	console.log(latLng);
+	var marker = new google.maps.Marker({
 		position: latLng, 
-		map: map,
-		icon: icon
+		map: map
+		// icon: icon
 	});
 }
 
-
-function displayLocationsOnMap(){
-	///for each state.locations.location
-	//create a marker
-	///maybe create the latLng for each location here
-}
 
 function editLocationNotes(state){
 //allow the notes to be in an edit box
@@ -250,7 +255,7 @@ function getAllUserLocations(){
 		$('#errorSpace').append(errorElem);
 	})
 	.then(function(result){
-		console.log('would the changePins(result) call be better/ work here');
+		displayPins();
 	});
 };
 
@@ -372,9 +377,9 @@ function displayLocations(){
 
 $(document).ready(function(){
 	console.log('the document is ready');
-	// displayMap();
-	// checkCookie();
-	// console.log(state.locations)
-	// displayLocations();
-	// getAllUserLocations();
+	displayMap();
+	checkCookie();
+	console.log(state.locations)
+	displayLocations();
+	getAllUserLocations();
 });

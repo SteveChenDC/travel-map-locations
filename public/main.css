@@ -19,3 +19,14 @@ p {
 	text-align: center;
 	font-family: 'Lora', serif;
 }
+
+#map {
+	height: 500px;
+	width: 70%; 
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	border-color: black;
+	margin-right: auto;
+	margin-left: auto;
+}

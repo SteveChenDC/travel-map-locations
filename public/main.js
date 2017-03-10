@@ -13,6 +13,7 @@ var geocoder;
 
 function displayMap(){
 	///called by the google maps instantiation in the index.html file
+	console.log('display map called');
 	var loc = {lat: 0, lng: 0};
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 2,
@@ -23,6 +24,7 @@ function displayMap(){
 
 function locationListener(){
 	/// event listener to allow the map to listen to potential clicks
+	console.log('location listener called');
 	map.addListener('click', function(event){
 		getAddress(event);
 	});

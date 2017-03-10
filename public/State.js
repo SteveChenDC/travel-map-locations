@@ -1,5 +1,6 @@
-var map;
 
+CLIENT_ID = 'AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek';
+var map;
 
 var state = {
 	"userId":"",
@@ -72,7 +73,9 @@ function checkCookie(){
 		var userName = user;
 
 	} else{
-		user = prompt("Please enter your name: ", "");
+		user = "theresa Augustin";
+		////commenting for testing effiency
+		// user = prompt("Please enter your name: ", "");
 		if(user != "" && user != null){
 			setCookie("username", user, 365);
 		};
@@ -112,20 +115,27 @@ function setUserId(user){
 	console.log('userId', state.userId);
 };
 
+
+
+
+
+
 ////UI controls:
 
 function displayMap(){
 	///called by the google maps instantiation in the index.html file
-	var loc = {lat: 0, lng: 0};
-	map = new google.maps.Map(document.getElementById('map'), {
-		zoom: 2,
-		center: loc
-	});
-	handleClickEvent();
+	console.log('display map called');
+	loc = {lat: 0, lng: 0,}
+		map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 2,
+			center: loc
+		});
+		handleClickEvent();
 }
 
 function handleClickEvent(){
 ///when a location on the map is selected, add a marker and allow the user to enter notes
+console.log('handle click event called');
 	map.addListener('click', function(event){
 		getAddress(event);
 	});
@@ -340,8 +350,9 @@ function displayLocations(){
 
 $(document).ready(function(){
 	console.log('the document is ready');
-	checkCookie();
-	console.log(state.locations)
-	displayLocations();
-	getAllUserLocations();
+	// displayMap();
+	// checkCookie();
+	// console.log(state.locations)
+	// displayLocations();
+	// getAllUserLocations();
 });

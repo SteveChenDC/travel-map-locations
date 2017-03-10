@@ -1,4 +1,4 @@
-
+var map;
 
 
 var state = {
@@ -45,13 +45,13 @@ var state = {
 			"notes":"I went here to study abroad in high school.  absolutely beautiful.  Fashion capital, good food and tons of culture."
 		}
 	]
-}
+};
 
 
 
 
 
-var cname;
+var cname = '';
 
 ///on page load event listener:
 ///////check if cookie exists function, during the page load
@@ -104,19 +104,66 @@ function getCookie(cname){
 function displayUserName(userName){
 	///print the userName + 'map board' at the top of the page
 	console.log('username ' + userName);
+	$('#welcome').html(userName + '\'s Map Pin Board');
 };
 
 function setUserId(user){
 	state.userId = user;
+	console.log('userId', state.userId);
 };
 
 ////UI controls:
 
+function displayMap(){
+	///called by the google maps instantiation in the index.html file
+	var loc = {lat: 0, lng: 0};
+	map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 2,
+		center: loc
+	});
+	handleClickEvent();
+}
+
 function handleClickEvent(){
 ///when a location on the map is selected, add a marker and allow the user to enter notes
+	map.addListener('click', function(event){
+		getAddress(event);
+	});
 };
 
+function getAddress(event){
+	///finds the address of the click event
+	parseAddress(event);
+	geocodeAddress(latLng);
 
+	function parseAddress(event){
+		///parses the click event results in order to be read by the reverse geocoder
+		latLng = event.latLng.toString();
+		latLng = latLng.replace(/[{()}]/g, '');
+		latLng = latLng.split(',', 2);
+	    latLng = {lat: parseFloat(latLng[0]), lng: parseFloat(latLng[1]) };
+	}
+
+	function geocodeAddress(latLng){
+		///reverse geocode the address in order to find the address from the latitute and longitude
+		geocoder = new google.maps.Geocoder();
+	    geocoder.geocode({'location': latLng}, function handleAddress(results, status){
+	    	///handles UI updates based on the results and status returned by the geocode function
+			if (status === 'OK'){
+					var address = results[0].formatted_address;
+					message = address;
+					bodyType = 'land';
+				}else {
+					bodyType = 'water';
+					message = 'This body of water is unmarked, and may contain treasures.';
+			}
+			/////functions added here in order to act synchronicously
+			updateIconImage(bodyType);
+			createMarker(event);
+			UpdateWindowMessage(message);
+		});
+	}
+}
 
 function editLocationNotes(state){
 //allow the notes to be in an edit box
@@ -180,10 +227,10 @@ function setStateToResult(result){
 	state.locations = [];
 	state.locations = result;
 	//////just for testing purposes:
-	console.log('this is the result');
-	console.log(result);
-	console.log('the next thing would be the state');
-	console.log(state.locations);
+	// console.log('this is the result');
+	// console.log(result);
+	// console.log('the next thing would be the state');
+	// console.log(state.locations);
 }
 
 
@@ -296,5 +343,5 @@ $(document).ready(function(){
 	checkCookie();
 	console.log(state.locations)
 	displayLocations();
-	getAllUserLocations(userId);
+	getAllUserLocations();
 });

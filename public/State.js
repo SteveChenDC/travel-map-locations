@@ -1,6 +1,7 @@
 
 CLIENT_ID = 'AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek';
 var map;
+var prev_infoWindow = false;
 
 var state = {
 	"userId":"12345",
@@ -203,11 +204,12 @@ function createMarker(location){
 	});
 
 	marker.addListener('click', function(){
-		displayInfoWindow(location, marker)
+		var note = true;
+		displayInfoWindow(location, marker, note)
 	});
 
 	marker.addListener('mouseover', function(){
-		displayNote(location, marker)
+		displayInfoWindow(location, marker);
 	});
 	
 	// removeListeners();
@@ -218,6 +220,33 @@ function createMarker(location){
 }
 
 
+function displayInfoWindow(location, marker, note){
+//display the infoWindow on the marker with the info and an edit and delete button
+	
+	// console.log('display info window called');
+	// console.log(location.notes);
+	if(prev_infoWindow){
+		prev_infoWindow.close();
+	};
+	var message  = location.notes;
+	var infoWindow = new google.maps.InfoWindow({
+		content: message,
+		maxWidth: 200
+	});
+	infoWindow.open(map, marker);
+	prev_infoWindow = infoWindow;
+	
+	if(Boolean(note)){
+		console.log('note is not empty');
+		editInfoWindowNote()
+		note = false;
+	}
+	//potentially have the same function, but pass in a different variable in order to display the note, edit the note with buttons or more/flair
+	//if there is a 'note' parameter, display the note in an edit box and display button to edit note and delete marker
+	
+};
+
+
 
 
 function removeListeners(){
@@ -226,9 +255,10 @@ function removeListeners(){
 
 
 function editInfoWindowNote(){
-	//add a marker
-	//display the infowindow
 	//infoWindow edit state
+	console.log('edit note from infoWindow called');
+
+
 }
 
 
@@ -236,15 +266,9 @@ function displayAllLocationInfo(location){
 	//bring up a larger view with the location infomation, notes, potentially an image and info about the country/ city nearby
 }
 
-function displayNote(){
-	//display a small infowindow with the notes displayed
-	console.log('hover on a marker');
-}
-
-
-
 function editLocationNotes(){
 //allow the notes to be in an edit box
+	
 //display two buttons
 };
 
@@ -258,21 +282,6 @@ var pinAddress = state.locations.address;
 var locationNotes = state.locations.notes;
 return '<h4>'+pinAddress +'</h4>'+ '<p>'+locationNotes+'</p>'
 };
-
-
-function displayInfoWindow(location, marker){
-//display the infoWindow on the marker with the info and an edit and delete button
-//displayLocationInfo(state);
-	console.log('display info window called');
-	console.log(location.notes);
-	var message  = location.notes;
-	var infoWindow = new google.maps.InfoWindow({
-		content: message
-	});
-	infoWindow.open(map, marker);
-};
-
-
 
 
 

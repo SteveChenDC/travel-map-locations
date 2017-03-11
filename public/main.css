@@ -10,6 +10,10 @@ h1 {
 	margin-bottom: 10px;
 }
 
+h2{
+	margin-left: 100px;
+}
+
 h4 {
 	font-family: 'Lora', serif;
 	text-align: center;
@@ -29,4 +33,5 @@ p {
 	border-color: black;
 	margin-right: auto;
 	margin-left: auto;
+	/*drag state*/
 }

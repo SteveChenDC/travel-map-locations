@@ -3,7 +3,7 @@ CLIENT_ID = 'AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek';
 var map;
 
 var state = {
-	"userId":"",
+	"userId":"12345",
 	"locations":[
 		{
 			"id": "5ff54712-eb17-430b-8410-793e4dd202d9",
@@ -53,67 +53,71 @@ var state = {
 
 
 var cname = '';
+// userId = 12345;
+
 
 ///on page load event listener:
 ///////check if cookie exists function, during the page load
 
 ////Cookie handler:
 
-function setCookie(cname, cvalue, exdays){
-	d = new Date();
-	d.setTime(d.getTime()+ (exdays*24*60*60*1000));
-	var expires = "expires="+d.toUTCString();
-	document.cookie = cname+ "="+cvalue + ";"+expires+";path=/"
-	console.log('this is the cookie'+document.cookie);
-};
+// function setCookie(cname, cvalue, exdays){
+// 	d = new Date();
+// 	d.setTime(d.getTime()+ (exdays*24*60*60*1000));
+// 	var expires = "expires="+d.toUTCString();
+// 	document.cookie = cname+ "="+cvalue + ";"+expires+";path=/"
+// 	console.log('this is the cookie'+document.cookie);
+// };
 
-function checkCookie(){
-	var user = getCookie("username");
-	if(user != ""){
-		var userName = user;
+// function checkCookie(){
+// 	var user = getCookie("username");
+// 	if(user !== "" || user !== null){
+// 		var userName = user;
+// 	} else{
+// 		user = "theresa Augustin";
+// 		////commenting for testing effiency
+// 		// user = prompt("Please enter your name: ", "");
+// 		if(user !== "" && user !== null){ // (!!user) === Boolean(user)
+// 			setCookie("username", user, 365);
+// 		};
+// 	};
+// 	displayUserName(user);
+// 	setUserId(user);
+// 	///also call getLocations(user);
+// 	///handleClickEvent();
+// };
 
-	} else{
-		user = "theresa Augustin";
-		////commenting for testing effiency
-		// user = prompt("Please enter your name: ", "");
-		if(user != "" && user != null){
-			setCookie("username", user, 365);
-		};
-	};
-	displayUserName(user);
-	setUserId(user);
-	///also call getLocations(user);
-	///handleClickEvent();
-};
-
-
-function getCookie(cname){
-	var name = cname + "=";
-	var decodedCookie  = decodeURIComponent(document.cookie);
-	var ca = decodedCookie.split(';');
-	for(var i; i< ca.length; i++){
-		var c = ca[i];
-		while (c.charAt(0) == ' '){
-			c = c.subString(1);
-		}
-		if(c.indexOf(name)==(0)){
-			return c.subString(name.length, c.length);
-		}
-	}
-	return "";
-};
+// ////test with a button for setting a cookie or deleting a cookie
 
 
-function displayUserName(userName){
-	///print the userName + 'map board' at the top of the page
-	console.log('username ' + userName);
-	$('#welcome').html(userName + '\'s Map Pin Board');
-};
+// function getCookie(cname){
+// 	var name = cname + "=";
+// 	var decodedCookie  = decodeURIComponent(document.cookie);
+// 	var ca = decodedCookie.split(';');
+// 	for(var i; i< ca.length; i++){
+// 		var c = ca[i];
+// 		while (c.charAt(0) == ' '){
+// 			c = c.subString(1);
+// 		}
+// 		if(c.indexOf(name)==(0)){
+// 			return c.subString(name.length, c.length);
+// 		}
+// 	}
+// 	return "";
+// };
 
-function setUserId(user){
-	state.userId = user;
-	console.log('userId', state.userId);
-};
+
+// function displayUserName(user){
+// 	///print the userName + 'map board' at the top of the page
+// 	console.log('username ' + userName);
+// 	$('#welcome').html(userName + '\'s Map Pin Board');
+// };
+
+// function setUserId(user){
+// 	// state.userId = user;
+// 	state.userId = 1234;
+// 	console.log('userId', state.userId);
+// };
 
 
 
@@ -170,7 +174,6 @@ function getAddress(event){
 			/////functions added here in order to act synchronicously
 			updateIconImage(bodyType);
 			createMarker();
-			///create marker CRUD call
 			UpdateWindowMessage(message);
 		});
 	}
@@ -178,37 +181,76 @@ function getAddress(event){
 
 function displayPins(){
 	console.log('display pins called');
-	for(var id in state.locations){
-		createMarker();
-		console.log('create marker done');
-
+	console.log(state);
+	// state.locations.forEach(createMarker(state.locations));
+	console.log(state.locations);
+	for(i=0;i<state.locations.length; i++){
+		createMarker(state.locations[i]);
 	}
-}
+};
 
 
-function createMarker(){
+function createMarker(location){
 	console.log('create marker');
-	///adds a marker onto the map where the click event occurred
-	////a variable should be set to the state.latitude, state.longitude = latLng or other
-	///the latlng may need to be inside of the for each function
-	var latLng = {lat: state.locations.latitude, lng: state.locations.longitude}
+
+	var latLng = {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)};
 	console.log(latLng);
 	var marker = new google.maps.Marker({
 		position: latLng, 
 		map: map
 		// icon: icon
+		////this could be potential flair for the page
 	});
+
+	marker.addListener('click', function(){
+		displayInfoWindow(location, marker)
+	});
+
+	marker.addListener('mouseover', function(){
+		displayNote(location, marker)
+	});
+	
+	// removeListeners();
+	// var clickListener = marker.addListener('click', displayInfoWindow(location));
+	// var hoverListener = marker.addListener('mouseover', displayNote(location));
+	// var doubleClickListener = marker.addListener('dblclick', displayAllLocationInfo(index));
+	//////this would be the flair for the page
 }
 
 
-function editLocationNotes(state){
+
+
+function removeListeners(){
+	google.maps.event.clearInstanceListeners(marker);
+}
+
+
+function editInfoWindowNote(){
+	//add a marker
+	//display the infowindow
+	//infoWindow edit state
+}
+
+
+function displayAllLocationInfo(location){
+	//bring up a larger view with the location infomation, notes, potentially an image and info about the country/ city nearby
+}
+
+function displayNote(){
+	//display a small infowindow with the notes displayed
+	console.log('hover on a marker');
+}
+
+
+
+function editLocationNotes(){
 //allow the notes to be in an edit box
 //display two buttons
 };
 
 
 
-function displayLocationInfo(state){
+function displayLocationInfo(){
 //called from the displayInfoWindow
 ///display the address
 //display the location notes
@@ -218,10 +260,18 @@ return '<h4>'+pinAddress +'</h4>'+ '<p>'+locationNotes+'</p>'
 };
 
 
-function displayInfoWindow(state){
+function displayInfoWindow(location, marker){
 //display the infoWindow on the marker with the info and an edit and delete button
 //displayLocationInfo(state);
+	console.log('display info window called');
+	console.log(location.notes);
+	var message  = location.notes;
+	var infoWindow = new google.maps.InfoWindow({
+		content: message
+	});
+	infoWindow.open(map, marker);
 };
+
 
 
 
@@ -230,7 +280,9 @@ function displayInfoWindow(state){
 //state modification functions:
 
 
-
+function showError(){
+	console.log('an error occurred');
+}
 
 
 ///on page load
@@ -238,7 +290,7 @@ function getAllUserLocations(){
 	////if cookie exists, set the cookie value to be a variable
 	///if no cookie, create a userId
 	// var userId = 12345;
-	state.locations = [];
+	// state.locations = [];
 
 	console.log('get all users lcoations called');
 
@@ -247,22 +299,27 @@ function getAllUserLocations(){
 		DataType: 'jsonp',
 		type: "GET"
 	})
+	///potentila difference between .get and $.ajax
 	.done(function(result, status){
 		setStateToResult(result);
+
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
+
 		$('#errorSpace').append(errorElem);
 	})
 	.then(function(result){
+		///how to best chain together then and done callbacks
 		displayPins();
 	});
 };
 
 function setStateToResult(result){
-	state.locations = [];
-	state.locations = result;
-	//////just for testing purposes:
+		//////just for testing purposes:
+	// state.locations = [];
+	// state.locations = result;
+
 	// console.log('this is the result');
 	// console.log(result);
 	// console.log('the next thing would be the state');
@@ -280,7 +337,9 @@ function createLocation(){
 	})
 	.done(function(result, status){
 		console.log('create locations done');
-		changePins(userId);
+		// changePins(userId);
+		//save to database
+		//save to state
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
@@ -288,6 +347,7 @@ function createLocation(){
 	})
 	.then(function(result){
 		console.log('would the changePins(result) call be better/ work here');
+		//update the UI based on state
 	});
 };
 
@@ -378,7 +438,7 @@ function displayLocations(){
 $(document).ready(function(){
 	console.log('the document is ready');
 	displayMap();
-	checkCookie();
+	// checkCookie();
 	console.log(state.locations)
 	displayLocations();
 	getAllUserLocations();

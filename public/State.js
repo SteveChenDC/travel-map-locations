@@ -254,10 +254,16 @@ function removeListeners(){
 }
 
 
-function editInfoWindowNote(){
+function editInfoWindowNote(note){
 	//infoWindow edit state
 	console.log('edit note from infoWindow called');
+	renderEditNote();
+}
 
+function renderEditNote(note){
+	$("#editSpace").html(note);
+	$("input").attr("placeholder", 'note');
+	////http://stackoverflow.com/questions/13506481/change-placeholder-text
 
 }
 
@@ -267,9 +273,6 @@ function displayAllLocationInfo(location){
 }
 
 function editLocationNotes(){
-//allow the notes to be in an edit box
-	
-//display two buttons
 };
 
 

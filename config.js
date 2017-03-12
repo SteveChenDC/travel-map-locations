@@ -10,4 +10,4 @@ exports.TEST_DATABASE_URL = (
 exports.PORT = process.env.PORT ||8080;
 
 
-exports.CLIENT_ID = 'AIzaSyCRf-RK5p6XiYWLspk7LMgaa1px3YQUqjU';
+exports.CLIENT_ID = 'AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek';

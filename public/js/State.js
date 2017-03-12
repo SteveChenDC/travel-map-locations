@@ -233,7 +233,7 @@ function displayInfoWindow(location, marker, locId, noteExist){
 
 	console.log('locId: '+locId);
 
-
+	//////to handle closing previously opened infoWindows:
 	if(prev_infoWindow){
 		prev_infoWindow.close();
 	};

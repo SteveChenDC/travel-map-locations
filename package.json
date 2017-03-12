@@ -2,24 +2,42 @@
   "dependencies": {
     "body-parser": "^1.17.0",
     "express": "^4.15.0",
+    "jquery": "^3.1.1",
     "json-parser": "^1.1.5",
     "mongoose": "^4.8.5",
     "package.json": "^2.0.1",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
+    "babel": "^6.23.0",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
+    "chokidar": "^1.6.1",
     "faker": "^4.1.0",
-    "mocha": "^3.2.0"
+    "less": "^2.7.2",
+    "mocha": "^3.2.0",
+    "webpack": "^2.2.1"
   },
   "scripts": {
     "test": "mocha",
-    "start": "node server.js"
+    "start": "node server.js",
+    "mkdir": "mkdir -p build",
+    "build": "yarn run clean && yarn run mkdir && yarn run build:html && yarn run build:css && yarn run build:js",
+    "watch": "yarn run watch:html & yarn run watch:css & yarn run watch:js",
+    "clean": "rm -rf build",
+    "build:html": "yarn run clean:html && cp ./public/index.html build/",
+    "watch:html": "yarn run build:html && chokidar ./public/index.html -c 'yarn run build:html'",
+    "clean:html": "rm -f build/index.html",
+    "build:css": "yarn run clean:css && lessc --source-map ./public/css/index.less build/$yarn_package_name.$yarn_package_version.css",
+    "watch:css": "yarn run build:css && chokidar 'css/**/*.less' -c 'yarn run build:css'",
+    "clean:css": "rm -f build/$yarn_package_name.$yarn_package_version.css build/$yarn_package_name.$yarn_package_version.css.map",
+    "build:js": "yarn run clean:js && webpack",
+    "watch:js": "yarn run build:js && webpack --watch",
+    "clean:js": "rm -f build/$yarn_package_name.$yarn_package_version.js build/$yarn_package_name.$yarn_package_version.js.map"
   },
   "name": "public",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./public/js/index.js",
   "repository": {},
   "author": "talta",
   "license": "MIT"

@@ -491,7 +491,7 @@ function displayLocations(){
 
 $(document).ready(function(){
 	console.log('the document is ready');
-	displayMap();
+	// displayMap();
 	// checkCookie();
 	console.log(state.locations)
 	displayLocations();

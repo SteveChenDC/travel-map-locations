@@ -4,7 +4,7 @@ var map;
 var prev_infoWindow = false;
 
 var state = {
-	"userId":"12345",
+	"userId":"1235",
 	"locations":[
 		{
 			"id": "5ff54712-eb17-430b-8410-793e4dd202d9",
@@ -136,7 +136,7 @@ function displayMap(){
 			center: loc
 		});
 		handleClickEvent();
-}
+};
 
 function handleClickEvent(){
 ///when a location on the map is selected, add a marker and allow the user to enter notes
@@ -158,7 +158,7 @@ function getAddress(event){
 		latLng = latLng.replace(/[{()}]/g, '');
 		latLng = latLng.split(',', 2);
 	    latLng = {lat: parseFloat(latLng[0]), lng: parseFloat(latLng[1]) };
-	}
+	};
 
 	function geocodeAddress(latLng){
 		///reverse geocode the address in order to find the address from the latitute and longitude
@@ -178,23 +178,20 @@ function getAddress(event){
 			createMarker();
 			UpdateWindowMessage(message);
 		});
-	}
-}
+	};
+};
 
 function displayPins(){
 	console.log('display pins called');
-	// console.log(state);
-	// state.locations.forEach(createMarker(state.locations));
-	// console.log(state.locations);
+	console.log(state.locations);
 	for(i=0;i<state.locations.length; i++){
 		createMarker(state.locations[i]);
 	};
 };
 
-
 function createMarker(location){
 	console.log('create marker and set location');
-	// console.log(location);
+	console.log(location);
 	var locId = location.id;
 	// console.log(location.id);
 	// console.log('now working on the latLng');
@@ -216,21 +213,13 @@ function createMarker(location){
 	marker.addListener('mouseover', function(){
 		displayInfoWindow(location, marker, locId);
 	});
-	
-	// removeListeners();
-	// var clickListener = marker.addListener('click', displayInfoWindow(location));
-	// var hoverListener = marker.addListener('mouseover', displayNote(location));
-	// var doubleClickListener = marker.addListener('dblclick', displayAllLocationInfo(index));
+	// marker.addListener('dblclick', displayModalWindow());
 	//////this would be the flair for the page
 };
 
-
 function displayInfoWindow(location, marker, locId, noteExist){
-//display the infoWindow on the marker with the info and an edit and delete button
-	
 	// console.log('display info window called');
 	// console.log(location.notes);
-
 	console.log('locId: '+locId);
 
 	//////to handle closing previously opened infoWindows:
@@ -250,20 +239,12 @@ function displayInfoWindow(location, marker, locId, noteExist){
 		editInfoWindowNote(noteExist, locId)
 		noteExist = false;
 		////modal window
-		///pass params to the modal window (would this be necessary if )
 	};
-	//potentially have the same function, but pass in a different variable in order to display the note, edit the note with buttons or more/flair
-	//if there is a 'note' parameter, display the note in an edit box and display button to edit note and delete marker
-	
 };
-
-
-
 
 function removeListeners(){
 	google.maps.event.clearInstanceListeners(marker);
 };
-
 
 function editInfoWindowNote(noteExist, locId){
 	//infoWindow edit state
@@ -280,25 +261,18 @@ function renderNoteDetail(locId){
 	state.locations.find(function(location){
 		console.log('trying to find the note');
 		if(location.id===locId){
+			////this placeholder text is not working right now.
 			var note = location.notes
 			console.log('this would be the note: '+note);
 			$("input").attr("placeholder", note);
 		};
-
-		///.filter is similar
-		////.filter only location.id =locId, then return the notes
-		///check to see if location.id= locId
-		///if true: return location.notes
-
 	});
-	
-	////http://stackoverflow.com/questions/13506481/change-placeholder-text
+	//button listeners:
 	$("#deleteButton").on("click", deleteLocationControl(locId));
 	$("#saveNotesButton").on("click", editLocationNotes(locId));
 };
 
-
-function displayAllLocationInfo(location){
+function displayModalWindow(location){
 	//bring up a larger view with the location infomation, notes, potentially an image and info about the country/ city nearby
 };
 
@@ -312,18 +286,21 @@ function deleteLocationControl(locId){
 	//called by selection of delete button
 	///validation that a location exists
 	///potential validation to delete the location's pin
-	///deleteLocation(id);
+	console.log(locId);
+	deleteLocation(locId);
+	console.log(`id of ${locId} deleted`);
 	///confirmation that the pin's location has been deleted
 };
 
 function displayLocationInfo(){
-//called from the displayInfoWindow
-///display the address
-//display the location notes
-var pinAddress = state.locations.address;
-var locationNotes = state.locations.notes;
-return '<h4>'+pinAddress +'</h4>'+ '<p>'+locationNotes+'</p>'
+	////just for testing purposes:
+	var pinAddress = state.locations.address;
+	var locationNotes = state.locations.notes;
+	return '<h4>'+pinAddress +'</h4>'+ '<p>'+locationNotes+'</p>'
 };
+
+
+
 
 
 //state modification functions:
@@ -331,103 +308,91 @@ return '<h4>'+pinAddress +'</h4>'+ '<p>'+locationNotes+'</p>'
 
 function showError(){
 	console.log('an error occurred');
-}
+};
 
 
 ///on page load
 function getAllUserLocations(){
-	////if cookie exists, set the cookie value to be a variable
-	///if no cookie, create a userId
-	// var userId = 12345;
+	//these two are for testing purposes:
 	// state.locations = [];
-
-	console.log('get all users lcoations called');
-
+	// var userId = 12345;
+	console.log(`${state.userId}`);
+	console.log('get all users locations called');
 	var result = $.ajax({
 		url: `/mapLocations/${state.userId}`,
 		DataType: 'jsonp',
 		type: "GET"
 	})
-	///potentila difference between .get and $.ajax
 	.done(function(result, status){
+		console.log('done after get all users locations called, this would be the result:');
+		console.log(result);
 		setStateToResult(result);
-
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
-
 		$('#errorSpace').append(errorElem);
 	})
 	.then(function(result){
-		///how to best chain together then and done callbacks
+		console.log('then after get all user locations called');
 		displayPins();
 	});
 };
 
 function setStateToResult(result){
 		//////just for testing purposes:
-	// state.locations = [];
-	// state.locations = result;
-
 	// console.log('this is the result');
 	// console.log(result);
 	// console.log('the next thing would be the state');
 	// console.log(state.locations);
+	state.locations = [];
+	state.locations = result;
+
 }
 
 
 function createLocation(){
 		console.log('create lcoation called');
-
 	var result = $.ajax({
-		url: `/mapLocations`,
+		url: `/mapLocation`,
 		DataType: 'jsonp',
 		type: "POST"
 	})
 	.done(function(result, status){
-		console.log('create locations done');
+		console.log('create locations done, this would be the result:');
+		console.log(result);
 		setStateToResult(result);
-		// changePins(userId);
-		//save to database
-		//save to state
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
 		$('#errorSpace').append(errorElem);
 	})
 	.then(function(result){
-		console.log('would the changePins(result) call be better/ work here');
+		console.log('then called from createLocations');
 		displayPins();
-		//update the UI based on state
 	});
 };
 
 
 
 function deleteLocation(id){
-///when a user selects the 'x', inside the inforWindow
-///delete the location from the state
-///load state again
-///displayLocations(state)
 	console.log('delete location called');
 	var result = $.ajax({
 		///this ID would be a variable
-		url: `https://lit-retreat-41899.herokuapp.com/mapLocation/${id}`,
+		url: `/mapLocation/${id}`,
 		DataType: 'jsonp',
 		type: "DELETE"
 	})
 	.done(function(result, status){
-		console.log('delete locations done');
+		console.log('delete locations done, this would be the result: ');
 		console.log(result);
 		setStateToResult(result);
-		
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
 		$('#errorSpace').append(errorElem);
 	})
 	.then(function(result){
-		console.log('would the changePins(result) call be better/ work here');
+		console.log('then called from delete locations');
 		displayPins();
 	});
 };
@@ -438,12 +403,12 @@ function saveLocationNotes(id){
 ///API call to updateNotes
 	var result = $.ajax({
 		////this id would be a variable
-		url: `https://lit-retreat-41899.herokuapp.com/mapLocation/${id}`,
+		url: `mapLocation/${id}`,
 		DataType: 'jsonp',
 		type: "PUT"
 	})
 	.done(function(result){
-		console.log('save location notes done');
+		console.log('save location notes done, this would be the result:');
 		console.log(result);
 		setStateToResult(result);
 	})
@@ -452,7 +417,7 @@ function saveLocationNotes(id){
 		$('#errorSpace').append(errorElem);
 	})
 	.then(function(result){
-		console.log('would the changePins(result) call be better/ work here');
+		console.log('then from update notes called');
 		displayPins();
 	});
 };
@@ -493,7 +458,7 @@ $(document).ready(function(){
 	console.log('the document is ready');
 	// displayMap();
 	// checkCookie();
-	console.log(state.locations)
+	// console.log(state.locations)
 	displayLocations();
 	getAllUserLocations();
 });

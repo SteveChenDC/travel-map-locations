@@ -2,6 +2,7 @@
  const mongoose = require('mongoose');
  const bodyParser = require('body-parser');
  const jsonParser  = bodyParser.json();
+ const uuid = require('node-uuid');
 
 
 const {PORT, DATABASE_URL} = require('./config');
@@ -61,16 +62,16 @@ app.post('/mapLocation', (req, res) => {
 			return res.status(400).send(message);
 		}
 	}
-
 	Location
 	.create({
+		_id: uuid.v4()
 		userId: req.body.userId,
 		address: req.body.address,
 		longitude: req.body.longitude,
 		latitude: req.body.latitude,
 		notes: req.body.notes
 	})
-	.then(mapLocation => res.status(201).json(mapLocation.apiRepr()))
+	.then(mapLocation => res.status(205).json(mapLocation.apiRepr()))
 	.catch(err => {
 		console.error(err);
 		res.status(500).json({error: 'oops, something went wrong'});
@@ -78,7 +79,7 @@ app.post('/mapLocation', (req, res) => {
 });
 
 ////working:
-app.put('/mapLocation/:id', (req, res) => {
+app.put('/mapLocation/:_id', (req, res) => {
 	const requiredFields = ['notes'];
 	for(let i=0; i< requiredFields.length; i++){
 		const field  = requiredFields[i];
@@ -88,18 +89,18 @@ app.put('/mapLocation/:id', (req, res) => {
 			return res.status(400).send(message);
 		};
 	};
-	if(req.params.id !== req.body.id){
-		const message = (`The requesting ID of \`${req.params.id}\` and the request body ID of \`${req.body.id}\` do not match.`);
+	if(req.params.id !== req.body._id){
+		const message = (`The requesting ID of \`${req.params._id}\` and the request body ID of \`${req.body._id}\` do not match.`);
 		console.error(message);
 		return res.status(400).send(message);
 	};
 	const updated = {};
 	updated.notes = req.body.notes;
 
-	console.log(`updating the notes with the ID of ${req.params.id}`);
+	console.log(`updating the notes with the ID of ${req.params._id}`);
 	
 	Location
-	.findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
+	.findByIdAndUpdate(req.params._id, {$set: updated}, {new: true})
 	.exec()
 	.then(updatedNotes => res.status(201).json(updatedNotes.apiRepr()))
 	.catch(err => res.status(500).json({message: 'oops, something went wrong'}));
@@ -110,12 +111,12 @@ app.put('/mapLocation/:id', (req, res) => {
 
 
 ////dice
-app.delete('/mapLocation/:id', (req, res) => {
+app.delete('/mapLocation/:_id', (req, res) => {
 	Location
-	.findOneAndRemove(req.params.id)
+	.findOneAndRemove(req.params._id)
 	.exec()
 	.then(()=> {
-		console.log(`deleted location with an in of ${req.params.id}`);
+		console.log(`deleted location with an in of ${req.params._id}`);
 		res.status(204).end();
 	})
 	.catch(() =>{

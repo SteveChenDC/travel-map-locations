@@ -12,7 +12,7 @@ const {app, runServer, closeServer} = require('../server');
 const {DATABASE_URL} = require('../config');
 const {TEST_DATABASE_URL} = require('../config');
 
-
+id
 chai.use(chaiHttp);
 
 
@@ -118,7 +118,7 @@ describe('Locations', function(){
 				res.body.forEach(function(item){
 					item.should.be.a('object');
 					item.should.have.all.keys(
-						'id', 'address', 'latitude', 'longitude', 'notes', 'userId'
+						'_id', 'address', 'latitude', 'longitude', 'notes', 'userId'
 					)
 				});
 			return Location.count()
@@ -148,7 +148,7 @@ describe('Locations', function(){
 				res.should.have.status(200);
 				res.should.be.json;
 				res.body.should.be.a('object');
-				const expectedKeys = ["address", "latitude", "longitude", "notes", "userId", "id"];
+				const expectedKeys = ["address", "latitude", "longitude", "notes", "userId", "_id"];
 				res.body.forEach(function(item){
 					item.should.be.a('object');
 					item.should.include.keys(expectedKeys);
@@ -181,7 +181,7 @@ describe('Locations', function(){
 				res.body.should.have.length.of.at.least(1);
 				res.body.forEach(function(location){
 					location.should.be.a('object');
-					location.should.include.keys('userId', 'address', 'latitude', 'longitude', 'id', 'notes');
+					location.should.include.keys('userId', 'address', 'latitude', 'longitude', '_id', 'notes');
 				});
 				resLocation = res.body[0];
 				return Location.findById(resLocation.id).exec();
@@ -190,7 +190,7 @@ describe('Locations', function(){
 				resLocation.address.should.equal(location.address);
 				resLocation.latitude.should.equal(location.latitide);
 				resLocation.longitude.should.equal(location.longitude);
-				resLocation.id.should.equal(location.id);
+				resLocation._id.should.equal(location._id);
 				resLocation.notes.should.equal(location.notes);
 			});
 		});
@@ -213,7 +213,7 @@ describe('Locations', function(){
 				res.body.should.be.json;
 				res.body.should.be.a('object');
 				res.body.id.should.not.be.null;
-				res.body.should.include.keys('id', 'address', 'longitude', 'latitude', 'notes', 'userId');
+				res.body.should.include.keys('_id', 'address', 'longitude', 'latitude', 'notes', 'userId');
 				res.body.should.deep.equal(Object.assign(newItem, {id: res.body.id}));
 				res.body.address.should.equal(newItem.address);
 				res.body.notes.should.equal(newItem.notes);
@@ -240,10 +240,10 @@ describe('Locations', function(){
 			.findOne()
 			.exec()
 			.then(location=>{
-				updateData.id = location._id
-					console.log(`/mapLocation/${updateData.id}`, updateData);
+				updateData._id = location._id
+					console.log(`/mapLocation/${updateData._id}`, updateData);
 				return chai.request(app)
-				.put(`/mapLocation/${updateData.id}`)
+				.put(`/mapLocation/${updateData._id}`)
 				.send(updateData)
 
 			})
@@ -273,7 +273,7 @@ describe('Locations', function(){
 			})
 			.then(function(res){
 				res.should.have.status(204);
-				return Location.findById(location.id).exec()
+				return Location.findById(location._sid).exec()
 				///maybe not the exec above
 			})
 			.then(_location =>{

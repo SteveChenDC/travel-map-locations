@@ -35,3 +35,7 @@ p {
 	margin-left: auto;
 	/*drag state*/
 }
+
+#noteInput {
+	width: 200px;
+}

@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 
 ////use mongoose models:
 const LocationsSchema = new mongoose.Schema({
-	id: {type: String},
+	_id: {type: String},
 	userId: {type: String},
 	address: {type: String},
 	latitude: {type: String},

@@ -24,6 +24,9 @@ app.get('/mapLocation', (req, res) => {
 	Location
 	.find()
 	.exec()
+	// .done((res)=>{
+	// 	console.log('get all locations done');
+	// })
 	.then(mapLocation => {
 		res.json(mapLocation.map(mapLocation => mapLocation.apiRepr()));
 	})
@@ -42,6 +45,9 @@ app.get('/mapLocations/:userId', (req, res) => {
 	Location
 	.find({'userId': req.params.userId})
 	.exec()
+	// .done((res)=>{
+	// 	console.log('get call done');
+	// })
 	.then(mapLocations => {
 		res.json(mapLocations.map(mapLocations => mapLocations.apiRepr()));
 	})
@@ -64,13 +70,16 @@ app.post('/mapLocation', (req, res) => {
 	}
 	Location
 	.create({
-		_id: uuid.v4()
+		id: uuid.v4(),
 		userId: req.body.userId,
 		address: req.body.address,
 		longitude: req.body.longitude,
 		latitude: req.body.latitude,
 		notes: req.body.notes
 	})
+	// .done((res)=>{
+	// 	console.log('post call done');
+	// })
 	.then(mapLocation => res.status(205).json(mapLocation.apiRepr()))
 	.catch(err => {
 		console.error(err);
@@ -79,7 +88,7 @@ app.post('/mapLocation', (req, res) => {
 });
 
 ////working:
-app.put('/mapLocation/:_id', (req, res) => {
+app.put('/mapLocation/:id', (req, res) => {
 	const requiredFields = ['notes'];
 	for(let i=0; i< requiredFields.length; i++){
 		const field  = requiredFields[i];
@@ -90,18 +99,21 @@ app.put('/mapLocation/:_id', (req, res) => {
 		};
 	};
 	if(req.params.id !== req.body._id){
-		const message = (`The requesting ID of \`${req.params._id}\` and the request body ID of \`${req.body._id}\` do not match.`);
+		const message = (`The requesting ID of \`${req.params.id}\` and the request body ID of \`${req.body.id}\` do not match.`);
 		console.error(message);
 		return res.status(400).send(message);
 	};
 	const updated = {};
 	updated.notes = req.body.notes;
 
-	console.log(`updating the notes with the ID of ${req.params._id}`);
+	console.log(`updating the notes with the ID of ${req.params.id}`);
 	
 	Location
-	.findByIdAndUpdate(req.params._id, {$set: updated}, {new: true})
+	.findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
 	.exec()
+	// .done((res) =>{
+	// 	console.log('put call done');
+	// })
 	.then(updatedNotes => res.status(201).json(updatedNotes.apiRepr()))
 	.catch(err => res.status(500).json({message: 'oops, something went wrong'}));
 });
@@ -111,12 +123,18 @@ app.put('/mapLocation/:_id', (req, res) => {
 
 
 ////dice
-app.delete('/mapLocation/:_id', (req, res) => {
+app.delete('/mapLocation/:id', (req, res) => {
 	Location
-	.findOneAndRemove(req.params._id)
+	.remove({"_id": ObjectId("req.params.id")})
+	////match syntax: db.locations.remove({"_id": ObjectId("58c5c0fe5bd41e0d930a210b")})
+	///limit(1) better yet:
+	////justOne(true)
 	.exec()
+	// .done((res)=>{
+	// 	console.log('delete id call done');
+	// })
 	.then(()=> {
-		console.log(`deleted location with an in of ${req.params._id}`);
+		console.log(`deleted location with an in of ${req.params.id}`);
 		res.status(204).end();
 	})
 	.catch(() =>{

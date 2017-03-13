@@ -12,7 +12,6 @@ const {app, runServer, closeServer} = require('../server');
 const {DATABASE_URL} = require('../config');
 const {TEST_DATABASE_URL} = require('../config');
 
-id
 chai.use(chaiHttp);
 
 
@@ -118,7 +117,7 @@ describe('Locations', function(){
 				res.body.forEach(function(item){
 					item.should.be.a('object');
 					item.should.have.all.keys(
-						'_id', 'address', 'latitude', 'longitude', 'notes', 'userId'
+						'id', 'address', 'latitude', 'longitude', 'notes', 'userId'
 					)
 				});
 			return Location.count()
@@ -148,7 +147,7 @@ describe('Locations', function(){
 				res.should.have.status(200);
 				res.should.be.json;
 				res.body.should.be.a('object');
-				const expectedKeys = ["address", "latitude", "longitude", "notes", "userId", "_id"];
+				const expectedKeys = ["address", "latitude", "longitude", "notes", "userId", "id"];
 				res.body.forEach(function(item){
 					item.should.be.a('object');
 					item.should.include.keys(expectedKeys);
@@ -158,6 +157,11 @@ describe('Locations', function(){
 			.count()
 			.then(function(count){
 				res.body.mapLocations.should.have.length.of(count);
+			})
+
+			.catch(()=>{
+				console.error(err);
+				res.status(500).json({error: 'oops, something went wrong'});
 			});
 		});
 		it('should return locations with the right fields', function(){
@@ -181,7 +185,7 @@ describe('Locations', function(){
 				res.body.should.have.length.of.at.least(1);
 				res.body.forEach(function(location){
 					location.should.be.a('object');
-					location.should.include.keys('userId', 'address', 'latitude', 'longitude', '_id', 'notes');
+					location.should.include.keys('userId', 'address', 'latitude', 'longitude', 'id', 'notes');
 				});
 				resLocation = res.body[0];
 				return Location.findById(resLocation.id).exec();
@@ -190,8 +194,12 @@ describe('Locations', function(){
 				resLocation.address.should.equal(location.address);
 				resLocation.latitude.should.equal(location.latitide);
 				resLocation.longitude.should.equal(location.longitude);
-				resLocation._id.should.equal(location._id);
+				resLocation.id.should.equal(location.id);
 				resLocation.notes.should.equal(location.notes);
+			})
+			.catch(()=>{
+				console.error(err);
+				res.status(500).json({error: 'oops, something went wrong'});
 			});
 		});
 	});
@@ -200,6 +208,7 @@ describe('Locations', function(){
 	describe('POST a new location', function(){
 		it('should create a new location and store in the DB', function(){
 			const newItem = {
+				userId: faker.random.number(),
 				address: faker.address.streetAddress(), 
 				latitude: faker.address.latitude(), 
 				longitude: faker.address.longitude(), 
@@ -213,7 +222,7 @@ describe('Locations', function(){
 				res.body.should.be.json;
 				res.body.should.be.a('object');
 				res.body.id.should.not.be.null;
-				res.body.should.include.keys('_id', 'address', 'longitude', 'latitude', 'notes', 'userId');
+				res.body.should.include.keys('id', 'address', 'longitude', 'latitude', 'notes', 'userId');
 				res.body.should.deep.equal(Object.assign(newItem, {id: res.body.id}));
 				res.body.address.should.equal(newItem.address);
 				res.body.notes.should.equal(newItem.notes);
@@ -225,6 +234,11 @@ describe('Locations', function(){
 				locaiton.longitude.should.equal(newItem.longitude);
 				location.notes.should.equal(newItem.notes);
 				location.notes.should.equal(newItem.userId);
+			})
+
+			.catch(()=>{
+				console.error(err);
+				res.status(500).json({error: 'oops, something went wrong'});
 			});
 		});
 	});
@@ -240,10 +254,10 @@ describe('Locations', function(){
 			.findOne()
 			.exec()
 			.then(location=>{
-				updateData._id = location._id
-					console.log(`/mapLocation/${updateData._id}`, updateData);
+				updateData.id = location.id
+					console.log(`/mapLocation/${updateData.id}`, updateData);
 				return chai.request(app)
-				.put(`/mapLocation/${updateData._id}`)
+				.put(`/mapLocation/${updateData.id}`)
 				.send(updateData)
 
 			})
@@ -256,6 +270,10 @@ describe('Locations', function(){
 			})
 			.then(location =>{
 				location.notes.should.equal(updateData.notes);
+			})
+			.catch(()=>{
+				console.error(err);
+				res.status(500).json({error: 'oops, something went wrong'});
 			});
 		});
 	});
@@ -269,15 +287,20 @@ describe('Locations', function(){
 			.exec()
 			.then(_location =>{
 				location = _location;
+				console.log(`${location.id}`);
 				return chai.request(app).delete(`/mapLocation/${location.id}`);
 			})
 			.then(function(res){
 				res.should.have.status(204);
-				return Location.findById(location._sid).exec()
+				return Location.findById(location.id).exec()
 				///maybe not the exec above
 			})
 			.then(_location =>{
 				should.not.exist(_location);
+			})
+			.catch(()=>{
+				console.error(err);
+				res.status(500).json({error: 'oops, something went wrong'});
 			});
 		});
 	});

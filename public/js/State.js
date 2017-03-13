@@ -254,10 +254,8 @@ function editInfoWindowNote(noteExist, locId){
 };
 
 function renderNoteDetail(locId){
-	///put some info into the edit space to describe to the user
 	console.log('render note detail called');
 	$("#editHeader").html('this is where one would edit or delete a note');
-	///note = location.notes where the locId = state.locations.id
 	state.locations.find(function(location){
 		console.log('trying to find the note');
 		if(location.id===locId){
@@ -268,6 +266,7 @@ function renderNoteDetail(locId){
 		};
 	});
 	//button listeners:
+	//////these event listeners are being called when a pin is selected:
 	$("#deleteButton").on("click", deleteLocationControl(locId));
 	$("#saveNotesButton").on("click", editLocationNotes(locId));
 };
@@ -282,8 +281,6 @@ function editLocationNotes(locId){
 
 function deleteLocationControl(locId){
 	console.log('delete location called');
-	////from the selected pin as input param
-	//called by selection of delete button
 	///validation that a location exists
 	///potential validation to delete the location's pin
 	console.log(locId);
@@ -350,12 +347,20 @@ function setStateToResult(result){
 }
 
 
-function createLocation(){
-		console.log('create lcoation called');
+function createLocation(object){
+		console.log('create location called');
+
 	var result = $.ajax({
 		url: `/mapLocation`,
 		DataType: 'jsonp',
-		type: "POST"
+		type: "POST",
+		data: {
+    		"userId": object.userId,
+    		"address": object.address,
+    		"latitude": object.latitude,
+    		"longitude": object.longitude,
+    		"notes": object.notes
+		}
 	})
 	.done(function(result, status){
 		console.log('create locations done, this would be the result:');
@@ -399,7 +404,7 @@ function deleteLocation(id){
 
 
 
-function saveLocationNotes(id){
+function saveLocationNotes(id, note){
 ///API call to updateNotes
 	var result = $.ajax({
 		////this id would be a variable
@@ -448,7 +453,19 @@ function displayLocations(){
 
 
 
-
+/////////testing:
+function testListeners(){
+			var createLocationObject = {
+    		"userId": "1235",
+    		"address": "somewhere else else",
+    		"latitude": "1.9028",
+    		"longitude": "112.4964",
+    		"notes": "this other super secret place esle"
+		}
+	$("#editNoteButton").on("click", saveLocationNotes('58c5b6245bd41e0d930a2106', 'updated notes'));
+	$("#deleteLocationButton").on("click", deleteLocation('58c5b6245bd41e0d930a2105'));
+	$("#createLocationButton").on("click", createLocation(createLocationObject));
+}
 
 
 
@@ -459,6 +476,7 @@ $(document).ready(function(){
 	// displayMap();
 	// checkCookie();
 	// console.log(state.locations)
+	testListeners();
 	displayLocations();
 	getAllUserLocations();
 });

@@ -59,6 +59,7 @@ app.get('/mapLocations/:userId', (req, res) => {
 
 //working
 app.post('/mapLocation', (req, res) => {
+	console.log(req);
 	const requiredFields = ['latitude', 'longitude', 'notes', 'address', 'userId'];
 	for(let i=0; i< requiredFields.length; i++){
 		const field  = requiredFields[i];
@@ -80,7 +81,7 @@ app.post('/mapLocation', (req, res) => {
 	// .done((res)=>{
 	// 	console.log('post call done');
 	// })
-	.then(mapLocation => res.status(205).json(mapLocation.apiRepr()))
+	.then(mapLocation => res.status(202).json(mapLocation.apiRepr()))
 	.catch(err => {
 		console.error(err);
 		res.status(500).json({error: 'oops, something went wrong'});
@@ -98,11 +99,12 @@ app.put('/mapLocation/:id', (req, res) => {
 			return res.status(400).send(message);
 		};
 	};
-	if(req.params.id !== req.body._id){
-		const message = (`The requesting ID of \`${req.params.id}\` and the request body ID of \`${req.body.id}\` do not match.`);
-		console.error(message);
-		return res.status(400).send(message);
-	};
+	///the ID is not being passed through the body, this validation can probably be removed:
+	// if(req.params.id !== req.body._id){
+	// 	const message = (`The requesting ID of \`${req.params.id}\` and the request body ID of \`${req.body.id}\` do not match.`);
+	// 	console.error(message);
+	// 	return res.status(400).send(message);
+	// };
 	const updated = {};
 	updated.notes = req.body.notes;
 

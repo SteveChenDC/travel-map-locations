@@ -4,7 +4,7 @@ var map;
 var prev_infoWindow = false;
 
 var state = {
-	"userId":"1235",
+	"userId":"1234",
 	"locations":[
 		{
 			"id": "5ff54712-eb17-430b-8410-793e4dd202d9",
@@ -313,9 +313,6 @@ function showError(){
 
 ///on page load
 function getAllUserLocations(){
-	//these two are for testing purposes:
-	// state.locations = [];
-	// var userId = 12345;
 	console.log(`${state.userId}`);
 	console.log('get all users locations called');
 	var result = $.ajax({
@@ -339,48 +336,27 @@ function getAllUserLocations(){
 };
 
 function setStateToResult(result){
-		//////just for testing purposes:
-	// console.log('this is the result');
-	// console.log(result);
-	// console.log('the next thing would be the state');
-	// console.log(state.locations);
 	state.locations = [];
 	state.locations = result;
+};
 
-}
-
-
+////working:
 function createLocation(object){
 		console.log('create location called');
-		console.log(object);
-		var myTestData = {
-		    userId: '1235',
-		    address: 'cleveland, OH4',
-		    latitude: '113.49932',
-		    longitude: '1.69442',
-		    notes: 'this is where I currently live4'
-		};
-		///trying to figure out why the JSON object is being rejected in the validation of 'latitude'
-		var myJsonText = JSON.stringify(myTestData);
-		var myJsonObject = JSON.parse(myJsonText);
-		console.log(myJsonObject);
-		var myJsonObject2 = {};
-
+		var myJsonObject = JSON.stringify(object);
 
 	var result = $.ajax({
 		url: `/mapLocation`,
-		DataType: 'jsonp',
 		type: "POST",
-		data: myJsonObject2
+		contentType: 'application/json',
+		processData: false,
+		data: myJsonObject
 	})
 	.done(function(result, status){
-		console.log(result.data);
-		console.log('create locations done, this would be the status:');
-		console.log(status);
 		getAllUserLocations();
 	})
 	.fail(function(error, errorThrown){
-		console.log(result.data);
+		console.log(error);
 		errorElem = showError(error);
 		$('#errorSpace').append(errorElem);
 	})
@@ -390,12 +366,11 @@ function createLocation(object){
 };
 
 
-
+///working:
 function deleteLocation(id){
 	console.log('delete location called');
 	console.log(id);
 	var result = $.ajax({
-		///this ID would be a variable
 		url: `/mapLocation/${id}`,
 		DataType: 'jsonp',
 		type: "DELETE"
@@ -417,20 +392,18 @@ function deleteLocation(id){
 
 
 function saveLocationNotes(id, note){
-///API call to updateNotes
-	console.log(note);
+	var myJsonNote = JSON.stringify(note);
 	console.log('save locations called');
 	var result = $.ajax({
-		////this id would be a variable
 		url: `mapLocation/${id}`,
-		DataType: 'jsonp',
+		contentType: 'application/json',
+		processData: false,
 		type: "PUT",
-		data: `${note}`
+		data: `${myJsonNote}`
 	})
 	.done(function(result){
 		console.log('save location notes done, this would be the result:');
-		console.log(result);
-		setStateToResult(result);
+
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
@@ -438,7 +411,7 @@ function saveLocationNotes(id, note){
 	})
 	.then(function(result){
 		console.log('then from update notes called');
-		displayPins();
+		getAllUserLocations();
 	});
 };
 
@@ -471,19 +444,19 @@ function displayLocations(){
 /////////testing:
 function testListeners(){
 			var createLocationObject = {
-    		"userId": "1235",
+    		"userId": "1234",
     		"address": "somewhere else else",
     		"latitude": "1.9028",
-    		"longitude": "112.4964",
+    		"longitude": "72.4964",
     		"notes": "this other super secret place esle"
 		}
 		var updatedNotesData = {
-			"notes": "updated notes"
+			"notes": "updated notes from the UI call"
 		};
-		id = '58c741a55552af04185d3dcd'
+		id = '58c839515941040bd00cb474'
 	$("#editNoteButton").on("click", function(){
 		console.log('notes button clicked');
-		saveLocationNotes('58c5b6245bd41e0d930a2106', updatedNotesData)
+		saveLocationNotes(id, updatedNotesData)
 	});
 	///working:
 	$("#deleteLocationButton").on("click", function(){

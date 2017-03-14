@@ -59,7 +59,7 @@ app.get('/mapLocations/:userId', (req, res) => {
 
 //working
 app.post('/mapLocation', (req, res) => {
-	const requiredFields = ['address', 'latitude', 'longitude', 'notes', 'userId'];
+	const requiredFields = ['latitude', 'longitude', 'notes', 'address', 'userId'];
 	for(let i=0; i< requiredFields.length; i++){
 		const field  = requiredFields[i];
 		if(!(field in req.body)){
@@ -125,8 +125,8 @@ app.put('/mapLocation/:id', (req, res) => {
 ////dice
 app.delete('/mapLocation/:id', (req, res) => {
 	Location
-	.remove({"_id": ObjectId("req.params.id")})
-	////match syntax: db.locations.remove({"_id": ObjectId("58c5c0fe5bd41e0d930a210b")})
+	.remove({_id: req.params.id})
+	////match mongo syntax: db.locations.remove({"_id": ObjectId("58c5c0fe5bd41e0d930a210b")})
 	///limit(1) better yet:
 	////justOne(true)
 	.exec()
@@ -134,10 +134,10 @@ app.delete('/mapLocation/:id', (req, res) => {
 	// 	console.log('delete id call done');
 	// })
 	.then(()=> {
-		console.log(`deleted location with an in of ${req.params.id}`);
-		res.status(204).end();
+		res.status(201).json({message:'success'}).end();
+		console.log(`server.js deleted location with an id of ${req.params.id}`);
 	})
-	.catch(() =>{
+	.catch((err) =>{
 		console.error(err);
 		res.status(500).json({error: 'oops, something went wrong'});
 	});

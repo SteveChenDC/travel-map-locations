@@ -266,9 +266,12 @@ function renderNoteDetail(locId){
 		};
 	});
 	//button listeners:
-	//////these event listeners are being called when a pin is selected:
-	$("#deleteButton").on("click", deleteLocationControl(locId));
-	$("#saveNotesButton").on("click", editLocationNotes(locId));
+	$("#deleteButton").on("click", function(){
+		deleteLocationControl(locId)
+	});
+	$("#saveNotesButton").on("click", function(){
+		editLocationNotes(locId)
+	});
 };
 
 function displayModalWindow(location){
@@ -349,31 +352,40 @@ function setStateToResult(result){
 
 function createLocation(object){
 		console.log('create location called');
+		console.log(object);
+		var myTestData = {
+		    userId: '1235',
+		    address: 'cleveland, OH4',
+		    latitude: '113.49932',
+		    longitude: '1.69442',
+		    notes: 'this is where I currently live4'
+		};
+		///trying to figure out why the JSON object is being rejected in the validation of 'latitude'
+		var myJsonText = JSON.stringify(myTestData);
+		var myJsonObject = JSON.parse(myJsonText);
+		console.log(myJsonObject);
+		var myJsonObject2 = {};
+
 
 	var result = $.ajax({
 		url: `/mapLocation`,
 		DataType: 'jsonp',
 		type: "POST",
-		data: {
-    		"userId": object.userId,
-    		"address": object.address,
-    		"latitude": object.latitude,
-    		"longitude": object.longitude,
-    		"notes": object.notes
-		}
+		data: myJsonObject2
 	})
 	.done(function(result, status){
-		console.log('create locations done, this would be the result:');
-		console.log(result);
-		setStateToResult(result);
+		console.log(result.data);
+		console.log('create locations done, this would be the status:');
+		console.log(status);
+		getAllUserLocations();
 	})
 	.fail(function(error, errorThrown){
+		console.log(result.data);
 		errorElem = showError(error);
 		$('#errorSpace').append(errorElem);
 	})
 	.then(function(result){
 		console.log('then called from createLocations');
-		displayPins();
 	});
 };
 
@@ -381,6 +393,7 @@ function createLocation(object){
 
 function deleteLocation(id){
 	console.log('delete location called');
+	console.log(id);
 	var result = $.ajax({
 		///this ID would be a variable
 		url: `/mapLocation/${id}`,
@@ -388,9 +401,8 @@ function deleteLocation(id){
 		type: "DELETE"
 	})
 	.done(function(result, status){
-		console.log('delete locations done, this would be the result: ');
-		console.log(result);
-		setStateToResult(result);
+		console.log('delete locations done, this would be the status: ');
+		console.log(status);
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
@@ -398,7 +410,7 @@ function deleteLocation(id){
 	})
 	.then(function(result){
 		console.log('then called from delete locations');
-		displayPins();
+		getAllUserLocations();
 	});
 };
 
@@ -406,11 +418,14 @@ function deleteLocation(id){
 
 function saveLocationNotes(id, note){
 ///API call to updateNotes
+	console.log(note);
+	console.log('save locations called');
 	var result = $.ajax({
 		////this id would be a variable
 		url: `mapLocation/${id}`,
 		DataType: 'jsonp',
-		type: "PUT"
+		type: "PUT",
+		data: `${note}`
 	})
 	.done(function(result){
 		console.log('save location notes done, this would be the result:');
@@ -462,10 +477,25 @@ function testListeners(){
     		"longitude": "112.4964",
     		"notes": "this other super secret place esle"
 		}
-	$("#editNoteButton").on("click", saveLocationNotes('58c5b6245bd41e0d930a2106', 'updated notes'));
-	$("#deleteLocationButton").on("click", deleteLocation('58c5b6245bd41e0d930a2105'));
-	$("#createLocationButton").on("click", createLocation(createLocationObject));
-}
+		var updatedNotesData = {
+			"notes": "updated notes"
+		};
+		id = '58c741a55552af04185d3dcd'
+	$("#editNoteButton").on("click", function(){
+		console.log('notes button clicked');
+		saveLocationNotes('58c5b6245bd41e0d930a2106', updatedNotesData)
+	});
+	///working:
+	$("#deleteLocationButton").on("click", function(){
+		console.log('delete button called');
+		deleteLocation(id);
+	});
+	////please work
+	$("#createLocationButton").on("click", function(){
+		console.log('create button called');
+		createLocation(createLocationObject)
+	});
+};
 
 
 
@@ -479,4 +509,5 @@ $(document).ready(function(){
 	testListeners();
 	displayLocations();
 	getAllUserLocations();
+
 });

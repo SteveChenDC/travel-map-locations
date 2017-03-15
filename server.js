@@ -127,19 +127,14 @@ app.put('/mapLocation/:id', (req, res) => {
 ////dice
 app.delete('/mapLocation/:id', (req, res) => {
 	Location
-	.remove({_id: req.params.id})
-	////match mongo syntax: db.locations.remove({"_id": ObjectId("58c5c0fe5bd41e0d930a210b")})
-	///limit(1) better yet:
-	////justOne(true)
+	.remove(mongoose.Types.ObjectId({_id: req.params.id}))
+	justOne(true)
 	.exec()
-	// .done((res)=>{
-	// 	console.log('delete id call done');
-	// })
 	.then(()=> {
 		res.status(201).json({message:'success'}).end();
 		console.log(`server.js deleted location with an id of ${req.params.id}`);
 	})
-	.catch((err) =>{
+	.catch(err =>{
 		console.error(err);
 		res.status(500).json({error: 'oops, something went wrong'});
 	});

@@ -135,10 +135,10 @@ function displayMap(){
 			zoom: 2,
 			center: loc
 		});
-		handleClickEvent();
+		handleMapClickEvent();
 };
 
-function handleClickEvent(){
+function handleMapClickEvent(){
 ///when a location on the map is selected, add a marker and allow the user to enter notes
 console.log('handle click event called');
 	map.addListener('click', function(event){
@@ -175,11 +175,28 @@ function getAddress(event){
 			}
 			/////functions added here in order to act synchronicously
 			// updateIconImage(bodyType);
-			createMarker();
-			UpdateWindowMessage(message);
+			createMarkerObject(latLng, address);
+			// UpdateWindowMessage(message);
 		});
 	};
 };
+
+function createMarkerObject(latLng, address){
+	console.log('create marker object called');
+	newLocationObject = {
+		userId: state.userId,
+		address: address,
+		latitude: latLng.lat,
+		longitude: latLng.lng,
+		notes: ""
+	};
+	console.log(newLocationObject);
+	createLocation(newLocationObject);
+};
+
+
+
+
 
 function displayPins(){
 	console.log('display pins called');
@@ -270,7 +287,7 @@ function renderNoteDetail(locId){
 		deleteLocationControl(locId)
 	});
 	$("#saveNotesButton").on("click", function(){
-		editLocationNotes(locId)
+		editLocationNotes(locId, note)
 	});
 };
 
@@ -451,9 +468,9 @@ function testListeners(){
     		"notes": "this other super secret place esle"
 		}
 		var updatedNotesData = {
-			"notes": "updated notes from the UI call"
+			"notes": "updated notes from the UI call on 3/15"
 		};
-		id = '58c839515941040bd00cb474'
+		id = '58c839465941040bd00cb473'
 	$("#editNoteButton").on("click", function(){
 		console.log('notes button clicked');
 		saveLocationNotes(id, updatedNotesData)

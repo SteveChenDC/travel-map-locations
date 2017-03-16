@@ -18,12 +18,12 @@
     <link rel="stylesheet" type="text/css" href="./css/main.css">
 
     <!-- Javascript -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 		<!-- <script type="text/javascript" src="main.js"></script> -->
 		<script type="text/javascript" src="./js/state.js"></script>
     <script async defer
-  src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek&callback=displayMap" alt="google map of the world"></script>
+  src ="//maps.googleapis.com/maps/api/js?key=AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek&callback=displayMap" alt="google map of the world"></script>
 
 
 
@@ -41,16 +41,16 @@
 <section>
   <div id="editSpace">
     <h4 id="editHeader"></h4>
-    <form id="ediNote">
+    <!-- <form id="ediNote"> -->
       <p id="note"></p>
       <textarea name="note" cols="1" rows="5" placeholder="" id="noteInput"></textarea><br>
       <div>
-        <button id="saveNotesButton">Update Note</button>
+        <button id="saveNotesButton" type="button">Update Note</button>
         <button id="deleteButton">Delete Location</button>    
       </div>
-    </form>
+    <!-- </form> -->
     <button id="editNoteButton">Edit Call</button>
-    <button id="deleteLocationButton">Dlete Call</button>
+    <button id="deleteLocationButton">Delete Call</button>
     <button id="createLocationButton">Create call</button>
   </div>
   <div>

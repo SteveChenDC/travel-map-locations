@@ -129,7 +129,6 @@ var cname = '';
 
 function displayMap(){
 	///called by the google maps instantiation in the index.html file
-	console.log('display map called');
 	loc = {lat: 0, lng: 0,}
 		map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 2,
@@ -139,14 +138,11 @@ function displayMap(){
 };
 
 function handleMapClickEvent(){
-///when a location on the map is selected, add a marker and allow the user to enter notes
-console.log('handle click event called');
 	map.addListener('click', function(event){
 		getAddress(event);
 	});
 };
 
-////to be used for the create location event:
 function getAddress(event){
 	///finds the address of the click event
 	parseAddress(event);
@@ -173,10 +169,7 @@ function getAddress(event){
 					bodyType = 'water';
 					message = 'This body of water is unmarked, and may contain treasures.';
 			}
-			/////functions added here in order to act synchronicously
-			// updateIconImage(bodyType);
 			createMarkerObject(latLng, address);
-			// UpdateWindowMessage(message);
 		});
 	};
 };
@@ -190,7 +183,6 @@ function createMarkerObject(latLng, address){
 		longitude: latLng.lng,
 		notes: ""
 	};
-	console.log(newLocationObject);
 	createLocation(newLocationObject);
 };
 
@@ -199,21 +191,14 @@ function createMarkerObject(latLng, address){
 
 
 function displayPins(){
-	console.log('display pins called');
-	console.log(state.locations);
 	for(i=0;i<state.locations.length; i++){
 		createMarker(state.locations[i]);
 	};
 };
 
 function createMarker(location){
-	console.log('create marker and set location');
-	console.log(location);
 	var locId = location.id;
-	// console.log(location.id);
-	// console.log('now working on the latLng');
 	var latLng = {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)};
-	// console.log(latLng);
 	var marker = new google.maps.Marker({
 		position: latLng, 
 		map: map
@@ -223,7 +208,6 @@ function createMarker(location){
 
 	marker.addListener('click', function(){
 		var noteExist = true;
-		console.log('locId: '+locId)
 		displayInfoWindow(location, marker, locId, noteExist )
 	});
 
@@ -235,10 +219,6 @@ function createMarker(location){
 };
 
 function displayInfoWindow(location, marker, locId, noteExist){
-	// console.log('display info window called');
-	// console.log(location.notes);
-	console.log('locId: '+locId);
-
 	//////to handle closing previously opened infoWindows:
 	if(prev_infoWindow){
 		prev_infoWindow.close();
@@ -265,8 +245,6 @@ function removeListeners(){
 
 function editInfoWindowNote(noteExist, locId){
 	//infoWindow edit state
-	console.log('edit note from infoWindow called');
-	console.log('locationId: '+locId);
 	renderNoteDetail(locId);
 };
 
@@ -286,8 +264,15 @@ function renderNoteDetail(locId){
 	$("#deleteButton").on("click", function(){
 		deleteLocationControl(locId)
 	});
-	$("#saveNotesButton").on("click", function(){
-		editLocationNotes(locId, note)
+	$("#saveNotesButton").on("click", function(event){
+		newNote  = $("textarea#noteInput").val();
+		console.log('this would be the new note');
+		console.log(newNote)
+		///validations for submit function
+		///the note textbox is not empty
+		///if($('#noteInput') !== ""){
+		editLocationNotes(locId, newNote)
+		// event.preventDefault();
 	});
 };
 
@@ -295,8 +280,9 @@ function displayModalWindow(location){
 	//bring up a larger view with the location infomation, notes, potentially an image and info about the country/ city nearby
 };
 
-function editLocationNotes(locId){
+function editLocationNotes(locId, note){
 	console.log('editLocationNotes called');
+	saveLocationNotes(locId, note);
 };
 
 function deleteLocationControl(locId){
@@ -310,7 +296,6 @@ function deleteLocationControl(locId){
 };
 
 function displayLocationInfo(){
-	////just for testing purposes:
 	var pinAddress = state.locations.address;
 	var locationNotes = state.locations.notes;
 	return '<h4>'+pinAddress +'</h4>'+ '<p>'+locationNotes+'</p>'
@@ -409,6 +394,7 @@ function deleteLocation(id){
 
 
 function saveLocationNotes(id, note){
+	console.log('this is the note', note);
 	var myJsonNote = JSON.stringify(note);
 	console.log('save locations called');
 	var result = $.ajax({

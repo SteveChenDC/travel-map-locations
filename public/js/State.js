@@ -393,6 +393,8 @@ function deleteLocation(id){
 
 
 
+
+
 function saveLocationNotes(id, note){
 	console.log('this is the note', note);
 	var myJsonNote = JSON.stringify(note);

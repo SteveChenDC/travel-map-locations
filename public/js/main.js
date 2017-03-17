@@ -113,11 +113,11 @@ function getAddress(event){
 					var address = results[0].formatted_address;
 					message = address;
 					bodyType = 'land';
-				}else {
+					createMarkerObject(latLng, address);
+			}else {
 					bodyType = 'water';
 					message = 'This body of water is unmarked, and may contain treasures.';
 			}
-			createMarkerObject(latLng, address);
 		});
 	};
 };
@@ -133,10 +133,6 @@ function createMarkerObject(latLng, address){
 	};
 	createLocation(newLocationObject);
 };
-
-
-
-
 
 function displayPins(){
 	console.log(state.locations, 'this is the state.locations object');
@@ -157,37 +153,17 @@ function createMarker(location){
 		////this could be potential flair for the page
 	});
 
+	////event listeners on the markers:
 	marker.addListener('click', function(){
 		var noteExist = true;
 		displayInfoWindow(location, marker, locId, noteExist )
 	});
-
 	marker.addListener('mouseover', function(){
 		displayInfoWindow(location, marker, locId);
 	});
-	// marker.addListener('dblclick', displayModalWindow());
-	//////this would be the flair for the page
-};
-
-function displayInfoWindow(location, marker, locId, noteExist){
-	//////to handle closing previously opened infoWindows:
-	if(prev_infoWindow){
-		closeInfoWindow();
-	};
-	var message  = location.notes;
-	var infoWindow = new google.maps.InfoWindow({
-		content: message,
-		maxWidth: 200
+	marker.addListener('dblclick', function(){
+		displayModalWindow();
 	});
-	infoWindow.open(map, marker);
-	prev_infoWindow = infoWindow;
-	
-	if(Boolean(noteExist)){
-		console.log('note is not empty');
-		editInfoWindowNote(noteExist, locId)
-		noteExist = false;
-		////modal window
-	};
 };
 
 function closeInfoWindow(){
@@ -201,6 +177,35 @@ function removeListeners(){
 function editInfoWindowNote(noteExist, locId){
 	//infoWindow edit state
 	renderNoteDetail(locId);
+};
+
+function editLocationNotes(locId, note){
+	console.log('editLocationNotes called');
+	saveLocationNotes(locId, note);
+};
+
+function deleteLocationControl(locId){
+	console.log('delete location called');
+	///validation that a location exists
+	///potential validation to delete the location's pin
+	closeInfoWindow();
+	console.log(locId);
+	deleteLocation(locId);
+	console.log(`id of ${locId} deleted`);
+	///confirmation that the pin's location has been deleted
+};
+
+
+
+
+
+
+///render Functions:
+
+
+function changePins(userId){
+	getAllUserLocations(userId);
+	displayLocations();
 };
 
 function renderNoteDetail(locId){
@@ -224,64 +229,38 @@ function renderNoteDetail(locId){
 		console.log(newNote)
 		///validations for submit function
 		///the note textbox is not empty
-		///if($('#noteInput') !== ""){
 		editLocationNotes(locId, newNote)
-		// event.preventDefault();
 	});
 };
-
 
 function displayModalWindow(location){
 	//bring up a larger view with the location infomation, notes, potentially an image and info about the country/ city nearby
 };
 
-function editLocationNotes(locId, note){
-	console.log('editLocationNotes called');
-	saveLocationNotes(locId, note);
-};
-
-function deleteLocationControl(locId){
-	console.log('delete location called');
-	///validation that a location exists
-	///potential validation to delete the location's pin
-	closeInfoWindow();
-	console.log(locId);
-	deleteLocation(locId);
-	console.log(`id of ${locId} deleted`);
-	///confirmation that the pin's location has been deleted
-};
-
-function displayLocationInfo(){
-	var pinAddress = state.locations.address;
-	var locationNotes = state.locations.notes;
-	return '<h4>'+pinAddress +'</h4>'+ '<p>'+locationNotes+'</p>'
-};
-
-
-
-
-
-
-///render Functions:
-
-
-function changePins(userId){
-	getAllUserLocations(userId);
-	displayLocations();
-};
-
-
-function displayLocations(){
-///called on page load 
-///renders the state to the map
-	console.log('display locations called');
-
-	var arrayOfParagraphs = state.locations.map(function(location){
-			return "<p>" + location.address + "</p>";  
+function displayInfoWindow(location, marker, locId, noteExist){
+	//////to handle closing previously opened infoWindows:
+	if(prev_infoWindow){
+		closeInfoWindow();
+	};
+	var message;
+	if(location.notes === ""){
+		message  = "<div class=infoWindowInstruction>Double click to add a note</div>"
+	}else{
+		message  = location.notes;
+	}
+	var infoWindow = new google.maps.InfoWindow({
+		content: message,
+		maxWidth: 200
 	});
-	var stringToRender = arrayOfParagraphs.join("\n");
-	$("#locationsSpace").html(stringToRender);
-
+	infoWindow.open(map, marker);
+	prev_infoWindow = infoWindow;
+	
+	if(Boolean(noteExist)){
+		console.log('note is not empty');
+		editInfoWindowNote(noteExist, locId)
+		noteExist = false;
+		////modal window
+	};
 };
 
 
@@ -308,7 +287,6 @@ function testListeners(){
 		console.log('delete button called');
 		deleteLocation(id);
 	});
-	////please work
 	$("#createLocationButton").on("click", function(){
 		console.log('create button called');
 		createLocation(createLocationObject)
@@ -325,6 +303,5 @@ $(document).ready(function(){
 	// checkCookie();
 	// console.log(state.locations)
 	testListeners();
-	displayLocations();
 	getAllUserLocations();
 });

@@ -39,3 +39,14 @@ p {
 #noteInput {
 	width: 200px;
 }
+
+.subnote{
+	font-size: 10px;
+}
+
+
+
+.modal-dialog{
+	width: 100px;
+	margin: 10px;
+}

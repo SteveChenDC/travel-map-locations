@@ -19,14 +19,14 @@ app.use(express.static('public'));
 
 mongoose.Promise = global.Promise;
 
-//working
+
+
+
+
 app.get('/mapLocation', (req, res) => {
 	Location
 	.find()
 	.exec()
-	// .done((res)=>{
-	// 	console.log('get all locations done');
-	// })
 	.then(mapLocation => {
 		res.json(mapLocation.map(mapLocation => mapLocation.apiRepr()));
 	})
@@ -36,18 +36,12 @@ app.get('/mapLocation', (req, res) => {
 	});
 });
 
-
-///// working
-
 app.get('/mapLocations/:userId', (req, res) => {
 	console.log(req.params.userId);
 	console.log(typeof(req.params.userId));
 	Location
 	.find({'userId': req.params.userId})
 	.exec()
-	// .done((res)=>{
-	// 	console.log('get call done');
-	// })
 	.then(mapLocations => {
 		res.json(mapLocations.map(mapLocations => mapLocations.apiRepr()));
 	})
@@ -57,7 +51,6 @@ app.get('/mapLocations/:userId', (req, res) => {
 	});
 });
 
-//working
 app.post('/mapLocation', (req, res) => {
 	console.log(req);
 	const requiredFields = ['latitude', 'longitude', 'notes', 'address', 'userId'];
@@ -78,9 +71,6 @@ app.post('/mapLocation', (req, res) => {
 		latitude: req.body.latitude,
 		notes: req.body.notes
 	})
-	// .done((res)=>{
-	// 	console.log('post call done');
-	// })
 	.then(mapLocation => res.status(202).json(mapLocation.apiRepr()))
 	.catch(err => {
 		console.error(err);
@@ -88,7 +78,6 @@ app.post('/mapLocation', (req, res) => {
 	});
 });
 
-////working:
 app.put('/mapLocation/:id', (req, res) => {
 	const requiredFields = ['notes'];
 	for(let i=0; i< requiredFields.length; i++){
@@ -117,16 +106,9 @@ app.put('/mapLocation/:id', (req, res) => {
 	.catch(err => res.status(500).json({message: 'oops, something went wrong'}));
 });
 
-
-
-
-
-////dice
 app.delete('/mapLocation/:id', (req, res) => {
 	Location
-	// .remove(mongoose.Types.ObjectId({_id: req.params.id}))
 	.remove({_id: req.params.id})
-	// justOne(true)
 	.exec()
 	.then(()=> {
 		res.status(201).json({message:'success'}).end();

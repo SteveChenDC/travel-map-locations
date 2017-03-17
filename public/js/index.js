@@ -19,24 +19,28 @@ function showError(){
 function getAllUserLocations(){
 	console.log(`${state.userId}`);
 	console.log('get all users locations called');
-	var result = $.ajax({
-		url: `/mapLocations/${state.userId}`,
-		DataType: 'jsonp',
-		type: "GET"
-	})
-	.done(function(result, status){
-		console.log('done after get all users locations called, this would be the result:');
-		console.log(result);
-		setStateToResult(result);
-	})
-	.fail(function(error, errorThrown){
-		errorElem = showError(error);
-		$('#errorSpace').append(errorElem);
-	})
-	.then(function(result){
-		console.log('then after get all user locations called');
-		displayPins();
-	});
+	if(state.userId ===""){
+		return 'new user award';
+	}else{
+		var result = $.ajax({
+			url: `/mapLocations/${state.userId}`,
+			DataType: 'jsonp',
+			type: "GET"
+		})
+		.done(function(result, status){
+			console.log('done after get all users locations called, this would be the result:');
+			console.log(result);
+			setStateToResult(result);
+		})
+		.fail(function(error, errorThrown){
+			errorElem = showError(error);
+			$('#errorSpace').append(errorElem);
+		})
+		.then(function(result){
+			console.log('then after get all user locations called');
+			displayPins();
+		});
+	}
 };
 
 function setStateToResult(result){
@@ -44,7 +48,6 @@ function setStateToResult(result){
 	state.locations = result;
 };
 
-////working:
 function createLocation(object){
 		console.log('create location called');
 		var myJsonObject = JSON.stringify(object);

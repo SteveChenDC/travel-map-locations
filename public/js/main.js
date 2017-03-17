@@ -2,11 +2,6 @@
 
 
 var cname = '';
-// userId = 12345;
-
-
-////on page load event listener:
-
 //Cookie handler:
 
 function setCookie(cname, cvalue, exdays){
@@ -22,23 +17,29 @@ function setCookie(cname, cvalue, exdays){
 function checkCookie(){
 	var user = getCookie("username");
 	if(user !== "" || user !== null){
-		displayUserName(user);
 	} else{
-		// user = "theresa Augustin";
-		////commenting for testing effiency
 		username = prompt("Please enter your name: ", "");
 		if(username !== "" && username !== null){ // (!!user) === Boolean(user)
 			setCookie("username", username, 365);
 		};
 	};
-	// displayUserName(user);
+	displayUserName(user);
 	setUserId(user);
-	///also call getLocations(user);
-	///handleClickEvent();
 };
 
 ////test with a button for setting a cookie or deleting a cookie
+function usernameButtonListener(){
+	$("#clearUsernameButton").on("click", function(){
+		console.log('username button listener caller');
+		clearUsername();
+	});
+};
 
+function clearUsername(){
+	user = '';
+	setUserId(user);
+	getAllUserLocations();
+};
 
 function getCookie(cname) {
     var name = cname + "=";
@@ -58,24 +59,16 @@ function getCookie(cname) {
 
 
 function displayUserName(user){
-	///print the userName + 'map board' at the top of the page
 	console.log('user ' + user);
 	$('#welcome').html(user + '\'s Map Pin Board');
 };
 
 function setUserId(user){
 	state.userId = user;
-	// state.userId = 1234;
 	console.log('userId', state.userId);
 };
 
-
-
-
-
-
 ////UI controls:
-
 function displayMap(){
 	///called by the google maps instantiation in the index.html file
 	loc = {lat: 0, lng: 0,}
@@ -304,5 +297,6 @@ $(document).ready(function(){
 	checkCookie();
 	// console.log(state.locations)
 	testListeners();
+	usernameButtonListener();
 	getAllUserLocations();
 });

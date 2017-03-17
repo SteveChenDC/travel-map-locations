@@ -11,7 +11,7 @@ const router = require('./location-router');
 
 const express  = require('express');
 const app = express();
-
+  
 
 app.use(bodyParser.json());
 
@@ -113,9 +113,6 @@ app.put('/mapLocation/:id', (req, res) => {
 	Location
 	.findByIdAndUpdate(req.params.id, {$set: updated}, {new: true})
 	.exec()
-	// .done((res) =>{
-	// 	console.log('put call done');
-	// })
 	.then(updatedNotes => res.status(201).json(updatedNotes.apiRepr()))
 	.catch(err => res.status(500).json({message: 'oops, something went wrong'}));
 });
@@ -127,8 +124,9 @@ app.put('/mapLocation/:id', (req, res) => {
 ////dice
 app.delete('/mapLocation/:id', (req, res) => {
 	Location
-	.remove(mongoose.Types.ObjectId({_id: req.params.id}))
-	justOne(true)
+	// .remove(mongoose.Types.ObjectId({_id: req.params.id}))
+	.remove({_id: req.params.id})
+	// justOne(true)
 	.exec()
 	.then(()=> {
 		res.status(201).json({message:'success'}).end();

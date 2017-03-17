@@ -191,13 +191,16 @@ function createMarkerObject(latLng, address){
 
 
 function displayPins(){
+	console.log(state.locations, 'this is the state.locations object');
 	for(i=0;i<state.locations.length; i++){
 		createMarker(state.locations[i]);
+		console.log('markers are created for each location');
 	};
 };
 
 function createMarker(location){
 	var locId = location.id;
+	console.log('this is the specfic locationID', locId)
 	var latLng = {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)};
 	var marker = new google.maps.Marker({
 		position: latLng, 
@@ -221,7 +224,7 @@ function createMarker(location){
 function displayInfoWindow(location, marker, locId, noteExist){
 	//////to handle closing previously opened infoWindows:
 	if(prev_infoWindow){
-		prev_infoWindow.close();
+		closeInfoWindow();
 	};
 	var message  = location.notes;
 	var infoWindow = new google.maps.InfoWindow({
@@ -239,6 +242,10 @@ function displayInfoWindow(location, marker, locId, noteExist){
 	};
 };
 
+function closeInfoWindow(){
+	prev_infoWindow.close();
+}
+
 function removeListeners(){
 	google.maps.event.clearInstanceListeners(marker);
 };
@@ -254,10 +261,9 @@ function renderNoteDetail(locId){
 	state.locations.find(function(location){
 		console.log('trying to find the note');
 		if(location.id===locId){
-			////this placeholder text is not working right now.
 			var note = location.notes
 			console.log('this would be the note: '+note);
-			$("input").attr("placeholder", note);
+			$("textarea#noteInput").attr("placeholder", note);
 		};
 	});
 	//button listeners:
@@ -289,6 +295,7 @@ function deleteLocationControl(locId){
 	console.log('delete location called');
 	///validation that a location exists
 	///potential validation to delete the location's pin
+	closeInfoWindow();
 	console.log(locId);
 	deleteLocation(locId);
 	console.log(`id of ${locId} deleted`);
@@ -374,6 +381,7 @@ function deleteLocation(id){
 	console.log(id);
 	var result = $.ajax({
 		url: `/mapLocation/${id}`,
+		// contentType: 'application/json',
 		DataType: 'jsonp',
 		type: "DELETE"
 	})
@@ -394,15 +402,14 @@ function deleteLocation(id){
 
 
 function saveLocationNotes(id, note){
-	console.log('this is the note', note);
-	var myJsonNote = JSON.stringify(note);
 	console.log('save locations called');
+	closeInfoWindow();
 	var result = $.ajax({
 		url: `mapLocation/${id}`,
 		contentType: 'application/json',
 		processData: false,
 		type: "PUT",
-		data: `${myJsonNote}`
+		data: JSON.stringify({notes: note})
 	})
 	.done(function(result){
 		console.log('save location notes done, this would be the result:');
@@ -417,6 +424,7 @@ function saveLocationNotes(id, note){
 		getAllUserLocations();
 	});
 };
+
 
 
 
@@ -485,5 +493,4 @@ $(document).ready(function(){
 	testListeners();
 	displayLocations();
 	getAllUserLocations();
-
 });

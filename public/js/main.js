@@ -65,6 +65,7 @@ function getAddress(event){
 	}
 }
 
+
 // function createMarker(event){
 // 	///adds a marker onto the map where the click event occurred
 // 	////a variable should be set to the event

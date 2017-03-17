@@ -4,7 +4,7 @@ var map;
 var prev_infoWindow = false;
 
 var state = {
-	"userId":"1234",
+	"userId":"",
 	"locations":[
 		{
 			"id": "5ff54712-eb17-430b-8410-793e4dd202d9",

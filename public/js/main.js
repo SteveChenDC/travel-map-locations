@@ -5,68 +5,67 @@ var cname = '';
 // userId = 12345;
 
 
-///on page load event listener:
-///////check if cookie exists function, during the page load
+////on page load event listener:
 
-////Cookie handler:
+//Cookie handler:
 
-// function setCookie(cname, cvalue, exdays){
-// 	d = new Date();
-// 	d.setTime(d.getTime()+ (exdays*24*60*60*1000));
-// 	var expires = "expires="+d.toUTCString();
-// 	document.cookie = cname+ "="+cvalue + ";"+expires+";path=/"
-// 	console.log('this is the cookie'+document.cookie);
-// };
+function setCookie(cname, cvalue, exdays){
+	d = new Date();
+	d.setTime(d.getTime()+ (exdays*24*60*60*1000));
+	var expires = "expires="+d.toUTCString();
+	document.cookie = cname+ "="+cvalue + ";"+expires+";path=/"
+	console.log('this is the cookie'+document.cookie);
+};
 
-// function checkCookie(){
-// 	var user = getCookie("username");
-// 	if(user !== "" || user !== null){
-// 		var userName = user;
-// 	} else{
-// 		user = "theresa Augustin";
-// 		////commenting for testing effiency
-// 		// user = prompt("Please enter your name: ", "");
-// 		if(user !== "" && user !== null){ // (!!user) === Boolean(user)
-// 			setCookie("username", user, 365);
-// 		};
-// 	};
-// 	displayUserName(user);
-// 	setUserId(user);
-// 	///also call getLocations(user);
-// 	///handleClickEvent();
-// };
+function checkCookie(){
+	var user = getCookie("username");
+	if(user !== "" || user !== null){
+		var userName = user;
+	} else{
+		user = "theresa Augustin";
+		////commenting for testing effiency
+		// user = prompt("Please enter your name: ", "");
+		if(user !== "" && user !== null){ // (!!user) === Boolean(user)
+			setCookie("username", user, 365);
+		};
+	};
+	displayUserName(user);
+	setUserId(user);
+	///also call getLocations(user);
+	///handleClickEvent();
+};
 
-// ////test with a button for setting a cookie or deleting a cookie
-
-
-// function getCookie(cname){
-// 	var name = cname + "=";
-// 	var decodedCookie  = decodeURIComponent(document.cookie);
-// 	var ca = decodedCookie.split(';');
-// 	for(var i; i< ca.length; i++){
-// 		var c = ca[i];
-// 		while (c.charAt(0) == ' '){
-// 			c = c.subString(1);
-// 		}
-// 		if(c.indexOf(name)==(0)){
-// 			return c.subString(name.length, c.length);
-// 		}
-// 	}
-// 	return "";
-// };
+////test with a button for setting a cookie or deleting a cookie
 
 
-// function displayUserName(user){
-// 	///print the userName + 'map board' at the top of the page
-// 	console.log('username ' + userName);
-// 	$('#welcome').html(userName + '\'s Map Pin Board');
-// };
+function getCookie(cname){
+	var name = cname + "=";
+	var decodedCookie  = decodeURIComponent(document.cookie);
+	var ca = decodedCookie.split(';');
+	for(var i; i< ca.length; i++){
+		var c = ca[i];
+		while (c.charAt(0) == ' '){
+			c = c.subString(1);
+		}
+		if(c.indexOf(name)==(0)){
+			return c.subString(name.length, c.length);
+		}
+	}
+	return "";
+};
 
-// function setUserId(user){
-// 	// state.userId = user;
-// 	state.userId = 1234;
-// 	console.log('userId', state.userId);
-// };
+
+function displayUserName(user){
+	///print the userName + 'map board' at the top of the page
+	console.log('username ' + userName);
+	$('#welcome').html(userName + '\'s Map Pin Board');
+};
+
+function setUserId(user){
+	state.userId = user;
+	// state.userId = 1234;
+	console.log('userId', state.userId);
+};
 
 
 

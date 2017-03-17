@@ -17,19 +17,21 @@ function setCookie(cname, cvalue, exdays){
 	console.log('this is the cookie'+document.cookie);
 };
 
+
+
 function checkCookie(){
 	var user = getCookie("username");
 	if(user !== "" || user !== null){
-		var userName = user;
+		displayUserName(user);
 	} else{
-		user = "theresa Augustin";
+		// user = "theresa Augustin";
 		////commenting for testing effiency
-		// user = prompt("Please enter your name: ", "");
-		if(user !== "" && user !== null){ // (!!user) === Boolean(user)
-			setCookie("username", user, 365);
+		username = prompt("Please enter your name: ", "");
+		if(username !== "" && username !== null){ // (!!user) === Boolean(user)
+			setCookie("username", username, 365);
 		};
 	};
-	displayUserName(user);
+	// displayUserName(user);
 	setUserId(user);
 	///also call getLocations(user);
 	///handleClickEvent();
@@ -38,27 +40,27 @@ function checkCookie(){
 ////test with a button for setting a cookie or deleting a cookie
 
 
-function getCookie(cname){
-	var name = cname + "=";
-	var decodedCookie  = decodeURIComponent(document.cookie);
-	var ca = decodedCookie.split(';');
-	for(var i; i< ca.length; i++){
-		var c = ca[i];
-		while (c.charAt(0) == ' '){
-			c = c.subString(1);
-		}
-		if(c.indexOf(name)==(0)){
-			return c.subString(name.length, c.length);
-		}
-	}
-	return "";
-};
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
 
 
 function displayUserName(user){
 	///print the userName + 'map board' at the top of the page
-	console.log('username ' + userName);
-	$('#welcome').html(userName + '\'s Map Pin Board');
+	console.log('user ' + user);
+	$('#welcome').html(user + '\'s Map Pin Board');
 };
 
 function setUserId(user){
@@ -299,7 +301,7 @@ function testListeners(){
 $(document).ready(function(){
 	console.log('the document is ready');
 	// displayMap();
-	// checkCookie();
+	checkCookie();
 	// console.log(state.locations)
 	testListeners();
 	getAllUserLocations();

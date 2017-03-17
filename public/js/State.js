@@ -282,6 +282,7 @@ function renderNoteDetail(locId){
 	});
 };
 
+
 function displayModalWindow(location){
 	//bring up a larger view with the location infomation, notes, potentially an image and info about the country/ city nearby
 };

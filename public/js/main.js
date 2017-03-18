@@ -1,10 +1,21 @@
 
+///attempt to have a better prompt
+// var namePrompt = {
+// 	title: 'Name',
+// 	html: '<label>Name <input type="text" name="name" value=""></label><br />',
+// 	Buttons: {Done:1},
+// 	submit: function(e, v, m, f){
+// 		console.log(f);
+// 		e.preventDefault();
+// 		$.prompt.close();
+// 	}
+// }
 
-
-var cname = '';
 //Cookie handler:
+var cname = '';
 
 function setCookie(cname, cvalue, exdays){
+	console.log('from within set Cookie', cname);
 	d = new Date();
 	d.setTime(d.getTime()+ (exdays*24*60*60*1000));
 	var expires = "expires="+d.toUTCString();
@@ -12,33 +23,21 @@ function setCookie(cname, cvalue, exdays){
 	console.log('this is the cookie'+document.cookie);
 };
 
-
-
 function checkCookie(){
+	console.log('from within check Cookie');
 	var user = getCookie("username");
-	if(user !== "" || user !== null){
-	} else{
-		username = prompt("Please enter your name: ", "");
-		if(username !== "" && username !== null){ // (!!user) === Boolean(user)
-			setCookie("username", username, 365);
+	console.log(user, 'from check cookie');
+	if(user === "" || user === null){
+		user = prompt("Please enter your name: ", "");
+		// user = $.prompt(namePrompt)///this returns as not a function
+		console.log(user);
+		if(user !== "" && user !== null){ // (!!user) === Boolean(user)
+			setCookie("username", user, 365);
 		};
+		handleUserName(user);
 	};
 	displayUserName(user);
 	setUserId(user);
-};
-
-////test with a button for setting a cookie or deleting a cookie
-function usernameButtonListener(){
-	$("#clearUsernameButton").on("click", function(){
-		console.log('username button listener caller');
-		clearUsername();
-	});
-};
-
-function clearUsername(){
-	user = '';
-	setUserId(user);
-	getAllUserLocations();
 };
 
 function getCookie(cname) {
@@ -55,18 +54,37 @@ function getCookie(cname) {
         }
     }
     return "";
+};
+
+function handleUserName(user){
+	console.log(user, 'from within handle username');
+	setUserId(user);
 }
 
+////test with a button for setting a cookie or deleting a cookie
+function usernameButtonListener(){
+	$("#clearUsernameButton").on("click", function(){
+		console.log('username button listener caller');
+		clearUsername();
+		// displayUserName(user);
+	});
+};
+
+function clearUsername(){
+	cname = '';
+	checkCookie();
+	getAllUserLocations();
+};
 
 function displayUserName(user){
-	console.log('user ' + user);
 	$('#welcome').html(user + '\'s Map Pin Board');
 };
 
 function setUserId(user){
 	state.userId = user;
-	console.log('userId', state.userId);
 };
+
+
 
 ////UI controls:
 function displayMap(){
@@ -203,6 +221,7 @@ function changePins(userId){
 };
 
 function renderNoteDetail(locId){
+	clearEditPlaceholder();
 	console.log('render note detail called');
 	$("#editHeader").html('this is where one would edit or delete a note');
 	state.locations.find(function(location){
@@ -210,7 +229,11 @@ function renderNoteDetail(locId){
 		if(location.id===locId){
 			var note = location.notes
 			console.log('this would be the note: '+note);
-			$("textarea#noteInput").attr("placeholder", note);
+			if(note===''){
+				$("textarea#noteInput").attr("placeholder", 'Add notes to attach to the location');
+			}else{
+				$("textarea#noteInput").attr("placeholder", note);
+			}
 		};
 	});
 	//button listeners:
@@ -236,12 +259,10 @@ function displayInfoWindow(location, marker, locId, noteExist){
 	if(prev_infoWindow){
 		closeInfoWindow();
 	};
-	var message;
-	if(location.notes === ""){
-		message  = "<div class=infoWindowInstruction>Double click to add a note</div>"
-	}else{
-		message  = location.notes;
-	}
+	var message = assignMarkerMessage(location);
+	
+
+	
 	var infoWindow = new google.maps.InfoWindow({
 		content: message,
 		maxWidth: 200
@@ -251,12 +272,28 @@ function displayInfoWindow(location, marker, locId, noteExist){
 	
 	if(Boolean(noteExist)){
 		console.log('note is not empty');
+
 		editInfoWindowNote(noteExist, locId)
 		noteExist = false;
 		////modal window
 	};
 };
 
+function assignMarkerMessage(location){
+	console.log(location.address);
+	if(location.notes === ""){
+		message  = "<div class=locationAddress>"+location.address+":</div><br><div class=infoWindowInstruction>Double click to add a note</div>"
+	}else{
+		message  = "<div class=locationAddress>"+location.address+":</div><br>" + location.notes;
+	}
+	console.log(message);
+	return message;
+}
+
+
+function clearEditPlaceholder(){
+	$("textarea#noteInput").attr("placeholder", '');
+}
 
 
 /////////testing:
@@ -293,9 +330,7 @@ function testListeners(){
 
 $(document).ready(function(){
 	console.log('the document is ready');
-	// displayMap();
 	checkCookie();
-	// console.log(state.locations)
 	testListeners();
 	usernameButtonListener();
 	getAllUserLocations();

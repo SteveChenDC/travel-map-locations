@@ -1,4 +1,3 @@
-
 ///attempt to have a better prompt
 // var namePrompt = {
 // 	title: 'Name',
@@ -10,6 +9,9 @@
 // 		$.prompt.close();
 // 	}
 // }
+
+
+
 
 //Cookie handler:
 var cname = '';
@@ -261,8 +263,6 @@ function displayInfoWindow(location, marker, locId, noteExist){
 	};
 	var message = assignMarkerMessage(location);
 	
-
-	
 	var infoWindow = new google.maps.InfoWindow({
 		content: message,
 		maxWidth: 200
@@ -280,13 +280,11 @@ function displayInfoWindow(location, marker, locId, noteExist){
 };
 
 function assignMarkerMessage(location){
-	console.log(location.address);
 	if(location.notes === ""){
 		message  = "<div class=locationAddress>"+location.address+":</div><br><div class=infoWindowInstruction>Double click to add a note</div>"
 	}else{
 		message  = "<div class=locationAddress>"+location.address+":</div><br>" + location.notes;
 	}
-	console.log(message);
 	return message;
 }
 

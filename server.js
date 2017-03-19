@@ -78,12 +78,14 @@ app.post('/mapLocation', (req, res) => {
 	});
 });
 
-app.put('/mapLocation/:id', (req, res) => {
+////working:
+app.put('/mapLocation/:${id}', (req, res) => {
+	// console.log("test from put call", id, notes);
 	const requiredFields = ['notes'];
 	for(let i=0; i< requiredFields.length; i++){
 		const field  = requiredFields[i];
 		if(!(field in req.body)){
-			const message = `Missing \`${field}\` in the request body.`;
+			const message = `Missing ${field} in the request body.`;
 			console.log(message);
 			return res.status(400).send(message);
 		};

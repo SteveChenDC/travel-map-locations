@@ -54,3 +54,14 @@ p {
 	width: 100px;
 	margin: 10px;
 }
+
+ex1{
+    font: normal 18px/1.6 'Open Sans', "Helvetica Neue", Arial, sans-serif;
+    font-weight: 300;
+    color: #777;
+    padding: 2em 5%;
+    width: 80%;
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+}

@@ -9,25 +9,32 @@
   <title>Travel Map Pin Board</title>
 
 <!-- external files -->
-  <link rel="stylesheet" href="https://css/normalize.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
 
     <link href="https://fonts.googleapis.com/css?family=Alegreya| Lora" rel="stylesheet">
 
 <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="./css/main.css">
+      <!-- <link rel="stylesheet" href="https://css/normalize.css"/> -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
 
     <!-- Javascript -->
+
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+ 
 
 		<script type="text/javascript" src="./js/main.js"></script>
+    <!-- <script>console.log(displayMap)</script> -->
 		<script type="text/javascript" src="./js/state.js"></script>
     <script type="text/javascript" src="./js/index.js"></script>
-    <script async defer
+            <script defer
   src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek&callback=displayMap" alt="google map of the world"></script>
 
-  <!-- Don't forget to include jQuery ;) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.8.0/jquery.modal.js" type="text/javascript" charset="utf-8"></script>
+
+ 
 
 
 
@@ -37,13 +44,7 @@
 
 </head>
 <body>
-  <!-- Modal HTML embedded directly into document -->
-  <div id="ex1" style="display:none;">
-    <p>Thanks for clicking.  That felt good.  <a href="#" rel="modal:close">Close</a> or press ESC</p>
-  </div>
 
-  <!-- Link to open the modal -->
-  <p><a href="#ex1" rel="modal:open">Open Modal</a></p>
 
 <section>
   <h2 id="welcome"></h2>
@@ -68,29 +69,41 @@
     <button id="deleteLocationButton">Delete Call</button>
     <button id="createLocationButton">Create call</button>
     <button id="clearUsernameButton">clear user button</button>
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+    <!-- bootstrap modal -->
+    <button type="button" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
   </div>
   <div>
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog" >
-  <div class="modal-dialog">
+<div class="container">
+  <h2>Modal Login Example</h2>
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-default btn-lg" id="myBtn">Login</button>
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 style="color:red;"><span class="glyphicon glyphicon-lock"></span> Login</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+            <div class="form-group">
+              <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
+              <input type="text" class="form-control" id="usrname" placeholder="Enter email">
+            </div>
+            <button type="submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Login</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+        </div>
       </div>
     </div>
-
-  </div>
+  </div> 
 </div>
   </div>
 </section>

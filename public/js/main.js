@@ -176,7 +176,8 @@ function createMarker(location){
 		displayInfoWindow(location, marker, locId);
 	});
 	marker.addListener('dblclick', function(){
-		displayModalWindow();
+		// displayModalWindow();
+		// $("#myModal").modal()
 	});
 };
 
@@ -329,6 +330,7 @@ function testListeners(){
 $(document).ready(function(){
 	console.log('the document is ready');
 	checkCookie();
+	///potentially go somewhere else
 	testListeners();
 	usernameButtonListener();
 	getAllUserLocations();

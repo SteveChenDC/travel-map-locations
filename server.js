@@ -79,7 +79,7 @@ app.post('/mapLocation', (req, res) => {
 });
 
 ////working:
-app.put('/mapLocation/:${id}', (req, res) => {
+app.put('/mapLocation/:id', (req, res) => {
 	// console.log("test from put call", id, notes);
 	const requiredFields = ['notes'];
 	for(let i=0; i< requiredFields.length; i++){

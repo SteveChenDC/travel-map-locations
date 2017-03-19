@@ -40,6 +40,7 @@ function checkCookie(){
 	};
 	displayUserName(user);
 	setUserId(user);
+	getAllUserLocations();
 };
 
 function getCookie(cname) {
@@ -148,18 +149,28 @@ function createMarkerObject(latLng, address){
 	createLocation(newLocationObject);
 };
 
-function displayPins(){
+function setStateToResult(result){
+	// map.clearOverlays();
+	state.locations = [];
+	state.locations = result;
+	console.log('set state to result succeeded');
+	console.log(state.locations);
+};
+
+function displayPins(map){
 	console.log(state.locations, 'this is the state.locations object');
 	for(i=0;i<state.locations.length; i++){
 		createMarker(state.locations[i]);
 		console.log('markers are created for each location');
 	};
+	console.log('each pin is displayed');
 };
 
 function createMarker(location){
 	var locId = location.id;
 	console.log('this is the specfic locationID', locId)
 	var latLng = {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)};
+
 	var marker = new google.maps.Marker({
 		position: latLng, 
 		map: map
@@ -205,9 +216,35 @@ function deleteLocationControl(locId){
 	///potential validation to delete the location's pin
 	closeInfoWindow();
 	console.log(locId);
-	deleteLocation(locId);
+	console.log(`id of ${locId} deleted`);
+			// clearPins();
+	// deleteLocation(locId);
 	console.log(`id of ${locId} deleted`);
 	///confirmation that the pin's location has been deleted
+
+	for(i=0;i<state.locations.length;i++){
+		console.log(locId, 'location passed into the loop')
+		if(locId === state.locations.id){
+			console.log('location confirmed');
+			var marker = state.locations[i]
+			marker.setVisible(false);
+		}
+	}
+  // var marker  = state.locations.id[locId];
+  // state.locations[locId] = undefined;
+
+
+////control for the delete location confirmation:
+ //  var x = confirm("are you sure to delete marker?");
+	// if(x){
+	//     deleteLocation(locId);
+	//     if(marker){
+	//       console.log('marker is: ', marker);
+	//       marker.setMap(null);
+	//     }
+	// }
+console.log(`id of ${locId} deleted`);
+
 };
 
 
@@ -216,6 +253,13 @@ function deleteLocationControl(locId){
 
 
 ///render Functions:
+
+// function clearPins(){
+//   for (var i = 0; i < state.locations.length; i++ ) {
+//     state.locations[i].setMap(null);
+//   }
+//   state.locations.length = 0;
+// }
 
 
 function changePins(userId){
@@ -331,7 +375,6 @@ $(document).ready(function(){
 	console.log('the document is ready');
 	checkCookie();
 	///potentially go somewhere else
-	testListeners();
-	usernameButtonListener();
-	getAllUserLocations();
+	// testListeners();
+	// getAllUserLocations();
 });

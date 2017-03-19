@@ -21,23 +21,25 @@ function getAllUserLocations(){
 		.done(function(result, status){
 			console.log('done after get all users locations called, this would be the result:');
 			console.log(result);
-			setStateToResult(result);
 		})
 		.fail(function(error, errorThrown){
 			errorElem = showError(error);
 			$('#errorSpace').append(errorElem);
 		})
 		.then(function(result){
-			console.log('then after get all user locations called');
+			setStateToResult(result);
+			console.log('critical testing');
+			console.log(state.locations);
+			console.log('get all users succeeded to call the set state');
+		})
+		.then(function(result){
 			displayPins();
+			console.log('then after get all user locations called');
+			console.log('get all users succeeded to call the display pins');
 		});
 	}
 };
 
-function setStateToResult(result){
-	state.locations = [];
-	state.locations = result;
-};
 
 function createLocation(object){
 		console.log('create location called');
@@ -77,6 +79,7 @@ function deleteLocation(id){
 	.done(function(result, status){
 		console.log('delete locations done, this would be the status: ');
 		console.log(status);
+
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);

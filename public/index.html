@@ -21,10 +21,11 @@
 
 
 
+
     <!-- Javascript -->
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
- 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 		<script type="text/javascript" src="./js/main.js"></script>
     <!-- <script>console.log(displayMap)</script> -->
@@ -34,78 +35,69 @@
   src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek&callback=displayMap" alt="google map of the world"></script>
 
 
- 
-
-
-
-
-
 
 
 </head>
 <body>
-
+<section>
+  <h1></h1>
+</section>
 
 <section>
   <h2 id="welcome"></h2>
-  <p id=locationsSpace></p>
+  <p id=locationsSpace>
+    Remember: where were you born.  School travel.  Family vacations.  What cities have you recently visited?<br>
+    Present: where are you currently living.  <br>
+    Dream: Any upcoming trips with loved ones?  Where do you want to be in 5 years? Where will you spend your retirement? <br><br>
+    Add locations to the map to store your favorite destinations.  Leave a breadcumb trail of the places you have been to share with your freinds and acquaintences.  Describe your dreams by filling locations for future places.
+  </p>
   <p id=errorSpace></p>
 </section>
 <section>
   <div id="map"></div>
 </section>
 <section>
-  <div id="editSpace">
-    <h4 id="editHeader"></h4>
-    <!-- <form id="ediNote"> -->
-      <p id="note"></p>
-      <textarea name="note" cols="1" rows="5" placeholder="" id="noteInput"></textarea><br>
-      <div>
-        <button id="saveNotesButton" type="button">Update Note</button>
-        <button id="deleteButton">Delete Location</button>    
-      </div>
-    <!-- </form> -->
-    <button id="editNoteButton">Edit Call</button>
-    <button id="deleteLocationButton">Delete Call</button>
-    <button id="createLocationButton">Create call</button>
-    <button id="clearUsernameButton">clear user button</button>
     <!-- bootstrap modal -->
-    <button type="button" data-toggle="modal" data-target="#myModal">Open Modal</button>
+    <!-- <button type="button" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
+      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#dialogModal">Open Modal</button>
+</section>
+<section>
+    <div class="container">
+      <h2>Location Detail</h2>
+      <!-- Trigger the modal with a button -->
+        <!-- Modal -->
+        <div id="dialogModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
 
-  </div>
-  <div>
-<div class="container">
-  <h2>Modal Login Example</h2>
-  <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-default btn-lg" id="myBtn">Login</button>
-
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 style="color:red;"><span class="glyphicon glyphicon-lock"></span> Login</h4>
-        </div>
-        <div class="modal-body">
-          <form role="form">
-            <div class="form-group">
-              <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
-              <input type="text" class="form-control" id="usrname" placeholder="Enter email">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Location Detail</h4>
+              </div>
+              <div class="modal-body">
+                <div id="editSpace">
+                  <h4 id="editHeader"></h4>
+                    <p id="note"></p>
+                    <textarea name="note" cols="1" rows="5" placeholder="" id="noteInput"></textarea><br>
+                    <div>
+                      <button id="saveNotesButton" type="button">Update Note</button>
+                      <button id="deleteButton">Delete Location</button>    
+                    </div>
+                  <button id="clearUsernameButton">clear user button</button>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
             </div>
-            <button type="submit" class="btn btn-default btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Login</button>
-          </form>
+
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-        </div>
-      </div>
     </div>
-  </div> 
-</div>
-  </div>
+
+
+
 </section>
 </body>
 </html>

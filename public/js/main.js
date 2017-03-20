@@ -1,18 +1,5 @@
-///attempt to have a better prompt
-// var namePrompt = {
-// 	title: 'Name',
-// 	html: '<label>Name <input type="text" name="name" value=""></label><br />',
-// 	Buttons: {Done:1},
-// 	submit: function(e, v, m, f){
-// 		console.log(f);
-// 		e.preventDefault();
-// 		$.prompt.close();
-// 	}
-// }
 
-
-
-
+var markers = [];
 //Cookie handler:
 var cname = '';
 
@@ -152,6 +139,7 @@ function createMarkerObject(latLng, address){
 function setStateToResult(result){
 	// map.clearOverlays();
 	state.locations = [];
+	displayPins();
 	state.locations = result;
 	console.log('set state to result succeeded');
 	console.log(state.locations);
@@ -177,7 +165,8 @@ function createMarker(location){
 		// icon: icon
 		////this could be potential flair for the page
 	});
-
+	/////this caused an infinite loop:
+	// markers.push(marker);
 	////event listeners on the markers:
 	marker.addListener('click', function(){
 		var noteExist = true;
@@ -188,9 +177,34 @@ function createMarker(location){
 	});
 	marker.addListener('dblclick', function(){
 		// displayModalWindow();
-		// $("#myModal").modal()
+		$("#dialogModal").modal()
+		closeButtonListener();
 	});
-};
+	
+}
+
+function setMapOnAll(map){
+	for(var i=0; i<markers.lenth; i++){
+		markers[i].setMap(map);
+	}
+}
+
+function deleteMarkers(){
+	console.log('deleting markers called');
+	clearMarkers;
+	markers = []
+}
+
+function clearMarkers(){
+	console.log('clearing markers called');
+	setMapOnAll(null);
+}
+
+function closeButtonListener(){
+	$("#closeButton").on("click", function(){
+		displayPins();
+	});
+}
 
 function closeInfoWindow(){
 	prev_infoWindow.close();
@@ -214,20 +228,21 @@ function deleteLocationControl(locId){
 	console.log('delete location called');
 	///validation that a location exists
 	///potential validation to delete the location's pin
+	clearMarkers();
 	closeInfoWindow();
 	console.log(locId);
 	console.log(`id of ${locId} deleted`);
-			// clearPins();
-	// deleteLocation(locId);
-	console.log(`id of ${locId} deleted`);
 	///confirmation that the pin's location has been deleted
+
 
 	for(i=0;i<state.locations.length;i++){
 		console.log(locId, 'location passed into the loop')
-		if(locId === state.locations.id){
+		markers = state.locations;
+		if(locId == state.locations.id){
 			console.log('location confirmed');
-			var marker = state.locations[i]
-			marker.setVisible(false);
+			// var marker = state.locations[i]
+			markers[i].setVisible(false);
+			markers[i].displayMap(null);
 		}
 	}
   // var marker  = state.locations.id[locId];
@@ -339,42 +354,10 @@ function clearEditPlaceholder(){
 }
 
 
-/////////testing:
-function testListeners(){
-			var createLocationObject = {
-    		"userId": "1234",
-    		"address": "somewhere else else",
-    		"latitude": "1.9028",
-    		"longitude": "72.4964",
-    		"notes": "this other super secret place esle"
-		}
-		var updatedNotesData = {
-			"notes": "updated notes from the UI call on 3/15"
-		};
-		id = '58c839465941040bd00cb473'
-	$("#editNoteButton").on("click", function(){
-		console.log('notes button clicked');
-		saveLocationNotes(id, updatedNotesData)
-	});
-	///working:
-	$("#deleteLocationButton").on("click", function(){
-		console.log('delete button called');
-		deleteLocation(id);
-	});
-	$("#createLocationButton").on("click", function(){
-		console.log('create button called');
-		createLocation(createLocationObject)
-	});
-};
-
-
 
 
 
 $(document).ready(function(){
 	console.log('the document is ready');
 	checkCookie();
-	///potentially go somewhere else
-	// testListeners();
-	// getAllUserLocations();
 });

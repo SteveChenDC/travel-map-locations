@@ -62,42 +62,35 @@
       <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#dialogModal">Open Modal</button>
 </section>
 <section>
-    <div class="container">
-      <h2>Location Detail</h2>
-      <!-- Trigger the modal with a button -->
-        <!-- Modal -->
-        <div id="dialogModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
+     <!-- Modal -->
+  <div class="container">
+    <div id="dialogModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Location Detail</h4>
-              </div>
-              <div class="modal-body">
-                <div id="editSpace">
-                  <h4 id="editHeader"></h4>
-                    <p id="note"></p>
-                    <textarea name="note" cols="1" rows="5" placeholder="" id="noteInput"></textarea><br>
-                    <div>
-                      <button id="saveNotesButton" type="button">Update Note</button>
-                      <button id="deleteButton">Delete Location</button>    
-                    </div>
-                  <button id="clearUsernameButton">clear user button</button>
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Location Detail</h4>
+          </div>
+          <div class="modal-body">
+            <div id="editSpace">
+              <h4 id="editHeader"></h4>
+                <p id="note"></p>
+                <textarea name="note" cols="1" rows="5" placeholder="" id="noteInput"></textarea><br>
+                <div>
+                  <button id="saveNotesButton" type="button">Update Note</button>
+                  <button id="deleteButton">Delete Location</button>    
                 </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
             </div>
-
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="closeButton" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
+      </div>
     </div>
-
-
-
+  </div>
 </section>
 </body>
 </html>

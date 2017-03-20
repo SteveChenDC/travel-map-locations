@@ -46,10 +46,7 @@
 <section>
   <h2 id="welcome"></h2>
   <p id=locationsSpace>
-    Remember: where were you born.  School travel.  Family vacations.  What cities have you recently visited?<br>
-    Present: where are you currently living.  <br>
-    Dream: Any upcoming trips with loved ones?  Where do you want to be in 5 years? Where will you spend your retirement? <br><br>
-    Add locations to the map to store your favorite destinations.  Leave a breadcumb trail of the places you have been to share with your freinds and acquaintences.  Describe your dreams by filling locations for future places.
+  Some other kind of text to remind the user about their previous locations and how to interact with locations and notes.
   </p>
   <p id=errorSpace></p>
 </section>
@@ -62,7 +59,7 @@
       <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#dialogModal">Open Modal</button>
 </section>
 <section>
-     <!-- Modal -->
+     <!-- Map Interaction Modal -->
   <div class="container">
     <div id="dialogModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
@@ -92,6 +89,40 @@
     </div>
   </div>
 </section>
+<section>
+     <!-- User Modal -->
+  <div class="container">
+    <div id="userModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Welcome to your personalized Map</h4>
+            <p>
+                  Remember: where were you born.  School travel.  Family vacations.  What cities have you recently visited?<br>
+                  Present: where are you currently living.  <br>
+                  Dream: Any upcoming trips with loved ones?  Where do you want to be in 5 years? Where will you spend your retirement? <br><br>
+                  Add locations to the map to store your favorite destinations.  Leave a breadcumb trail of the places you have been to share with your freinds and acquaintences.  Describe your dreams by filling locations for future places.
+            </p>
+          </div>
+          <div class="modal-body">
+            <div id="userSpace">
+              <h4 id="usernameHeader"></h4>
+                <p id="username"></p>
+                <label></label>
+                <input type="text" name="username" id="userName">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="createUserButton">Let's do it!</button>  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 </body>
 </html>
 

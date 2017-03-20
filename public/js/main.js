@@ -18,9 +18,10 @@ function checkCookie(){
 	console.log(user, 'from check cookie');
 	if(user === "" || user === null){
 		user = prompt("Please enter your name: ", "");
-		//user = $("#userModal").modal()
+		//$("#userModal").modal()
+		//user = 
 		///may need to have another event listener for the submission
-		
+
 		console.log(user);
 		if(user !== "" && user !== null){ // (!!user) === Boolean(user)
 			setCookie("username", user, 365);

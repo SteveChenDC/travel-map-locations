@@ -1,5 +1,4 @@
 
-CLIENT_ID = 'AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek';
 var map;
 var prev_infoWindow = false;
 

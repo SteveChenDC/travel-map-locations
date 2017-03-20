@@ -3,6 +3,7 @@
  const bodyParser = require('body-parser');
  const jsonParser  = bodyParser.json();
  const uuid = require('node-uuid');
+ const Google_Maps_Key = require('./config');
 
 
 const {PORT, DATABASE_URL} = require('./config');

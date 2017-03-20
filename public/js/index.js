@@ -33,6 +33,7 @@ function getAllUserLocations(){
 			console.log('get all users succeeded to call the set state');
 		})
 		.then(function(result){
+
 			displayPins();
 			console.log('then after get all user locations called');
 			console.log('get all users succeeded to call the display pins');
@@ -79,7 +80,7 @@ function deleteLocation(id){
 	.done(function(result, status){
 		console.log('delete locations done, this would be the status: ');
 		console.log(status);
-
+		displayMap();
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);

@@ -165,8 +165,8 @@ function createMarker(location){
 		// icon: icon
 		////this could be potential flair for the page
 	});
-	/////this caused an infinite loop:
-	// markers.push(marker);
+	// addToMarkersArray(marker);
+
 	////event listeners on the markers:
 	marker.addListener('click', function(){
 		var noteExist = true;
@@ -179,8 +179,12 @@ function createMarker(location){
 		// displayModalWindow();
 		$("#dialogModal").modal()
 		closeButtonListener();
-	});
-	
+	});	
+}
+
+function addToMarkersArray(marker){
+	console.log('adding a marker to the markers array');
+		markers.push(marker);
 }
 
 function setMapOnAll(map){
@@ -192,7 +196,7 @@ function setMapOnAll(map){
 function deleteMarkers(){
 	console.log('deleting markers called');
 	clearMarkers;
-	markers = []
+	markers = [];
 }
 
 function clearMarkers(){
@@ -238,13 +242,18 @@ function deleteLocationControl(locId){
 	for(i=0;i<state.locations.length;i++){
 		console.log(locId, 'location passed into the loop')
 		markers = state.locations;
-		if(locId == state.locations.id){
-			console.log('location confirmed');
+
+		///this was not being stepped into:
+		// if(locId == markers.id){
+		if(locId === state.locations.id){
+			console.log('location confirmed, and stepped into');
 			// var marker = state.locations[i]
 			markers[i].setVisible(false);
+			markers[i].setMap(null);
 			markers[i].displayMap(null);
 		}
 	}
+	deleteLocation(locId);
   // var marker  = state.locations.id[locId];
   // state.locations[locId] = undefined;
 

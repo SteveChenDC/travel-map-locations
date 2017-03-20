@@ -38,10 +38,14 @@ The travel map allows users to input locations and notes to store an electronic 
 
 ## Lessons Learned:
 - Version control:
+Using version control across multiple branches proved to be a roadblock for my completion of this project.  Yet, this project forced me to learn more about the utilization, breath and foundation of Git.  While reaching out for resources and assistance, I have a new appreciation for Git, version control and dev ops.  While I may be stumbling on the basics of controlling versions, I believe that a strong foundation can be built into a strength.  I look forward to learning more about dev ops, including Git utlization.  
 - Google Maps:
+Google has great documentation and support for their APIs.  I built upon my previous knowledge of Google Maps, and elaborated on control of the views.  
 - Server side development:
 - Testing:
 - Dev Ops:
+- JQuery Fallbacks:
+JQuery, although a tool which is taught heavily and relied upon often, it seems that more and more discussions have a negative opinion of JQuery.  I see the benefit of interacting with the DOM, yet during the execution of this project, I found myself saying, 'There has got to be a better way'.  I look forward to learning more about 
 
 ## Development Roadmap:
 

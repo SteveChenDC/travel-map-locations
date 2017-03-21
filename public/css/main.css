@@ -52,8 +52,12 @@ p, #locationsSpace {
 	/*drag state*/
 }
 
+div, #locationModalBody{
+	text-align: center;
+}
+
 #noteInput {
-	width: 200px;
+	width: 300px;
 }
 .infoWindowInstruction{
 	font-size: 10px;

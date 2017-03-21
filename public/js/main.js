@@ -174,8 +174,7 @@ function createMarker(location){
 		displayInfoWindow(location, marker, locId);
 	});
 	marker.addListener('dblclick', function(){
-		// displayModalWindow();
-		$("#dialogModal").modal()
+		displayModalWindow(location);
 		closeButtonListener();
 	});	
 }
@@ -292,7 +291,7 @@ function changePins(userId){
 function renderNoteDetail(locId){
 	clearEditPlaceholder();
 	console.log('render note detail called');
-	$("#editHeader").html('this is where one would edit or delete a note');
+	$("#editHeader").html('Add or update notes on your location.');
 	state.locations.find(function(location){
 		console.log('trying to find the note');
 		if(location.id===locId){
@@ -320,7 +319,8 @@ function renderNoteDetail(locId){
 };
 
 function displayModalWindow(location){
-	//bring up a larger view with the location infomation, notes, potentially an image and info about the country/ city nearby
+	$("#dialogModal").modal()
+	$('#locationModalHeader').html(location.address);
 };
 
 function displayInfoWindow(location, marker, locId, noteExist){

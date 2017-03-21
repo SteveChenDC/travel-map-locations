@@ -123,7 +123,6 @@ function getAddress(event){
 };
 
 function createMarkerObject(latLng, address){
-	console.log('create marker object called');
 	newLocationObject = {
 		userId: state.userId,
 		address: address,
@@ -138,22 +137,16 @@ function setStateToResult(result){
 	state.locations = [];
 	displayPins();
 	state.locations = result;
-	console.log('set state to result succeeded');
-	console.log(state.locations);
 };
 
 function displayPins(map){
-	console.log(state.locations, 'this is the state.locations object');
 	for(i=0;i<state.locations.length; i++){
 		createMarker(state.locations[i]);
-		console.log('markers are created for each location');
 	};
-	console.log('each pin is displayed');
 };
 
 function createMarker(location){
 	var locId = location.id;
-	console.log('this is the specfic locationID', locId)
 	var latLng = {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)};
 
 	var marker = new google.maps.Marker({
@@ -175,39 +168,36 @@ function createMarker(location){
 		displayModalWindow(location);
 		closeButtonListener();
 	});	
-}
+};
 
 function addToMarkersArray(marker){
-	console.log('adding a marker to the markers array');
 		markers.push(marker);
-}
+};
 
 function setMapOnAll(map){
 	for(var i=0; i<markers.lenth; i++){
 		markers[i].setMap(map);
-	}
-}
+	};
+};
 
 function deleteMarkers(){
-	console.log('deleting markers called');
 	clearMarkers;
 	markers = [];
-}
+};
 
 function clearMarkers(){
-	console.log('clearing markers called');
 	setMapOnAll(null);
-}
+};
 
 function closeButtonListener(){
 	$("#closeButton").on("click", function(){
 		displayPins();
 	});
-}
+};
 
 function closeInfoWindow(){
 	prev_infoWindow.close();
-}
+};
 
 function removeListeners(){
 	google.maps.event.clearInstanceListeners(marker);
@@ -218,31 +208,22 @@ function editInfoWindowNote(noteExist, locId){
 };
 
 function editLocationNotes(locId, note){
-	console.log('editLocationNotes called');
 	saveLocationNotes(locId, note);
 };
 
 function deleteLocationControl(locId){
-	console.log('delete location called');
 	clearMarkers();
 	closeInfoWindow();
-	console.log(locId);
-	console.log(`id of ${locId} deleted`);
 
 	for(i=0;i<state.locations.length;i++){
-		console.log(locId, 'location passed into the loop')
 		markers = state.locations;
 		if(locId === state.locations.id){
-			console.log('location confirmed, and stepped into');
-			// var marker = state.locations[i]
 			markers[i].setVisible(false);
 			markers[i].setMap(null);
 			markers[i].displayMap(null);
-		}
-	}
+		};
+	};
 	deleteLocation(locId);
-console.log(`id of ${locId} deleted`);
-
 };
 
 
@@ -260,18 +241,15 @@ function changePins(userId){
 
 function renderNoteDetail(locId){
 	clearEditPlaceholder();
-	console.log('render note detail called');
 	$("#editHeader").html('Add or update the notes on your location.');
 	state.locations.find(function(location){
-		console.log('trying to find the note');
 		if(location.id===locId){
 			var note = location.notes
-			console.log('this would be the note: '+note);
 			if(note===''){
 				$("textarea#noteInput").attr("placeholder", 'Add notes to attach to the location');
 			}else{
 				$("textarea#noteInput").attr("placeholder", note);
-			}
+			};
 		};
 	});
 
@@ -279,10 +257,9 @@ function renderNoteDetail(locId){
 	$("#deleteButton").on("click", function(){
 		deleteLocationControl(locId)
 	});
+
 	$("#saveNotesButton").on("click", function(event){
 		newNote  = $("textarea#noteInput").val();
-		console.log('this would be the new note');
-		console.log(newNote)
 		editLocationNotes(locId, newNote)
 	});
 };
@@ -307,8 +284,6 @@ function displayInfoWindow(location, marker, locId, noteExist){
 	prev_infoWindow = infoWindow;
 	
 	if(Boolean(noteExist)){
-		console.log('note is not empty');
-
 		editInfoWindowNote(noteExist, locId)
 		noteExist = false;
 	};
@@ -319,20 +294,19 @@ function assignMarkerMessage(location){
 		message  = "<div class=locationAddress>"+location.address+":</div><br><div class=infoWindowInstruction>Double click to add a note</div>"
 	}else{
 		message  = "<div class=locationAddress>"+location.address+":</div><br>" + location.notes;
-	}
+	};
 	return message;
-}
+};
 
 
 function clearEditPlaceholder(){
 	$("textarea#noteInput").attr("placeholder", '');
-}
+};
 
 
 
 
 
 $(document).ready(function(){
-	console.log('the document is ready');
 	checkCookie();
 });

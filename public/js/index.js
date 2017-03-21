@@ -8,8 +8,6 @@ function showError(){
 
 ///on page load
 function getAllUserLocations(){
-	console.log(`${state.userId}`);
-	console.log('get all users locations called');
 	if(state.userId ===""){
 		return 'new user award';
 	}else{
@@ -19,8 +17,6 @@ function getAllUserLocations(){
 			type: "GET"
 		})
 		.done(function(result, status){
-			console.log('done after get all users locations called, this would be the result:');
-			console.log(result);
 		})
 		.fail(function(error, errorThrown){
 			errorElem = showError(error);

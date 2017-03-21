@@ -1,5 +1,4 @@
 
-var markers = [];
 //Cookie handler:
 var cname = '';
 
@@ -170,24 +169,6 @@ function createMarker(location){
 	});	
 };
 
-function addToMarkersArray(marker){
-		markers.push(marker);
-};
-
-function setMapOnAll(map){
-	for(var i=0; i<markers.lenth; i++){
-		markers[i].setMap(map);
-	};
-};
-
-function deleteMarkers(){
-	clearMarkers;
-	markers = [];
-};
-
-function clearMarkers(){
-	setMapOnAll(null);
-};
 
 function closeButtonListener(){
 	$("#closeButton").on("click", function(){
@@ -212,17 +193,7 @@ function editLocationNotes(locId, note){
 };
 
 function deleteLocationControl(locId){
-	clearMarkers();
 	closeInfoWindow();
-
-	for(i=0;i<state.locations.length;i++){
-		markers = state.locations;
-		if(locId === state.locations.id){
-			markers[i].setVisible(false);
-			markers[i].setMap(null);
-			markers[i].displayMap(null);
-		};
-	};
 	deleteLocation(locId);
 };
 

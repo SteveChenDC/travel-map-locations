@@ -65,8 +65,6 @@ function createLocation(object){
 
 ///working:
 function deleteLocation(id){
-	console.log('delete location called');
-	console.log(id);
 	var result = $.ajax({
 		url: `/mapLocation/${id}`,
 		// contentType: 'application/json',
@@ -74,8 +72,6 @@ function deleteLocation(id){
 		type: "DELETE"
 	})
 	.done(function(result, status){
-		console.log('delete locations done, this would be the status: ');
-		console.log(status);
 		displayMap();
 	})
 	.fail(function(error, errorThrown){
@@ -83,7 +79,6 @@ function deleteLocation(id){
 		$('#errorSpace').append(errorElem);
 	})
 	.then(function(result){
-		console.log('then called from delete locations');
 		getAllUserLocations();
 	});
 };

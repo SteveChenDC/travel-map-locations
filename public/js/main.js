@@ -211,12 +211,18 @@ function editInfoWindowNote(noteExist, locId){
 
 function editLocationNotes(locId, note){
 	saveLocationNotes(locId, note);
+	hideLocationModal();
 };
 
 function deleteLocationControl(locId){
 	closeInfoWindow();
 	deleteLocation(locId);
+	hideLocationModal();
 };
+
+function hideLocationModal(){
+	$("#dialogModal").modal("hide");
+}
 
 
 

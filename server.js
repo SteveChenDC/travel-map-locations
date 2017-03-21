@@ -38,8 +38,6 @@ app.get('/mapLocation', (req, res) => {
 });
 
 app.get('/mapLocations/:userId', (req, res) => {
-	console.log(req.params.userId);
-	console.log(typeof(req.params.userId));
 	Location
 	.find({'userId': req.params.userId})
 	.exec()
@@ -53,7 +51,6 @@ app.get('/mapLocations/:userId', (req, res) => {
 });
 
 app.post('/mapLocation', (req, res) => {
-	console.log(req);
 	const requiredFields = ['latitude', 'longitude', 'notes', 'address', 'userId'];
 	for(let i=0; i< requiredFields.length; i++){
 		const field  = requiredFields[i];
@@ -79,9 +76,7 @@ app.post('/mapLocation', (req, res) => {
 	});
 });
 
-////working:
 app.put('/mapLocation/:id', (req, res) => {
-	// console.log("test from put call", id, notes);
 	const requiredFields = ['notes'];
 	for(let i=0; i< requiredFields.length; i++){
 		const field  = requiredFields[i];
@@ -91,15 +86,8 @@ app.put('/mapLocation/:id', (req, res) => {
 			return res.status(400).send(message);
 		};
 	};
-	///the ID is not being passed through the body, this validation can probably be removed:
-	// if(req.params.id !== req.body._id){
-	// 	const message = (`The requesting ID of \`${req.params.id}\` and the request body ID of \`${req.body.id}\` do not match.`);
-	// 	console.error(message);
-	// 	return res.status(400).send(message);
-	// };
 	const updated = {};
 	updated.notes = req.body.notes;
-
 	console.log(`updating the notes with the ID of ${req.params.id}`);
 	
 	Location
@@ -129,7 +117,6 @@ let server;
 
  function runServer(databaseUrl = DATABASE_URL, port = PORT){
  	return new Promise((resolve, reject) => {
- 		console.error(DATABASE_URL + PORT);
  		mongoose.connect(databaseUrl, err =>{
  			if(err){
  				return reject(err);
@@ -151,7 +138,6 @@ let server;
 function closeServer(){
 	return mongoose.disconnect().then(() => {
 		return new Promise((resolve, reject) =>{
-			console.log('closing server');
 			server.close(err =>{
 				if(err){
 					return reject(err);

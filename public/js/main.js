@@ -4,26 +4,20 @@ var markers = [];
 var cname = '';
 
 function setCookie(cname, cvalue, exdays){
-	console.log('from within set Cookie', cname);
 	d = new Date();
 	d.setTime(d.getTime()+ (exdays*24*60*60*1000));
 	var expires = "expires="+d.toUTCString();
 	document.cookie = cname+ "="+cvalue + ";"+expires+";path=/"
-	console.log('this is the cookie'+document.cookie);
 };
 
 function checkCookie(){
-	console.log('from within check Cookie');
 	var user = getCookie("username");
-	console.log(user, 'from check cookie should be empty on first time');
 	if(user === "" || user === null){
-		// user = prompt("Please enter your name: ", "");
 		$("#userModal").modal()
 		usernameButtonListener(user);
-		console.log(user, 'user is this');
 	}else{
 		handleUserName(user);
-	}
+	};
 };
 
 function getCookie(cname) {
@@ -43,27 +37,20 @@ function getCookie(cname) {
 };
 
 function handleUserName(user){
-	console.log(user, 'from within handle username');
 	setUserId(user);
 	displayUserName(user);
 	getAllUserLocations();
-}
+};
 
-////test with a button for setting a cookie or deleting a cookie
 function usernameButtonListener(user){
 	$("#createUserButton").on("click", function(){
-		console.log('username button listener caller');
 		user = $("input#userName").val();
-		if(user !== "" && user !== null){ // (!!user) === Boolean(user)
-			console.log('set cookie will be set to this user: ', user);
+		if(user !== "" && user !== null){ 
 			setCookie("username", user, 365);
-		// }else{
-		// console.log('no username was selected');
-		//  return	$('#welcome').html('Welcome.  Please enter a username in order to store your locations.');
+		}else{
+		 	return	$('#welcome').html('Welcome.  Please enter a username in order to store your locations.');
 		}
-		console.log('this will be the user', user);
 		handleUserName(user);
-
 	});
 };
 

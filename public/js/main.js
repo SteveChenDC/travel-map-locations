@@ -2,17 +2,10 @@
 //Cookie handler:
 var cname = '';
 
-function setCookie(cname, cvalue, exdays){
-	d = new Date();
-	d.setTime(d.getTime()+ (exdays*24*60*60*1000));
-	var expires = "expires="+d.toUTCString();
-	document.cookie = cname+ "="+cvalue + ";"+expires+";path=/"
-};
-
+///check if a cookie exists:
 function checkCookie(){
 	var user = getCookie("username");
-	$('#welcome').html('Welcome to Travel Pin Map.');
-	$('#locationsSpace').html('Please refresh your page to enter a username in order to collect your locations.');
+	displayUserName(user, "newUser");
 	if(user === "" || user === null){
 		$("#userModal").modal()
 		usernameButtonListener(user);
@@ -21,6 +14,15 @@ function checkCookie(){
 	};
 };
 
+///if no cookie exists, set the cookie:
+function setCookie(cname, cvalue, exdays){
+	d = new Date();
+	d.setTime(d.getTime()+ (exdays*24*60*60*1000));
+	var expires = "expires="+d.toUTCString();
+	document.cookie = cname+ "="+cvalue + ";"+expires+";path=/"
+};
+
+///get any existing cookies:
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -51,8 +53,8 @@ function usernameButtonListener(user){
 		}else{
 		 	$('#welcome').html('Welcome to Travel Pin Map.');
 		 	return	$('#locationsSpace').html('Please refresh your page to enter a username in order to collect your locations.');
-		}
-		handleUserName(user);
+		};
+	handleUserName(user);
 	});
 };
 
@@ -62,9 +64,14 @@ function clearUsername(){
 	getAllUserLocations();
 };
 
-function displayUserName(user){
-	$('#welcome').html(user + '\'s Map Pin Board');
-	$('#locationsSpace').html("Welcome back.  Locations can continue to be added to the map.  By double clicking a location's pin, notes can be added to the location.");
+function displayUserName(user, element){
+	if(element === 'newUser'){
+		$('#welcome').html('Welcome to Travel Pin Map.');
+		$('#locationsSpace').html('Please refresh your page to enter a username in order to collect your locations.');
+	}else{
+		$('#welcome').html(user + '\'s Map Pin Board');
+		$('#locationsSpace').html("Welcome back.  Locations can continue to be added to the map.  By double clicking a location's pin, notes can be added to the location.");
+	};
 };
 
 function setUserId(user){
@@ -74,8 +81,9 @@ function setUserId(user){
 
 
 ////UI controls:
+
+///called by the google maps instantiation
 function displayMap(){
-	///called by the google maps instantiation in the index.html file
 	loc = {lat: 0, lng: 0,}
 		map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 2,
@@ -90,24 +98,24 @@ function handleMapClickEvent(){
 	});
 };
 
+///finds the address of the click event
 function getAddress(event){
-	///finds the address of the click event
 	parseAddress(event);
 	geocodeAddress(latLng);
-
+	
+	///parses the click event results in order to be read by the reverse geocoder
 	function parseAddress(event){
-		///parses the click event results in order to be read by the reverse geocoder
 		latLng = event.latLng.toString();
 		latLng = latLng.replace(/[{()}]/g, '');
 		latLng = latLng.split(',', 2);
 	    latLng = {lat: parseFloat(latLng[0]), lng: parseFloat(latLng[1]) };
 	};
 
+	///reverse geocode the address in order to find the address from the latitute and longitude
 	function geocodeAddress(latLng){
-		///reverse geocode the address in order to find the address from the latitute and longitude
-		geocoder = new google.maps.Geocoder();
+		geocoder = new google.maps.Geocoder();    	
+		///handles UI updates based on the results and status returned by the geocode function
 	    geocoder.geocode({'location': latLng}, function handleAddress(results, status){
-	    	///handles UI updates based on the results and status returned by the geocode function
 			if (status === 'OK'){
 					var address = results[0].formatted_address;
 					message = address;
@@ -116,7 +124,7 @@ function getAddress(event){
 			}else {
 					bodyType = 'water';
 					message = 'This body of water is unmarked, and may contain treasures.';
-			}
+			};
 		});
 	};
 };
@@ -145,9 +153,11 @@ function displayPins(map){
 };
 
 function createMarker(location){
+	///setup to latitude and longitude to be used in the marker instantiation:
 	var locId = location.id;
 	var latLng = {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)};
 
+	///create the marker
 	var marker = new google.maps.Marker({
 		position: latLng, 
 		map: map
@@ -168,7 +178,6 @@ function createMarker(location){
 		closeButtonListener();
 	});	
 };
-
 
 function closeButtonListener(){
 	$("#closeButton").on("click", function(){
@@ -199,11 +208,7 @@ function deleteLocationControl(locId){
 
 
 
-
-
-
 ///render Functions:
-
 
 function changePins(userId){
 	getAllUserLocations(userId);
@@ -224,7 +229,7 @@ function renderNoteDetail(locId){
 		};
 	});
 
-	//button listeners:
+	//button listeners within Note Detail Modal:
 	$("#deleteButton").on("click", function(){
 		deleteLocationControl(locId)
 	});
@@ -269,12 +274,9 @@ function assignMarkerMessage(location){
 	return message;
 };
 
-
 function clearEditPlaceholder(){
 	$("textarea#noteInput").attr("placeholder", '');
 };
-
-
 
 
 

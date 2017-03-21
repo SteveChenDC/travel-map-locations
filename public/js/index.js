@@ -1,9 +1,5 @@
 //state modification functions:
 
-function showError(){
-	console.log('an error occurred');
-};
-
 function getAllUserLocations(){
 	if(state.userId ===""){
 		return 'new user award';
@@ -25,7 +21,7 @@ function getAllUserLocations(){
 		.then(function(result){
 			displayPins();
 		});
-	}
+	};
 };
 
 function createLocation(object){
@@ -83,3 +79,6 @@ function saveLocationNotes(id, note){
 	});
 };
 
+function showError(){
+	console.log('an error occurred');
+};

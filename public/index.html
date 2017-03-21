@@ -1,46 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-
 	<meta charset="utf-8" name='keywords' content='globe world travel map pin board'>
   <meta  name='description' content="This pin board contains a world map, with the ability for the user to add pins based on location.">
   <meta name='author' content='Theresa Augustin/ Talta LLC'>
   <title>Travel Map Pin Board</title>
 
-<!-- external files -->
-
-
-
-    <link href="https://fonts.googleapis.com/css?family=Alegreya| Lora" rel="stylesheet">
-
 <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="./css/main.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="./css/main.css">
+  <!-- external files -->
+  <link href="https://fonts.googleapis.com/css?family=Alegreya| Lora" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-
-
-
-    <!-- Javascript -->
-
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-		<script type="text/javascript" src="./js/main.js"></script>
-    <!-- <script>console.log(displayMap)</script> -->
-		<script type="text/javascript" src="./js/state.js"></script>
-    <script type="text/javascript" src="./js/index.js"></script>
-            <script defer
+<!-- Javascript -->
+  <!-- external files -->
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- internal files -->
+	<script type="text/javascript" src="./js/main.js"></script>
+	<script type="text/javascript" src="./js/state.js"></script>
+  <script type="text/javascript" src="./js/index.js"></script>
+  <!-- Map Instantiation -->
+  <script defer
   src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek&callback=displayMap" alt="google map of the world"></script>
-
-
-
-
 </head>
+
 <body>
 <section>
-  <h1></h1>
+  <h1>Travel Pin Map</h1>
 </section>
 
 <section>
@@ -51,13 +39,14 @@
 <section>
   <div id="map"></div>
 </section>
-    <!-- bootstrap modal -->
+
+<!-- bootstrap modals -->
+
+<!-- Location Interaction Modal -->
 <section>
-     <!-- Map Interaction Modal -->
   <div class="container">
     <div id="dialogModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
@@ -71,7 +60,6 @@
                 <textarea name="note" cols="1" rows="5" placeholder="" id="noteInput"></textarea><br>
                 <div>
                   <button class="btn btn-default" type="button" id="saveNotesButton" type="button">Update Note</button>
-  
                 </div>
             </div>
           </div>
@@ -84,8 +72,9 @@
     </div>
   </div>
 </section>
+
+<!-- User Modal -->
 <section>
-     <!-- User Modal -->
   <div class="container">
     <div id="userModal" class="modal fade" role="dialog">
       <div class="modal-dialog">

@@ -1,26 +1,24 @@
-
+ ////third party dependencies:
  const mongoose = require('mongoose');
  const bodyParser = require('body-parser');
  const jsonParser  = bodyParser.json();
  const uuid = require('node-uuid');
- const Google_Maps_Key = require('./config');
 
-
+///local file dependencies:
+const Google_Maps_Key = require('./config');
 const {PORT, DATABASE_URL} = require('./config');
 const Location = require('./models');
 const router = require('./location-router');
 
+
+
 const express  = require('express');
 const app = express();
-  
 
 app.use(bodyParser.json());
-
 app.use(express.static('public'));
 
 mongoose.Promise = global.Promise;
-
-
 
 
 
@@ -131,9 +129,7 @@ let server;
  			});
  		});
  	});
- }
-
-
+ };
 
 function closeServer(){
 	return mongoose.disconnect().then(() => {
@@ -146,13 +142,12 @@ function closeServer(){
 			});
 		});
 	});
-}
-
+};
 
 
 
  if(require.main === module){
  	runServer().catch(err => console.error(err));
- }
+ };
 
  module.exports= {runServer, app, closeServer};

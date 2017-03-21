@@ -186,7 +186,9 @@ function closeButtonListener(){
 };
 
 function closeInfoWindow(){
-	prev_infoWindow.close();
+	if(prev_infoWindow){
+		prev_infoWindow.close();
+	};
 };
 
 function removeListeners(){
@@ -246,10 +248,7 @@ function displayModalWindow(location){
 };
 
 function displayInfoWindow(location, marker, locId, noteExist){
-	//////to handle closing previously opened infoWindows:
-	if(prev_infoWindow){
 		closeInfoWindow();
-	};
 	var message = assignMarkerMessage(location);
 	
 	var infoWindow = new google.maps.InfoWindow({

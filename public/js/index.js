@@ -1,12 +1,9 @@
 //state modification functions:
 
-
 function showError(){
 	console.log('an error occurred');
 };
 
-
-///on page load
 function getAllUserLocations(){
 	if(state.userId ===""){
 		return 'new user award';
@@ -24,15 +21,9 @@ function getAllUserLocations(){
 		})
 		.then(function(result){
 			setStateToResult(result);
-			console.log('critical testing');
-			console.log(state.locations);
-			console.log('get all users succeeded to call the set state');
 		})
 		.then(function(result){
-
 			displayPins();
-			console.log('then after get all user locations called');
-			console.log('get all users succeeded to call the display pins');
 		});
 	}
 };
@@ -59,7 +50,6 @@ function createLocation(object){
 function deleteLocation(id){
 	var result = $.ajax({
 		url: `/mapLocation/${id}`,
-		// contentType: 'application/json',
 		DataType: 'jsonp',
 		type: "DELETE"
 	})

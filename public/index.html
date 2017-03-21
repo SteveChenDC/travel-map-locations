@@ -15,6 +15,9 @@
   <link
 
 <!-- Javascript -->
+<script>
+// var googleKey = "I am google"
+</script>
   <!-- external files -->
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -23,9 +26,13 @@
 	<script type="text/javascript" src="./js/state.js"></script>
   <script type="text/javascript" src="./js/index.js"></script>
   <!-- Map Instantiation -->
-<script defer src=https://maps.googleapis.com/maps/api/js?key=AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek&callback=displayMap alt="google map of the world"></script>
-<!--   document.write('<script src="https://maps.googleapis.com/maps/api/js?key="+googleKey+"&callback=displayMap" alt="google map of the world"></script>')
-  </script> -->
+ <script defer src=https://maps.googleapis.com/maps/api/js?key=AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek&callback=displayMap alt="google map of the world"></script>
+<script>
+window.onload = function() {
+
+  console.log('ENV VAR: ', process)
+}
+</script>
 </head>
 
 <body>

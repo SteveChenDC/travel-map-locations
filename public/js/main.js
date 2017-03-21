@@ -267,7 +267,7 @@ function displayInfoWindow(location, marker, locId, noteExist){
 
 function assignMarkerMessage(location){
 	if(location.notes === ""){
-		message  = "<div class=locationAddress>"+location.address+":</div><br><div class=infoWindowInstruction>Double click to add a note</div>"
+		message  = "<div class=locationAddress>"+location.address+":</div><br><div class=infoWindowInstruction>Double click for location options.</div>"
 	}else{
 		message  = "<div class=locationAddress>"+location.address+":</div><br>" + location.notes;
 	};

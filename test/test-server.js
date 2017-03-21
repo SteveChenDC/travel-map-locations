@@ -1,12 +1,13 @@
 
+///External Dependencies:
 const chai  = require('chai');
 const chaiHttp = require('chai-http');
 
 const faker = require('faker');
 const mongoose = require('mongoose');
-
 const should = chai.should();
-//const exists = require('../server.js');
+
+///Internal Dependencies:
 const Location  = require('../models');
 const {app, runServer, closeServer} = require('../server');
 const {DATABASE_URL} = require('../config');
@@ -18,23 +19,13 @@ chai.use(chaiHttp);
 function seedLocationsData(){
 	console.log('seeding the database');
 	const seedData = [];
-
-
 	for(let i = 0; i<=10; i++){
 		seedData.push(generateLocationsData());
 	};
 	return Location.insertMany(seedData);
 };
 
-// function generateIDsData(){
-//  	// const ids = ['507f1f77bcf86cd799439011', '507f1f77bcf86cd799439012', '507f1f77bcf86cd799439013', '507f1f77bcf86cd799439014'];
-//  	// return ids[Math.floors(Math.random()*ids.length)];
-// }
-
 function generateUserIdsData(){
-	///what kind of value to store as the userID
-	///store some kind of identifier with the cookie on the client GUID
-	///create with client Javascript or JQuery
 	const userIds = ['1234', '3456', '5677', '0988'];
 	return userIds[Math.floor(Math.random()*userIds.length)];
 };
@@ -59,10 +50,8 @@ function generateNotesData(){
 	return notes[Math.floor(Math.random()*notes.length)];
 };
 
-
 function generateLocationsData(){
 	return {
-		// id: faker.random.uuid(),
 		userId: generateUserIdsData(),
 		address: generateAddressesData(),
 		latitude: generateLatitudesData(),
@@ -77,24 +66,13 @@ function tearDownDb(){
 };
 
 
-
-
-
+///Test assertions:
 describe('Locations', function(){
 	
 	before(function(){
 		runServer(TEST_DATABASE_URL);
 		return seedLocationsData();
 	});
-
-	// beforeEach(function(){
-	// 	return seedLocationsData();
-	// });
-
-	// afterEach(function(){
-		
-	// });
-
 
 	after(function(){
 		tearDownDb();
@@ -152,7 +130,6 @@ describe('Locations', function(){
 					return chai.request(app)
 					.get(`/mapLocations/${resLocation.userId}`)
 				})
-
 				.then(_res=>{
 					res=_res;
 					res.should.have.status(200);
@@ -175,14 +152,13 @@ describe('Locations', function(){
 				})
 				.catch((err)=>{
 					console.error(err);
-					// err.status(500).json({error: 'oops, something went wrong in the get call'});
 				});
-				
 			}
 			catch(error){
 				reject(error)
 			};
 		});
+
 		it('should return locations with the right fields', function(){
 			try{
 				let resLocation;
@@ -196,7 +172,6 @@ describe('Locations', function(){
 					return chai.request(app)
 					.get(`/mapLocations/${resLocation.userId}`)
 				})
-				
 				.then(res=>{
 					res.should.have.status(200);
 					res.should.be.json;
@@ -218,7 +193,6 @@ describe('Locations', function(){
 				})
 				.catch(err=>{
 					console.error(err);
-					// res.status(500).json({error: 'oops, something went wrong in teh get call'});
 				});
 			}
 			catch(error){
@@ -226,7 +200,6 @@ describe('Locations', function(){
 			};
 		});
 	});
-
 
 	describe('POST a new location', function(){
 		it('should create a new location and store in the DB', function(){
@@ -251,7 +224,6 @@ describe('Locations', function(){
 					res.body.address.should.equal(newItem.address);
 					res.body.notes.should.equal(newItem.notes);
 					return Location.find(req.body.id).exec()
-
 				})
 				.then(location=>{
 					location.address.should.equal(newItem.address);
@@ -262,7 +234,6 @@ describe('Locations', function(){
 				})
 				.catch(err=>{
 					console.error(err);
-					// res.status(500).json({error: 'oops, something went wrong in teh POST call'});
 				});
 			}
 			catch(error){
@@ -271,14 +242,12 @@ describe('Locations', function(){
 		});
 	});
 
-
 	describe('PUT should update the notes', function(){
 		it('should update the notes on a put call', function(){
 			try{
 				const updateData = {
 					notes: 'these would be updated notes',
 				};
-				
 				return Location
 				.findOne()
 				.exec()
@@ -289,13 +258,10 @@ describe('Locations', function(){
 					return chai.request(app)
 					.put(`/mapLocation/${updateData.id}`)
 					.send(updateData)
-
 				})
 				.then(res=>{
 					res.should.have.status(201);
 					res.body.should.be.a('object');
-					//res.body.should.not.be.json;
-					//res.body.should.deep.equal(updateData);
 					return Location.findById(updateData.id).exec();
 				})
 				.then(location =>{
@@ -303,7 +269,6 @@ describe('Locations', function(){
 				})
 				.catch(err=>{
 					console.error(err);
-					// res.status(500).json({error: 'oops, something went wrong in the PUT call'});
 				});
 			}
 			catch(error){
@@ -311,7 +276,6 @@ describe('Locations', function(){
 			};
 		});
 	});
-
 
 	describe('DELETE should remove the ID and references from the DB', function(){
 		it('should delete the requested ID', function(){
@@ -336,7 +300,6 @@ describe('Locations', function(){
 				})
 				.catch(err=>{
 					console.error(err);
-					// res.status(500).json({error: 'oops, something went wrong in the delete call'});
 				});
 			}
 			catch(error){
@@ -345,7 +308,3 @@ describe('Locations', function(){
 		});
 	});
 });
-
-
-
-

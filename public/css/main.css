@@ -10,18 +10,27 @@ h1 {
 	margin-bottom: 10px;
 }
 
-h2, #welcome{
-	text-align: center;
-}
 
 h4 {
 	font-family: 'Lora', serif;
 	text-align: center;
+
 }
 
-p {
+p{
+	text-align: center;
+}
+
+
+h2, #welcome{
+	text-align: center;
+}
+
+p, #locationsSpace {
 	text-align: center;
 	font-family: 'Lora', serif;
+	margin-left: 200px;
+	margin-right: 200px;
 }
 
 #map {

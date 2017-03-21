@@ -70,7 +70,7 @@ function displayUserName(user, element){
 		$('#locationsSpace').html('Please refresh your page to enter a username in order to collect your locations.');
 	}else{
 		$('#welcome').html(user + '\'s Map Pin Board');
-		$('#locationsSpace').html("Welcome back.  Locations can continue to be added to the map.  By double clicking a location's pin, notes can be added to the location.");
+		$('#locationsSpace').html("Welcome back.  Locations can continue to be added to the map.  By double clicking a location's pin, notes can be added to the location or locations can be deleted.");
 	};
 };
 

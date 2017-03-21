@@ -15,27 +15,15 @@ function setCookie(cname, cvalue, exdays){
 function checkCookie(){
 	console.log('from within check Cookie');
 	var user = getCookie("username");
-	console.log(user, 'from check cookie');
+	console.log(user, 'from check cookie should be empty on first time');
 	if(user === "" || user === null){
 		// user = prompt("Please enter your name: ", "");
 		$("#userModal").modal()
-		user = $("input#userName").val();
-		console.log('this will be the user');
-		///may need to have another event listener for the submission
-
-		console.log(user);
-		if(user !== "" && user !== null){ // (!!user) === Boolean(user)
-			setCookie("username", user, 365);
-		};
-		handleUserName(user);
-
+		usernameButtonListener(user);
+		console.log(user, 'user is this');
 	}else{
-		console.log('no username was selected');
-			$('#welcome').html('Welcome.  Please enter a username in order to store your locations.');
+		handleUserName(user);
 	}
-	displayUserName(user);
-	setUserId(user);
-	getAllUserLocations();
 };
 
 function getCookie(cname) {
@@ -57,14 +45,25 @@ function getCookie(cname) {
 function handleUserName(user){
 	console.log(user, 'from within handle username');
 	setUserId(user);
+	displayUserName(user);
+	getAllUserLocations();
 }
 
 ////test with a button for setting a cookie or deleting a cookie
-function usernameButtonListener(){
-	$("#clearUsernameButton").on("click", function(){
+function usernameButtonListener(user){
+	$("#createUserButton").on("click", function(){
 		console.log('username button listener caller');
-		clearUsername();
-		// displayUserName(user);
+		user = $("input#userName").val();
+		if(user !== "" && user !== null){ // (!!user) === Boolean(user)
+			console.log('set cookie will be set to this user: ', user);
+			setCookie("username", user, 365);
+		// }else{
+		// console.log('no username was selected');
+		//  return	$('#welcome').html('Welcome.  Please enter a username in order to store your locations.');
+		}
+		console.log('this will be the user', user);
+		handleUserName(user);
+
 	});
 };
 

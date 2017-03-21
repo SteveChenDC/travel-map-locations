@@ -17,9 +17,10 @@ function checkCookie(){
 	var user = getCookie("username");
 	console.log(user, 'from check cookie');
 	if(user === "" || user === null){
-		user = prompt("Please enter your name: ", "");
-		//$("#userModal").modal()
-		//user = 
+		// user = prompt("Please enter your name: ", "");
+		$("#userModal").modal()
+		user = $("input#userName").val();
+		console.log('this will be the user');
 		///may need to have another event listener for the submission
 
 		console.log(user);
@@ -27,7 +28,11 @@ function checkCookie(){
 			setCookie("username", user, 365);
 		};
 		handleUserName(user);
-	};
+
+	}else{
+		console.log('no username was selected');
+			$('#welcome').html('Welcome.  Please enter a username in order to store your locations.');
+	}
 	displayUserName(user);
 	setUserId(user);
 	getAllUserLocations();

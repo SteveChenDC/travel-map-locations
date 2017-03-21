@@ -154,6 +154,7 @@ function displayPins(map){
 
 function createMarker(location){
 	///setup to latitude and longitude to be used in the marker instantiation:
+	closeInfoWindow();
 	var locId = location.id;
 	var latLng = {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)};
 

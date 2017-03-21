@@ -7,13 +7,11 @@ nav {
 h1 {
 	color: skyblue;
 	font-family: 'Alegreya', serif;
-
 }
 
 h4 {
 	font-family: 'Lora', serif;
 	text-align: center;
-	font-family: 'Alegreya', serif;
 }
 
 p{
@@ -21,19 +19,19 @@ p{
 	font-family: 'Alegreya', serif;
 }
 
-h1, #pageTitle{
+h1, #pageTitle {
 	text-align: center;
 	font-family: 'Alegreya', serif;
-	margin-bottom: 10px;
+	margin-bottom: 40px;
 	color: skyblue;
 }
 
-h2, #welcome{
+h3, #welcome {
 	text-align: center;
 	font-family: 'Alegreya', serif;
 }
 
-p, #welcomeNewUserInstructions{
+p, #welcomeNewUserInstructions {
 	text-align: center;
 	font-family: 'Lora', serif;
 	margin-left: 100px;
@@ -59,22 +57,59 @@ p, #locationsSpace {
 	/*drag state*/
 }
 
-div, #locationModalBody{
+div, #locationModalBody {
 	text-align: center;
 }
 
 #noteInput {
 	width: 300px;
 }
-.infoWindowInstruction{
+
+.infoWindowInstruction {
 	font-size: 10px;
 }
 
-.subnote{
+.subnote {
 	font-size: 10px;
 }
 
-.modal-dialog{
+.modal-dialog {
 	width: 100px;
 	margin: 10px;
+}
+
+/*in order to get a fancy subtitle line*/
+.subtitle {
+  margin: 0 0 2em 0;
+}
+
+.fancy {
+  line-height: 0.5;
+  text-align: center;
+}
+
+.fancy span {
+  display: inline-block;
+  position: relative;  
+}
+
+.fancy span:before,
+.fancy span:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  border-bottom: 1px solid skyblue;
+  border-top: 1px solid skyblue;
+  top: 0;
+  width: 600px;
+}
+
+.fancy span:before {
+  right: 100%;
+  margin-right: 15px;
+}
+
+.fancy span:after {
+  left: 100%;
+  margin-left: 15px;
 }

@@ -7,6 +7,7 @@ nav {
 h1 {
 	color: skyblue;
 	font-family: 'Alegreya', serif;
+	font-size: 60px;
 }
 
 h4 {
@@ -81,16 +82,17 @@ div, #locationModalBody {
 /*in order to get a fancy subtitle line*/
 .subtitle {
   margin: 0 0 2em 0;
+  text-align: center;
 }
 
 .fancy {
   line-height: 0.5;
-  text-align: center;
+  display: inline-flex;
+  align-items: center; 
 }
 
 .fancy span {
-  display: inline-block;
-  position: relative;  
+  position: relative; 
 }
 
 .fancy span:before,

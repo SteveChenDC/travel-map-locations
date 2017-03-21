@@ -11,4 +11,4 @@ exports.TEST_DATABASE_URL = (
 exports.PORT = process.env.PORT ||8080;
 
 
-process.env.googleKey = 'AIzaSyBQOY_LWXjQCdgZh3x2RrJwEJeAfeaElek';
+exports.Google_Maps_Key = process.env.Google_Maps_Key

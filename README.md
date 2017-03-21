@@ -7,7 +7,7 @@ The travel map allows users to input locations and notes to store an electronic 
 ## Background:
 I dream of visiting places, getting out of Ohio, and learning more about the world through experience.  For my project during the Thinkful course, I found the opportunity to dream and enjoy understanding the world as a nice break from the strain of learning to code.  I have previously worked with Google Maps and one of my friends and freelance mentors currently works on weather map functionality.  I enjoy the opportunity to learn from very good google maps examples and documentation.  
 
-##Expectations:
+## Expectations:
 Thinkful Full Stack Web Development includes a section on front end and server side development courses.  For this capstone, pairing one's understanding of the front end while persisting and interacting with that data was required.  CRUD functionality to the data was necessary by the course description.  
 
 

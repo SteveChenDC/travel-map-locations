@@ -9,7 +9,7 @@
 const {PORT, DATABASE_URL} = require('./config');
 const Location = require('./models');
 const router = require('./location-router');
-const googleKey = require('./.env');
+// const Google_Maps_Key = require('./.env');
 
 
 

@@ -10,8 +10,8 @@ h1 {
 	margin-bottom: 10px;
 }
 
-h2{
-	margin-left: 100px;
+h2, #welcome{
+	text-align: center;
 }
 
 h4 {

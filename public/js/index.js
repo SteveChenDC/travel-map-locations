@@ -37,11 +37,8 @@ function getAllUserLocations(){
 	}
 };
 
-
 function createLocation(object){
-		console.log('create location called');
 		var myJsonObject = JSON.stringify(object);
-
 	var result = $.ajax({
 		url: `/mapLocation`,
 		type: "POST",
@@ -56,14 +53,9 @@ function createLocation(object){
 		console.log(error);
 		errorElem = showError(error);
 		$('#errorSpace').append(errorElem);
-	})
-	.then(function(result){
-		console.log('then called from createLocations');
 	});
 };
 
-
-///working:
 function deleteLocation(id){
 	var result = $.ajax({
 		url: `/mapLocation/${id}`,
@@ -83,10 +75,7 @@ function deleteLocation(id){
 	});
 };
 
-
-
 function saveLocationNotes(id, note){
-	console.log('save locations called');
 	closeInfoWindow();
 	var result = $.ajax({
 		url: `mapLocation/${id}`,
@@ -96,16 +85,11 @@ function saveLocationNotes(id, note){
 		data: JSON.stringify({notes: note})
 	})
 	.done(function(result){
-		console.log('save location notes done, this would be the result:');
-
+		getAllUserLocations();
 	})
 	.fail(function(error, errorThrown){
 		errorElem = showError(error);
 		$('#errorSpace').append(errorElem);
-	})
-	.then(function(result){
-		console.log('then from update notes called');
-		getAllUserLocations();
 	});
 };
 

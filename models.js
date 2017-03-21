@@ -1,9 +1,6 @@
 const uuid = require('uuid');
 const mongoose = require('mongoose');
 
-// var Schema = mongoose.Schema;
-
-
 ////use mongoose models:
 const LocationsSchema = new mongoose.Schema({
 	id: {type: String},
@@ -14,7 +11,7 @@ const LocationsSchema = new mongoose.Schema({
 	notes: {type: String}
 });
 
-//Virtual for LatAndLng
+//future Virtual for LatAndLng
 // LocationsSchema.virtual('latAndLng').get(function(){
 // 	console.log(`latAndLng trying to be set to ${latAndLng}`);
 // });
@@ -28,7 +25,7 @@ LocationsSchema.methods.apiRepr = function(){
 		longitude: this.longitude,
 		notes:this.notes
 	};
-}
+};
 
 const Location  = mongoose.model('Location', LocationsSchema);
 

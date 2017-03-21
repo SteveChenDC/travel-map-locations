@@ -87,7 +87,16 @@ function displayMap(){
 	loc = {lat: 0, lng: 0,}
 		map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 2,
-			center: loc
+			center: loc,
+			mapTypeControlOptions: {
+				style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+				position: google.maps.ControlPosition.TOP_CENTER
+			},
+			zoomControl: true,
+			zoomControlOptions: {
+				style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+				position: google.maps.ControlPosition.LEFT_CENTER
+			}
 		});
 		handleMapClickEvent();
 };

@@ -135,7 +135,6 @@ function createMarkerObject(latLng, address){
 };
 
 function setStateToResult(result){
-	// map.clearOverlays();
 	state.locations = [];
 	displayPins();
 	state.locations = result;
@@ -163,7 +162,6 @@ function createMarker(location){
 		// icon: icon
 		////this could be potential flair for the page
 	});
-	// addToMarkersArray(marker);
 
 	////event listeners on the markers:
 	marker.addListener('click', function(){
@@ -216,7 +214,6 @@ function removeListeners(){
 };
 
 function editInfoWindowNote(noteExist, locId){
-	//infoWindow edit state
 	renderNoteDetail(locId);
 };
 
@@ -227,21 +224,14 @@ function editLocationNotes(locId, note){
 
 function deleteLocationControl(locId){
 	console.log('delete location called');
-	///validation that a location exists
-	///potential validation to delete the location's pin
 	clearMarkers();
 	closeInfoWindow();
 	console.log(locId);
 	console.log(`id of ${locId} deleted`);
-	///confirmation that the pin's location has been deleted
-
 
 	for(i=0;i<state.locations.length;i++){
 		console.log(locId, 'location passed into the loop')
 		markers = state.locations;
-
-		///this was not being stepped into:
-		// if(locId == markers.id){
 		if(locId === state.locations.id){
 			console.log('location confirmed, and stepped into');
 			// var marker = state.locations[i]
@@ -251,19 +241,6 @@ function deleteLocationControl(locId){
 		}
 	}
 	deleteLocation(locId);
-  // var marker  = state.locations.id[locId];
-  // state.locations[locId] = undefined;
-
-
-////control for the delete location confirmation:
- //  var x = confirm("are you sure to delete marker?");
-	// if(x){
-	//     deleteLocation(locId);
-	//     if(marker){
-	//       console.log('marker is: ', marker);
-	//       marker.setMap(null);
-	//     }
-	// }
 console.log(`id of ${locId} deleted`);
 
 };
@@ -275,13 +252,6 @@ console.log(`id of ${locId} deleted`);
 
 ///render Functions:
 
-// function clearPins(){
-//   for (var i = 0; i < state.locations.length; i++ ) {
-//     state.locations[i].setMap(null);
-//   }
-//   state.locations.length = 0;
-// }
-
 
 function changePins(userId){
 	getAllUserLocations(userId);
@@ -291,7 +261,7 @@ function changePins(userId){
 function renderNoteDetail(locId){
 	clearEditPlaceholder();
 	console.log('render note detail called');
-	$("#editHeader").html('Add or update notes on your location.');
+	$("#editHeader").html('Add or update the notes on your location.');
 	state.locations.find(function(location){
 		console.log('trying to find the note');
 		if(location.id===locId){
@@ -304,6 +274,7 @@ function renderNoteDetail(locId){
 			}
 		};
 	});
+
 	//button listeners:
 	$("#deleteButton").on("click", function(){
 		deleteLocationControl(locId)
@@ -312,8 +283,6 @@ function renderNoteDetail(locId){
 		newNote  = $("textarea#noteInput").val();
 		console.log('this would be the new note');
 		console.log(newNote)
-		///validations for submit function
-		///the note textbox is not empty
 		editLocationNotes(locId, newNote)
 	});
 };
@@ -342,7 +311,6 @@ function displayInfoWindow(location, marker, locId, noteExist){
 
 		editInfoWindowNote(noteExist, locId)
 		noteExist = false;
-		////modal window
 	};
 };
 

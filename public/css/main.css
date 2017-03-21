@@ -7,23 +7,30 @@ nav {
 h1 {
 	color: skyblue;
 	font-family: 'Alegreya', serif;
-	margin-bottom: 10px;
-}
 
+}
 
 h4 {
 	font-family: 'Lora', serif;
 	text-align: center;
-
+	font-family: 'Alegreya', serif;
 }
 
 p{
 	text-align: center;
+	font-family: 'Alegreya', serif;
 }
 
+h1, #pageTitle{
+	text-align: center;
+	font-family: 'Alegreya', serif;
+	margin-bottom: 10px;
+	color: skyblue;
+}
 
 h2, #welcome{
 	text-align: center;
+	font-family: 'Alegreya', serif;
 }
 
 p, #welcomeNewUserInstructions{
@@ -63,25 +70,11 @@ div, #locationModalBody{
 	font-size: 10px;
 }
 
-
 .subnote{
 	font-size: 10px;
 }
 
-
-
 .modal-dialog{
 	width: 100px;
 	margin: 10px;
-}
-
-ex1{
-    font: normal 18px/1.6 'Open Sans', "Helvetica Neue", Arial, sans-serif;
-    font-weight: 300;
-    color: #777;
-    padding: 2em 5%;
-    width: 80%;
-    max-width: 900px;
-    margin: 0 auto;
-    background: #fff;
 }

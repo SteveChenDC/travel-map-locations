@@ -12,6 +12,8 @@ function setCookie(cname, cvalue, exdays){
 
 function checkCookie(){
 	var user = getCookie("username");
+	$('#welcome').html('Welcome to Travel Pin Map.');
+	$('#locationsSpace').html('Please refresh your page to enter a username in order to collect your locations.');
 	if(user === "" || user === null){
 		$("#userModal").modal()
 		usernameButtonListener(user);
@@ -48,7 +50,8 @@ function usernameButtonListener(user){
 		if(user !== "" && user !== null){ 
 			setCookie("username", user, 365);
 		}else{
-		 	return	$('#welcome').html('Welcome.  Please enter a username in order to store your locations.');
+		 	$('#welcome').html('Welcome to Travel Pin Map.');
+		 	return	$('#locationsSpace').html('Please refresh your page to enter a username in order to collect your locations.');
 		}
 		handleUserName(user);
 	});
@@ -62,6 +65,7 @@ function clearUsername(){
 
 function displayUserName(user){
 	$('#welcome').html(user + '\'s Map Pin Board');
+	$('#locationsSpace').html("Welcome back.  Locations can continue to be added to the map.  By double clicking a location's pin, notes can be added to the location.");
 };
 
 function setUserId(user){

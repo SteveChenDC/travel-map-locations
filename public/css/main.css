@@ -26,6 +26,13 @@ h2, #welcome{
 	text-align: center;
 }
 
+p, #welcomeNewUserInstructions{
+	text-align: center;
+	font-family: 'Lora', serif;
+	margin-left: 100px;
+	margin-right: 100px;
+}
+
 p, #locationsSpace {
 	text-align: center;
 	font-family: 'Lora', serif;

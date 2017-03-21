@@ -45,20 +45,13 @@
 
 <section>
   <h2 id="welcome"></h2>
-  <p id=locationsSpace>
-  Welcome back.  Locations can continue to be added to the map.  By double clicking a location's pin, notes can be added to the location.
-  </p>
+  <p id=locationsSpace></p>
   <p id=errorSpace></p>
 </section>
 <section>
   <div id="map"></div>
 </section>
-<section>
     <!-- bootstrap modal -->
-    <!-- <button type="button" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
-      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#dialogModal">Open Modal</button>
-      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#userModal">Open Modal</button>
-</section>
 <section>
      <!-- Map Interaction Modal -->
   <div class="container">
@@ -99,12 +92,12 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Welcome to your personalized Map</h4>
-            <p>
-                  Remember: where were you born.  School travel.  Family vacations.  What cities have you recently visited?<br>
-                  Present: where are you currently living.  <br>
-                  Dream: Any upcoming trips with loved ones?  Where do you want to be in 5 years? Where will you spend your retirement? <br><br>
-                  Add locations to the map to store your favorite destinations.  Leave a breadcumb trail of the places you have been to share with your freinds and acquaintences.  Describe your dreams by filling locations for future places.
+            <h4 class="modal-title">Welcome to your personalized travel pin map</h4>
+            <p id="welcomeNewUserInstructions">
+                  <strong>Remember:</strong> Where were you born?  Any memorable school travel from your younger years?  A particularly fun family vacation?  What cities have you recently visited?<br>
+                  <strong>Present:</strong> Where are you currently living?  <br>
+                  <strong>Dream:</strong> Any upcoming trips with loved ones?  Where do you want to be in 5 years? Where will you spend your retirement? <br><br>
+                  Add locations to the map to store your favorite destinations.  Leave a breadcumb trail of the places you have been to share with your freinds and acquaintences.  Describe your dreams by selecting locations for future places.
             </p>
           </div>
           <div class="modal-body">

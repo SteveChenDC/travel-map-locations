@@ -164,7 +164,7 @@ function displayPins(map){
 function createMarker(location){
 	///setup to latitude and longitude to be used in the marker instantiation:
 	closeInfoWindow();
-	var locId = location.id;
+	locId = location.id;
 	var latLng = {lat: parseFloat(location.latitude), lng: parseFloat(location.longitude)};
 
 	///create the marker
@@ -174,11 +174,14 @@ function createMarker(location){
 		// icon: icon
 		////this could be potential flair for the page
 	});
+	attachMarkerListeners(location, marker, locId);
+};
 
+function attachMarkerListeners(location, marker, locId, noteExist){
 	////event listeners on the markers:
 	marker.addListener('click', function(){
 		var noteExist = true;
-		displayInfoWindow(location, marker, locId, noteExist )
+		displayInfoWindow(location, marker, locId, noteExist)
 	});
 	marker.addListener('mouseover', function(){
 		displayInfoWindow(location, marker, locId);
@@ -187,7 +190,7 @@ function createMarker(location){
 		displayModalWindow(location);
 		closeButtonListener();
 	});	
-};
+}
 
 function closeButtonListener(){
 	$("#closeButton").on("click", function(){
@@ -220,44 +223,20 @@ function deleteLocationControl(locId){
 	hideLocationModal();
 };
 
-function hideLocationModal(){
-	$("#dialogModal").modal("hide");
-};
-
-
-
-///render Functions:
-
-function changePins(userId){
-	getAllUserLocations(userId);
-	displayLocations();
-};
-
-function renderNoteDetail(locId){
-	clearEditPlaceholder();
-	$("#editHeader").html('Add or update the notes on your location.');
-	state.locations.find(function(location){
-		if(location.id===locId){
-			var note = location.notes
-			if(note===''){
-				$("textarea#noteInput").attr("placeholder", 'Add notes to attach to the location');
-			}else{
-				$("textarea#noteInput").attr("placeholder", note);
-			};
-		};
-	});
-
-	//button listeners within Note Detail Modal:
-	$("#deleteButton").on("click", function(){
+function attachNoteListeners(locId, note){
+	$("#deleteButton").off().on("click", function(){
 		deleteLocationControl(locId)
 	});
 
-	$("#saveNotesButton").on("click", function(event){
-		newNote  = $("textarea#noteInput").val();
-		editLocationNotes(locId, newNote)
+	$("#saveNotesButton").off().on("click", function(event){
+		note  = $("textarea#noteInput").val();
+		editLocationNotes(locId, note)
+		$("textarea#noteInput").val('');
 	});
 };
 
+
+///render Functions:
 function displayModalWindow(location){
 	$("#dialogModal").modal()
 	$('#locationModalHeader').html(location.address);
@@ -278,6 +257,31 @@ function displayInfoWindow(location, marker, locId, noteExist){
 		editInfoWindowNote(noteExist, locId)
 		noteExist = false;
 	};
+};
+
+function hideLocationModal(){
+	$("#dialogModal").modal("hide");
+};
+
+function changePins(userId){
+	getAllUserLocations(userId);
+	displayLocations();
+};
+
+function renderNoteDetail(locId){
+	clearEditPlaceholder();
+	$("#editHeader").html('Add or update the notes on your location.');
+	state.locations.find(function(location){
+		if(location.id===locId){
+			var note = location.notes
+			if(note===''){
+				$("textarea#noteInput").attr("placeholder", 'Add notes to attach to the location');
+			}else{
+				$("textarea#noteInput").attr("placeholder", note);
+			};
+		};
+	});
+	attachNoteListeners(locId, note);
 };
 
 function assignMarkerMessage(location){

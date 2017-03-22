@@ -98,7 +98,7 @@ app.put('/mapLocation/:id', (req, res) => {
 
 app.delete('/mapLocation/:id', (req, res) => {
 	Location
-	.remove({_id: req.params.id})
+	.findOneAndRemove({_id: req.params.id})
 	.exec()
 	.then(()=> {
 		res.status(201).json({message:'success'}).end();

@@ -2,7 +2,7 @@
  const mongoose = require('mongoose');
  const bodyParser = require('body-parser');
  const jsonParser  = bodyParser.json();
- const uuid = require('node-uuid');
+ // const uuid = require('node-uuid');
 
 ///local file dependencies:
 // const Google_Maps_Key = require('./config');
@@ -114,23 +114,23 @@ app.delete('/mapLocation/:id', (req, res) => {
 
 let server;
 
- function runServer(databaseUrl = DATABASE_URL, port = PORT){
- 	return new Promise((resolve, reject) => {
- 		mongoose.connect(databaseUrl, err =>{
- 			if(err){
- 				return reject(err);
- 			}
- 			server = app.listen(port, () =>{
- 				console.log(`your app is listening on port ${port}`);
- 				resolve();
- 			})
- 			.on('error', err => {
- 				mongoose.disconnect();
- 				reject(err);
- 			});
- 		});
- 	});
- };
+function runServer(databaseUrl = DATABASE_URL, port = PORT){
+	return new Promise((resolve, reject) => {
+		mongoose.connect(databaseUrl, err =>{
+			if(err){
+				return reject(err);
+			}
+			server = app.listen(port, () =>{
+				console.log(`your app is listening on port ${port}`);
+				resolve();
+			})
+			.on('error', err => {
+				mongoose.disconnect();
+				reject(err);
+			});
+		});
+	});
+};
 
 function closeServer(){
 	return mongoose.disconnect().then(() => {

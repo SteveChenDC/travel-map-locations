@@ -222,7 +222,7 @@ function deleteLocationControl(locId){
 
 function hideLocationModal(){
 	$("#dialogModal").modal("hide");
-}
+};
 
 
 

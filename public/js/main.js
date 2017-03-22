@@ -178,7 +178,6 @@ function createMarker(location){
 };
 
 function attachMarkerListeners(location, marker, locId, noteExist){
-	////event listeners on the markers:
 	marker.addListener('click', function(){
 		var noteExist = true;
 		displayInfoWindow(location, marker, locId, noteExist)
@@ -190,7 +189,7 @@ function attachMarkerListeners(location, marker, locId, noteExist){
 		displayModalWindow(location);
 		closeButtonListener();
 	});	
-}
+};
 
 function closeButtonListener(){
 	$("#closeButton").on("click", function(){
@@ -202,10 +201,6 @@ function closeInfoWindow(){
 	if(prev_infoWindow){
 		prev_infoWindow.close();
 	};
-};
-
-function removeListeners(){
-	google.maps.event.clearInstanceListeners(marker);
 };
 
 function editInfoWindowNote(noteExist, locId){
@@ -234,6 +229,7 @@ function attachNoteListeners(locId, note){
 		$("textarea#noteInput").val('');
 	});
 };
+
 
 
 ///render Functions:
@@ -286,9 +282,9 @@ function renderNoteDetail(locId){
 
 function assignMarkerMessage(location){
 	if(location.notes === ""){
-		message  = "<div class=locationAddress>"+location.address+":</div><br><div class=infoWindowInstruction>Double click for location options.</div>"
+		message  = "<div class=locationAddress><strong>"+location.address+":</strong></div><br><div class=infoWindowInstruction>Double click for location options.</div>"
 	}else{
-		message  = "<div class=locationAddress>"+location.address+":</div><br>" + location.notes;
+		message  = "<div class=locationAddress><strong>"+location.address+":</strong></div><br>" + location.notes;
 	};
 	return message;
 };

@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+const uuid = require('node-uuid');
 const mongoose = require('mongoose');
 
 ////use mongoose models:

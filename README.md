@@ -73,5 +73,6 @@ Development began from API CRUD functions and interacting with the database.  Ge
 
 ## Vision:
 I would like to elaborate on the current funtionality of the pin map in order to better utilize myself.  
-- allow the user to search for a location and create a location
+- allow the user to search for a location and create a location from a search bar
+- have the address be the closest city utilizing the google places API
 - custom marker images for category of past, present or future

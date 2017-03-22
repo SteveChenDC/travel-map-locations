@@ -96,7 +96,8 @@ function displayMap(){
 			zoomControlOptions: {
 				style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
 				position: google.maps.ControlPosition.LEFT_CENTER
-			}
+			},
+			streetViewControl: false
 		});
 		handleMapClickEvent();
 };

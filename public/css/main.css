@@ -23,7 +23,7 @@ p{
 h1, #pageTitle {
 	text-align: center;
 	font-family: 'Alegreya', serif;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 	color: skyblue;
 }
 
@@ -81,7 +81,7 @@ div, #locationModalBody {
 
 /*in order to get a fancy subtitle line*/
 .subtitle {
-  margin: 0 0 2em 0;
+  margin: 0 0 1em 0;
   text-align: center;
 }
 

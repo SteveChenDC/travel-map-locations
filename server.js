@@ -5,13 +5,9 @@
  const uuid = require('node-uuid');
 
 ///local file dependencies:
-// const Google_Maps_Key = require('./config');
 const {PORT, DATABASE_URL} = require('./config');
 const Location = require('./models');
 const router = require('./location-router');
-// const Google_Maps_Key = require('./.env');
-
-
 
 const express  = require('express');
 const app = express();
@@ -110,8 +106,6 @@ app.delete('/mapLocation/:id', (req, res) => {
 	});
 });
 
-
-
 let server;
 
 function runServer(databaseUrl = DATABASE_URL, port = PORT){
@@ -144,8 +138,6 @@ function closeServer(){
 		});
 	});
 };
-
-
 
  if(require.main === module){
  	runServer().catch(err => console.error(err));

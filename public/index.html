@@ -15,8 +15,6 @@
   <link
 
 <!-- Javascript -->
-<script>
-</script>
   <!-- external files -->
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -31,87 +29,86 @@
 </head>
 
 <body>
-<section>
-  <h1 id="pageTitle">Travel Pin Map</h1>
-</section>
+  <section>
+    <h1 id="pageTitle">Travel Pin Map</h1>
+  </section>
+  <section>
+    <div class=subtitle>
+      <h3 class="subtitle fancy"><span id="welcome"></span></h3>
+    </div>
+    <p id=locationsSpace></p>
+    <p id=errorSpace></p>
+  </section>
+  <section class="map-container">
+    <div id="map"></div>
+  </section>
 
-<section>
-  <div class=subtitle>
-    <h3 class="subtitle fancy"><span id="welcome"></span></h3>
-  </div>
-  <p id=locationsSpace></p>
-  <p id=errorSpace></p>
-</section>
-<section class="map-container">
-  <div id="map"></div>
-</section>
-
-<!-- bootstrap modals -->
-
-<!-- Location Interaction Modal -->
-<section>
-  <div class="container">
-    <div id="dialogModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title" id="locationModalHeader"></h4>
-          </div>
-          <div class="modal-body" id="locationModalBody">
-            <div id="editSpace">
-              <h4 id="editHeader"></h4>
-                <p id="note"></p>
-                <textarea name="note" cols="1" rows="5" placeholder="" id="noteInput"></textarea><br>
-                <div>
-                  <button class="btn btn-default" type="button" id="saveNotesButton" type="button">Update Note</button>
-                </div>
+  <!-- bootstrap modals -->
+ 
+  <!-- Location Interaction Modal -->
+  <section>
+    <div class="container">
+      <div id="dialogModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title" id="locationModalHeader"></h4>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button class="pull-left btn btn-default" type="button" id="deleteButton">Delete Location</button>  
-            <button type="button" id="closeButton" class="btn btn-default" data-dismiss="modal">Close</button>
+            <div class="modal-body" id="locationModalBody">
+              <div id="editSpace">
+                <h4 id="editHeader"></h4>
+                  <p id="note"></p>
+                  <textarea name="note" cols="1" rows="5" placeholder="" id="noteInput"></textarea><br>
+                  <div>
+                    <button class="btn btn-default" type="button" id="saveNotesButton" type="button">Update Note</button>
+                  </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="pull-left btn btn-default" type="button" id="deleteButton">Delete Location</button>  
+              <button type="button" id="closeButton" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- User Modal -->
-<section>
-  <div class="container">
-    <div id="userModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Welcome to your personalized travel pin map</h4>
-            <p id="welcomeNewUserInstructions">
-                  <strong>Remember:</strong> Where were you born?  Any memorable school travel from your younger years?  A particularly fun family vacation?  What cities have you recently visited?<br>
-                  <strong>Present:</strong> Where are you currently living?  <br>
-                  <strong>Dream:</strong> Any upcoming trips with loved ones?  Where do you want to be in 5 years? Where will you spend your retirement? <br><br>
-                  Add locations to the map to store your favorite destinations.  Leave a breadcumb trail of the places you have been to share with your freinds and acquaintences.  Describe your dreams by selecting locations for future places.
-            </p>
-          </div>
-          <div class="modal-body">
-            <div id="userSpace">
-              <h4 id="usernameHeader"></h4>
-                <p id="username">Please enter your username in order to contain your travel map's pins.</p>
-                <label>User Name</label>
-                <input type="text" name="username" id="userName">
+  <!-- User Modal -->
+  <section>
+    <div class="container">
+      <div id="userModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Welcome to your personalized travel pin map</h4>
+              <p id="welcomeNewUserInstructions">
+                    <strong>Remember:</strong> Where were you born?  Any memorable school travel from your younger years?  A particularly fun family vacation?  What cities have you recently visited?<br>
+                    <strong>Present:</strong> Where are you currently living?  <br>
+                    <strong>Dream:</strong> Any upcoming trips with loved ones?  Where do you want to be in 5 years? Where will you spend your retirement? <br><br>
+                    Add locations to the map to store your favorite destinations.  Leave a breadcumb trail of the places you have been to share with your freinds and acquaintences.  Describe your dreams by selecting locations for future places.
+              </p>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal" id="createUserButton">Let's do it!</button>  
+            <div class="modal-body">
+              <div id="userSpace">
+                <h4 id="usernameHeader"></h4>
+                  <p id="username">Please enter your username in order to contain your travel map's pins.</p>
+                  <label>User Name</label>
+                  <input type="text" name="username" id="userName">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="createUserButton">Let's do it!</button>  
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
 </body>
 </html>
